@@ -15,6 +15,10 @@ module.exports = function(sequelize, DataTypes) {
         key: 'id'
       }
     },
+    branch: {
+      type: DataTypes.STRING(250),
+      allowNull: false
+    },
     content: {
       type: DataTypes.JSON,
       allowNull: true

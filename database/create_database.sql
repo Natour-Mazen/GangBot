@@ -20,6 +20,7 @@ CREATE TABLE projects(
 CREATE TABLE flags(
 	id SERIAL PRIMARY KEY,
 	projectId SERIAL,
+	branch VARCHAR(250),
 	content JSON,
 	CONSTRAINT fk_flags
    		FOREIGN KEY(projectId) 
