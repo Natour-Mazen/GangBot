@@ -11,7 +11,8 @@ const { GITHUB_CLIENT_ID, GITHUB_CLIENT_SECRET, JWT_SECRET_KEY } = process.env;
 class AuthController {
     // Get GitHub authorization URL
     static getGithubAuthUrl() {
-        return `https://github.com/login/oauth/authorize?client_id=${GITHUB_CLIENT_ID}`;
+        const scope = 'repo';
+        return `https://github.com/login/oauth/authorize?client_id=${GITHUB_CLIENT_ID}&scope=${scope}`;
     }
 
     // Exchange authorization code for access token
