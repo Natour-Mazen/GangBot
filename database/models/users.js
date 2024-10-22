@@ -15,7 +15,7 @@ module.exports = function(sequelize, DataTypes) {
       type: DataTypes.BIGINT,
       allowNull: true
     },
-    githubtoken: {
+    jwttoken: {
       type: DataTypes.STRING(255),
       allowNull: true
     }
