@@ -6,7 +6,7 @@ CREATE TABLE users(
 	id SERIAL PRIMARY KEY,
 	githubUsername VARCHAR(40), --maximum github username is 39 chars (see https://github.com/shinnn/github-username-regex)
 	githubId BIGINT,
-	githubToken VARCHAR(255) --maximum length is 255 (see https://github.blog/changelog/2021-03-04-authentication-token-format-updates/)
+	jwtToken VARCHAR(555) --maximum length is 255 (see https://github.blog/changelog/2021-03-04-authentication-token-format-updates/)
 );
 
 CREATE TABLE projects(
