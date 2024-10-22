@@ -20,6 +20,15 @@ class GithubController {
         });
         return response.data;
     }
+
+    static async getBranches(connectedUser, repo) {
+        const response = await axios.get(`https://api.github.com/repos/${connectedUser.name}/${repo}/branches`, {
+            headers: {
+                'Authorization': `Bearer ${connectedUser.gitToken}`
+            }
+        });
+        return response.data;
+    }
 }
 
 module.exports = GithubController;
