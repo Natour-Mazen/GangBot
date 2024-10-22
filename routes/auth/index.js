@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const AuthController = require('../controllers/authController');
+const AuthController = require('../../controllers/authController');
 
 
 router.get('/', (req, res) => {
@@ -17,7 +17,7 @@ router.get('/callback', async (req, res) => {
 
     try {
         const accessToken = await AuthController.handleOAuthCallback(code);
-        console.log(accessToken);
+        // console.log(accessToken);
         res.cookie('access_token', accessToken, { httpOnly: true, secure: true, sameSite: 'None' });
         //res.json({ message: 'Access token stored in cookie' });
         res.redirect('/');

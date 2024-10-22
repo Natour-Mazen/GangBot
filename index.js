@@ -5,7 +5,8 @@ const session = require('express-session');
 const cors = require('cors');
 const getDatabase = require('./database/config');
 const port = 3328;
-const authRouter = require('./auth');
+const authRouter = require('./routes/auth');
+const githubRouter = require('./routes/github');
 const authJWTMiddleware = require("./middlewares/authTokenJWT");
 const app = express();
 
@@ -17,7 +18,7 @@ app.use(cors());
 
 
 app.use('/auth', authRouter);
-
+app.use('/github', githubRouter);
 
 app.get('/', authJWTMiddleware() ,async (req, res) => {
     const name = req.connectedUser.name;
