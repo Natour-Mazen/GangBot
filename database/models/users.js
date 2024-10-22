@@ -16,7 +16,7 @@ module.exports = function(sequelize, DataTypes) {
       allowNull: true
     },
     jwttoken: {
-      type: DataTypes.STRING(255),
+      type: DataTypes.STRING(1000),
       allowNull: true
     }
   }, {
