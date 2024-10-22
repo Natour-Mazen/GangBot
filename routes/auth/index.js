@@ -27,7 +27,7 @@ router.get('/callback', async (req, res) => {
     }
 });
 
-router.get('/logout', (req, res) => {
+router.get('/logout',(req, res) => {
     res.clearCookie('access_token', { path: '/', sameSite: 'None', secure: true });
     res.json({ message: 'Logged out successfully' });
 });
