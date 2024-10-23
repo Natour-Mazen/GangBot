@@ -1,34 +1,32 @@
 const express = require('express');
 const router = express.Router();
 const GithubController = require('../../controllers/githubController');
+const AuthController = require('../../controllers/authController');
+const handleResponse = require("../../handlers/responseHandler");
+
+
+router.get('/get-user', async (req, res) => {
+    const {userData, response_code, message} = await AuthController.getUserProfileInfos(req.connectedUser);
+    handleResponse(res, userData, response_code, message);
+})
 
 
 router.get('/get-repos',  async (req, res) => {
     const {repos, response_code, message} = await GithubController.getRepos(req.connectedUser);
-    if(response_code >= 400) {
-        return res.status(response_code).json({message: message});
-    }
-    res.json(repos);
+    handleResponse(res, repos, response_code, message);
 })
 
 router.get('/get-branches',async (req, res) => {
     const repo = req.query.repo;
     const {branches, response_code, message} = await GithubController.getBranches(req.connectedUser, repo);
-    if(response_code >= 400) {
-        return res.status(response_code).json({message: message});
-    }
-    return res.json(branches);
+    handleResponse(res, branches, response_code, message);
 })
 
 router.get("/get-flag-file", async (req, res) => {
+    const {repoName, branch} = req.query;
     const connectedUser = req.connectedUser;
-    const repoName = req.query.repoName;
-    const branch = req.query.branch;
     const {FlagFile, response_code, message} = await GithubController.getFlagFile(connectedUser, repoName, branch);
-    if(response_code >= 400) {
-        return res.status(response_code).json({message: message});
-    }
-    return res.json(FlagFile);
+    handleResponse(res, FlagFile, response_code, message);
 });
 
 module.exports = router;
