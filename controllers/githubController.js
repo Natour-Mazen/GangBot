@@ -10,15 +10,19 @@ const {GITHUB_CLIENT_ID, GITHUB_CLIENT_SECRET} = process.env;
 class GithubController {
 
     static async getRepos(accessToken) {
-        const response = await axios.get(`https://api.github.com/user/repos`, {
-            headers: {
-                'Authorization': `Bearer ${accessToken}`
-            },
-            params: {
-                visibility: 'all',
-            }
-        });
-        return response.data;
+        try {
+            const response = await axios.get(`https://api.github.com/user/repos`, {
+                headers: {
+                    'Authorization': `Bearer ${accessToken}`
+                },
+                params: {
+                    visibility: 'all',
+                }
+            });
+            return {repos: response.data, error_code: response.status, message: ""};
+        } catch (error) {
+            return {repos: [], error_code: error.response.status, message: error.response.data.message};
+        }
     }
 
     static async getBranches(connectedUser, repo) {

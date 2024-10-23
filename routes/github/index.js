@@ -4,7 +4,10 @@ const GithubController = require('../../controllers/githubController');
 
 
 router.get('/get-repos',  async (req, res) => {
-    const repos = await GithubController.getRepos(req.connectedUser.gitToken);
+    const {repos, error_code, message} = await GithubController.getRepos(req.connectedUser.gitToken);
+    if(error_code >= 400) {
+        return res.status(error_code).json({message: message});
+    }
     res.json(repos);
 })
 
