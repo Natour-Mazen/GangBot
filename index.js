@@ -18,9 +18,12 @@ app.use(cors());
 
 
 app.use('/auth', authRouter);
+
+app.use(authJWTMiddleware());
+
 app.use('/github', githubRouter);
 
-app.get('/', authJWTMiddleware() ,async (req, res) => {
+app.get('/', async (req, res) => {
     const name = req.connectedUser.name;
     res.send(`Hello ${name}`);
 })
