@@ -20,4 +20,12 @@ router.get('/get-branches',async (req, res) => {
     return res.json(branches);
 })
 
+router.get("/get-flag-file", async (req, res) => {
+    const {FlagFile, response_code, message} = await GithubController.getFlagFile(req.connectedUser, req.query);
+    if(response_code >= 400) {
+        return res.status(response_code).json({message: message});
+    }
+    return res.json(FlagFile);
+});
+
 module.exports = router;

@@ -39,25 +39,42 @@ class GithubController {
     }
 
     static async getFlagFile(connectedUser, reqInfo) {
-        const { repoOwner, repoName, filePath, branch } = reqInfo;
+        const { repo, branch } = reqInfo;
 
-        if (!repoOwner || !repoName || !filePath) {
-            return {FlagFile: {}, response_code: 400, message: 'Missing repoOwner, repoName, or filePath query parameter'};
+        if (!repo) {
+            return {FlagFile: {}, response_code: 400, message: 'Missing repository name'};
         }
 
+        const file_extension = ['json', 'yaml', 'toml'];
+        const file_name = 'flags';
+
         try {
-            const response = await axios.get(`https://api.github.com/repos/${repoOwner}/${repoName}/contents/${filePath}`, {
-                headers: {
-                    Authorization: `Bearer ${connectedUser.gitToken}`,
-                    Accept: 'application/vnd.github.v3.raw' // Ce header assure que le contenu du fichier est retourné en texte brut
-                },
-                params: {
-                    ref: branch || 'main' // Utilise la branche spécifiée ou 'main' par défaut
+            let response;
+            for(const ext of file_extension){
+                try{
+                    const full_filename = file_name + '.' + ext;
+                    response = await axios.get(`https://api.github.com/repos/${connectedUser.name}/${repo}/contents/${full_filename}`, {
+                        headers: {
+                            Authorization: `Bearer ${connectedUser.gitToken}`,
+                            Accept: 'application/vnd.github+json'
+                        },
+                        params: {
+                            ref: branch || 'main' // Utilise la branche spécifiée ou 'main' par défaut
+                        }
+                    });
+                }catch(error){
+                    if(error.response.status === 404) continue;
+                    return {FlagFile: {}, response_code: error.response.status, message: error.response.data.message};
                 }
-            });
-            return {FlagFile: response.data, response_code: response.status, message: ""};
+                if(response && response.status === 200){
+                    break;
+                }
+            }
+            if(response && response.status <= 300) return {FlagFile: response.data, response_code: response.status, message: ""};
+            return {FlagFile: {}, response_code: 404, message: "Flag file not found"};
         } catch (error) {
-            return {FlagFile: {}, response_code: error.response.status, message: error.response.data.message};
+            console.log(error);
+            return {FlagFile: {}, response_code: 500, message: "Internal Server Error"};
         }
     }
 }
