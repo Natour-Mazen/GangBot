@@ -4,7 +4,7 @@ const GithubController = require('../../controllers/githubController');
 
 
 router.get('/get-repos',  async (req, res) => {
-    const {repos, response_code, message} = await GithubController.getRepos(req.connectedUser.gitToken);
+    const {repos, response_code, message} = await GithubController.getRepos(req.connectedUser);
     if(response_code >= 400) {
         return res.status(response_code).json({message: message});
     }
@@ -21,7 +21,10 @@ router.get('/get-branches',async (req, res) => {
 })
 
 router.get("/get-flag-file", async (req, res) => {
-    const {FlagFile, response_code, message} = await GithubController.getFlagFile(req.connectedUser, req.query);
+    const connectedUser = req.connectedUser;
+    const repoName = req.query.repoName;
+    const branch = req.query.branch;
+    const {FlagFile, response_code, message} = await GithubController.getFlagFile(connectedUser, repoName, branch);
     if(response_code >= 400) {
         return res.status(response_code).json({message: message});
     }
