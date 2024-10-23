@@ -11,8 +11,11 @@ router.get('/get-repos', authJWTMiddleware() , async (req, res) => {
 
 router.get('/get-branches', authJWTMiddleware() , async (req, res) => {
     const repo = req.query.repo;
-    const branches = await GithubController.getBranches(req.connectedUser, repo);
-    res.json(branches);
+    const {branches, error_code, message} = await GithubController.getBranches(req.connectedUser, repo);
+    if(error_code >= 400) {
+        return res.status(error_code).json({message: message});
+    }
+    return res.json(branches);
 })
 
 module.exports = router;
