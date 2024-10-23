@@ -100,6 +100,19 @@ class AuthController {
         }
     }
 
+    static async getUserProfileInfos(connectedUser){
+        try {
+            const userResponse = await axios.get('https://api.github.com/user', {
+                headers: {
+                    Authorization: `Bearer ${connectedUser.gitToken}`
+                }
+            });
+            return {userData: userResponse.data, response_code: userResponse.status, message: ""};
+        } catch (error) {
+            return {userData: [], response_code: error.response.status, message: error.response.data.message};
+        }
+    }
+
     // Handle user logout
     static async handleLogout() {
         // Implement logout logic if needed
