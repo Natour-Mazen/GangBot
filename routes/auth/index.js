@@ -18,7 +18,7 @@ router.get('/callback', async (req, res) => {
     try {
         const accessToken = await AuthController.handleOAuthCallback(code);
         // console.log(accessToken);
-        res.cookie('FF_access_token', accessToken, { httpOnly: true, secure: true, sameSite: 'None' });
+        res.cookie('ff_access_token', accessToken, { httpOnly: true, secure: true, sameSite: 'None' });
         //res.json({ message: 'Access token stored in cookie' });
         res.redirect('/');
     } catch (error) {
@@ -28,7 +28,7 @@ router.get('/callback', async (req, res) => {
 });
 
 router.get('/logout',(req, res) => {
-    res.clearCookie('access_token', { path: '/', sameSite: 'None', secure: true });
+    res.clearCookie('ff_access_token', { path: '/', sameSite: 'None', secure: true });
     res.json({ message: 'Logged out successfully' });
 });
 

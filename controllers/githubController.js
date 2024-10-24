@@ -79,17 +79,17 @@ class GithubController {
                     });
                 }catch(error){
                     if(error.response.status === 404) continue;
-                    return {FlagFile: {}, response_code: error.response.status, message: error.response.data.message};
+                    return {flagFile: {}, response_code: error.response.status, message: error.response.data.message};
                 }
                 if(response && response.status === 200){
                     break;
                 }
             }
-            if(response && response.status <= 300) return {FlagFile: response.data, response_code: response.status, message: ""};
-            return {FlagFile: {}, response_code: 404, message: "Flag file not found"};
+            if(response && response.status <= 300) return {flagFile: response.data, response_code: response.status, message: ""};
+            return {flagFile: {}, response_code: 404, message: "Flag file not found"};
         } catch (error) {
             console.log(error);
-            return {FlagFile: {}, response_code: 500, message: "Internal Server Error"};
+            return {flagFile: {}, response_code: 500, message: "Internal Server Error"};
         }
     }
 
