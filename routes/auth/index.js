@@ -18,7 +18,7 @@ router.get('/callback', async (req, res) => {
     try {
         const accessToken = await AuthController.handleOAuthCallback(code);
         // console.log(accessToken);
-        res.cookie('access_token', accessToken, { httpOnly: true, secure: true, sameSite: 'None' });
+        res.cookie('FF_access_token', accessToken, { httpOnly: true, secure: true, sameSite: 'None' });
         //res.json({ message: 'Access token stored in cookie' });
         res.redirect('/');
     } catch (error) {

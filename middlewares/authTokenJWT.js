@@ -7,7 +7,7 @@ const { JWT_SECRET_KEY, APP_MODE } = process.env;
 
 const authJWTMiddleware = () => (req, res, next) => {
     // Get the 'access Token' cookie from the request
-    const accessToken = req.cookies.access_token;
+    const accessToken = req.cookies.FF_access_token;
 
     if (!accessToken) {
        // console.log('No access token');
