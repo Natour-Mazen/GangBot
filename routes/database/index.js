@@ -6,7 +6,7 @@ const projectController = require("../../database/controllers/projectController"
 const userController = require("../../database/controllers/userController");
 
 router.post('/save-flag-file',  async (req, res) => {
-    const {flag_file, filetype, repoName, branch} = req.body;
+    const {flag_file, filetype, repoName, branch } = req.body;
     const { isFlagFile, flags} = flagsValidatorController.isValidFlagFile(flag_file, filetype);
 
     if(!isFlagFile){
@@ -19,6 +19,5 @@ router.post('/save-flag-file',  async (req, res) => {
 
     res.json(flag.id);
 })
-
 
 module.exports = router;
