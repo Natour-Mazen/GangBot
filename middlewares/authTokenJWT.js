@@ -1,5 +1,6 @@
 const jwt = require('jsonwebtoken');
 const dotenv = require('dotenv');
+const UserController = require('../database/controllers/userController');
 
 // Load environment variables from .env file
 dotenv.config();
@@ -33,10 +34,13 @@ const authJWTMiddleware = () => (req, res, next) => {
             }
         }
 
+        const db_User = await UserController.getUserByGitHubId(decoded.githubID);
+
         //Add the user to the request to use it more easily
         req.connectedUser = {
-            id: decoded.githubID,
-            name: decoded.githubName,
+            id : db_User.dataValues.id,
+            gitID: decoded.githubID,
+            gitName: decoded.githubName,
             gitToken: decoded.githubToken,
         };
 
