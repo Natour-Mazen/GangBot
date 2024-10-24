@@ -9,11 +9,11 @@ const {GITHUB_CLIENT_ID, GITHUB_CLIENT_SECRET} = process.env;
 
 class GithubController {
 
-    static async getRepos(accessToken) {
+    static async getRepos(connectedUser) {
         try {
             const response = await axios.get(`https://api.github.com/user/repos`, {
                 headers: {
-                    'Authorization': `Bearer ${accessToken}`
+                    'Authorization': `Bearer ${connectedUser.gitToken}`
                 },
                 params: {
                     visibility: 'all',
@@ -25,9 +25,25 @@ class GithubController {
         }
     }
 
-    static async getBranches(connectedUser, repo) {
+    static async getRepoContent(connectedUser, repoName, branch) {
         try {
-            const response = await axios.get(`https://api.github.com/repos/${connectedUser.name}/${repo}/branches`, {
+            const response = await axios.get(`https://api.github.com/repos/${connectedUser.name}/${repoName}/contents`, {
+                headers: {
+                    Authorization: `Bearer ${connectedUser.gitToken}`,
+                },
+                params: {
+                    ref: branch || 'main' // Utilise la branche spécifiée ou 'main' par défaut
+                }
+            });
+            return {repoContent: response.data, response_code: response.status, message: ""};
+        } catch (error) {
+            return {repoContent: [], response_code: error.response.status, message: error.response.data.message};
+        }
+    }
+
+    static async getBranches(connectedUser, repoName) {
+        try {
+            const response = await axios.get(`https://api.github.com/repos/${connectedUser.name}/${repoName}/branches`, {
                 headers: {
                     'Authorization': `Bearer ${connectedUser.gitToken}`
                 }
@@ -38,10 +54,9 @@ class GithubController {
         }
     }
 
-    static async getFlagFile(connectedUser, reqInfo) {
-        const { repo, branch } = reqInfo;
+    static async getFlagFile(connectedUser, repoName, branch) {
 
-        if (!repo) {
+        if (!repoName) {
             return {FlagFile: {}, response_code: 400, message: 'Missing repository name'};
         }
 
@@ -53,7 +68,7 @@ class GithubController {
             for(const ext of file_extension){
                 try{
                     const full_filename = file_name + '.' + ext;
-                    response = await axios.get(`https://api.github.com/repos/${connectedUser.name}/${repo}/contents/${full_filename}`, {
+                    response = await axios.get(`https://api.github.com/repos/${connectedUser.name}/${repoName}/contents/${full_filename}`, {
                         headers: {
                             Authorization: `Bearer ${connectedUser.gitToken}`,
                             Accept: 'application/vnd.github+json'
@@ -77,6 +92,8 @@ class GithubController {
             return {FlagFile: {}, response_code: 500, message: "Internal Server Error"};
         }
     }
+
+
 }
 
 module.exports = GithubController;
