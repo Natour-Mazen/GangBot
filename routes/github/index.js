@@ -25,8 +25,8 @@ router.get('/get-branches',async (req, res) => {
 router.get("/get-flag-file", async (req, res) => {
     const {repoName, branch} = req.query;
     const connectedUser = req.connectedUser;
-    const {FlagFile, response_code, message} = await GithubController.getFlagFile(connectedUser, repoName, branch);
-    handleResponse(res, FlagFile, response_code, message);
+    const {flagFile, response_code, message} = await GithubController.getFlagFile(connectedUser, repoName, branch);
+    handleResponse(res, flagFile, response_code, message);
 });
 
 module.exports = router;
