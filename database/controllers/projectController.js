@@ -13,6 +13,14 @@ class ProjectController {
         });
         return project;
     }
+
+    static async getProjectById(id) {
+        const { models } = await getDatabase();
+        const project = await models.projects.findOne({
+            where: { id },
+        });
+        return project;
+    }
 }
 
 module.exports = ProjectController;

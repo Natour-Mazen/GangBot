@@ -20,4 +20,20 @@ router.post('/save-flag-file',  async (req, res) => {
     res.json(flag.id);
 })
 
+router.get('/get-flag-file', async (req, res) => {
+    const { projectId, branch } = req.query;
+    const user = await userController.getUser(req.connectedUser.name);
+    const project = await projectController.getProjectById(projectId);
+    const flag = await flagsController.getFlag(project.id, branch);
+    res.json(flag);
+});
+
+router.get('/get-all-flag-file', async (req, res) => {
+    const { projectId } = req.query;
+    const user = await userController.getUser(req.connectedUser.name);
+    const project = await projectController.getProjectById(projectId);
+    const flag = await flagsController.getAllFlagsProject(project.id);
+    res.json(flag);
+});
+
 module.exports = router;
