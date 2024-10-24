@@ -36,7 +36,6 @@
     "passport-github2": "^0.1.12",
     "pg": "^8.13.0",
     "pg-hstore": "^2.3.4",
-    "sequelize": "^6.37.4",
-    "toml": "^3.0.0"
+    "sequelize": "^6.37.4"
   }
 }

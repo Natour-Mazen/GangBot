@@ -7,6 +7,7 @@ const getDatabase = require('./database/config');
 const port = 3328;
 const authRouter = require('./routes/auth');
 const githubRouter = require('./routes/github');
+const databaseRouter = require('./routes/database');
 const authJWTMiddleware = require("./middlewares/authTokenJWT");
 const app = express();
 
@@ -22,6 +23,8 @@ app.use('/auth', authRouter);
 app.use(authJWTMiddleware());
 
 app.use('/github', githubRouter);
+
+app.use("/database", databaseRouter);
 
 app.get('/', async (req, res) => {
     const name = req.connectedUser.name;

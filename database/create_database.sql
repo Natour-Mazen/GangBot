@@ -1,4 +1,4 @@
-DROP TABLE IF EXISTS flags;
+DROP TABLE IF EXISTS flags CASCADE;
 DROP TABLE IF EXISTS projects;
 DROP TABLE IF EXISTS users;
 
@@ -12,6 +12,7 @@ CREATE TABLE users(
 CREATE TABLE projects(
 	id SERIAL PRIMARY KEY,
 	userId SERIAL,
+	repoName VARCHAR(200),
 	CONSTRAINT fk_projects
    		FOREIGN KEY(userId) 
    		REFERENCES users(id)
@@ -26,3 +27,6 @@ CREATE TABLE flags(
    		FOREIGN KEY(projectId) 
    		REFERENCES projects(id)
 );
+
+ALTER TABLE flags
+    ADD CONSTRAINT unique_projectid_branch UNIQUE (projectid, branch);

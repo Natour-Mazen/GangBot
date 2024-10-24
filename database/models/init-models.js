@@ -1,12 +1,12 @@
-const DataTypes = require("sequelize").DataTypes;
-const _flags = require("./flags");
-const _projects = require("./projects");
-const _users = require("./users");
+var DataTypes = require("sequelize").DataTypes;
+var _flags = require("./flags");
+var _projects = require("./projects");
+var _users = require("./users");
 
 function initModels(sequelize) {
-  const flags = _flags(sequelize, DataTypes);
-  const projects = _projects(sequelize, DataTypes);
-  const users = _users(sequelize, DataTypes);
+  var flags = _flags(sequelize, DataTypes);
+  var projects = _projects(sequelize, DataTypes);
+  var users = _users(sequelize, DataTypes);
 
   flags.belongsTo(projects, { as: "project", foreignKey: "projectid"});
   projects.hasMany(flags, { as: "flags", foreignKey: "projectid"});

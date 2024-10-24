@@ -1,30 +1,27 @@
 const yaml = require('js-yaml');
-const toml = require('toml');
 
 // Controller for the flags validator
 class FlagsValidatorController {
 
-    #parseFileContent(fileContent, fileType) {
+    static #parseFileContent(fileContent, fileType) {
         switch (fileType) {
             case 'json':
                 return JSON.parse(fileContent);
             case 'yaml':
                 return yaml.load(fileContent);
-            case 'toml':
-                return toml.parse(fileContent);
             default:
                 throw new Error('Invalid file type');
         }
     }
 
     // Analyze the content of a flag
-    static isValidateFlagFile(fileContent, fileType) {
+    static isValidFlagFile(fileContent, fileType) {
         let parsedContent;
 
         try {
             parsedContent = FlagsValidatorController.#parseFileContent(fileContent, fileType);
         } catch (error) {
-            throw new Error('Invalid file format or type');
+            return { isFlagFile: false, flags: null };
         }
 
         const isFlagFile = Object.values(parsedContent).every(flag =>
@@ -32,7 +29,7 @@ class FlagsValidatorController {
         );
 
         if (!isFlagFile) {
-            throw new Error('Not a valid flag file');
+            return { isFlagFile: false, flags: null };
         }
 
         const flags = Object.entries(parsedContent).map(([flagName, flagDetails]) => {

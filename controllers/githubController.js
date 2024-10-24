@@ -45,7 +45,7 @@ class GithubController {
             return {FlagFile: {}, response_code: 400, message: 'Missing repository name'};
         }
 
-        const file_extension = ['json', 'yaml', 'toml'];
+        const file_extension = ['json', 'yaml'];
         const file_name = 'flags';
 
         try {

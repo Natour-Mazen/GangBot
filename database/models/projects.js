@@ -14,6 +14,10 @@ module.exports = function(sequelize, DataTypes) {
         model: 'users',
         key: 'id'
       }
+    },
+    reponame: {
+      type: DataTypes.STRING(200),
+      allowNull: true
     }
   }, {
     sequelize,

@@ -13,11 +13,13 @@ module.exports = function(sequelize, DataTypes) {
       references: {
         model: 'projects',
         key: 'id'
-      }
+      },
+      unique: "unique_projectid_branch"
     },
     branch: {
       type: DataTypes.STRING(250),
-      allowNull: false
+      allowNull: true,
+      unique: "unique_projectid_branch"
     },
     content: {
       type: DataTypes.JSON,
@@ -34,6 +36,14 @@ module.exports = function(sequelize, DataTypes) {
         unique: true,
         fields: [
           { name: "id" },
+        ]
+      },
+      {
+        name: "unique_projectid_branch",
+        unique: true,
+        fields: [
+          { name: "projectid" },
+          { name: "branch" },
         ]
       },
     ]
