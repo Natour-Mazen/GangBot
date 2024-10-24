@@ -17,8 +17,8 @@ router.get('/get-repos',  async (req, res) => {
 })
 
 router.get('/get-branches',async (req, res) => {
-    const repo = req.query.repo;
-    const {branches, response_code, message} = await GithubController.getBranches(req.connectedUser, repo);
+    const repoName = req.query.repoName;
+    const {branches, response_code, message} = await GithubController.getBranches(req.connectedUser, repoName);
     handleResponse(res, branches, response_code, message);
 })
 
