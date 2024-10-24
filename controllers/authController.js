@@ -112,11 +112,6 @@ class AuthController {
             return {userData: [], response_code: error.response.status, message: error.response.data.message};
         }
     }
-
-    // Handle user logout
-    static async handleLogout() {
-        // Implement logout logic if needed
-    }
 }
 
 module.exports = AuthController;

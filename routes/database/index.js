@@ -1,5 +1,6 @@
 const express = require('express');
 const router = express.Router();
+const projectsRouter = require('./projectIndex');
 const flagsValidatorController = require("../../controllers/flagsValidatorController");
 const flagsController = require("../../database/controllers/flagsController");
 const projectController = require("../../database/controllers/projectController");
@@ -13,8 +14,7 @@ router.post('/save-flag-file',  async (req, res) => {
         return res.status(400).send("Not a valid flag file");
     }
 
-    const user = await userController.getUser(req.connectedUser.name);
-    const project = await projectController.getIfExistOrCreate(user.id, repoName);
+    const project = await projectController.getIfExistOrCreate(req.connectedUser.id, repoName);
     const flag = await flagsController.createFlag(project.id, branch, flags);
 
     res.json(flag.id);
@@ -33,5 +33,7 @@ router.get('/get-all-flag-file', async (req, res) => {
     const flag = await flagsController.getAllFlagsProject(project.id);
     res.json(flag);
 });
+
+router.use('/projects', projectsRouter);
 
 module.exports = router;

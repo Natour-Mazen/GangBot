@@ -27,7 +27,7 @@ class GithubController {
 
     static async getRepoContent(connectedUser, repoName, branch) {
         try {
-            const response = await axios.get(`https://api.github.com/repos/${connectedUser.name}/${repoName}/contents`, {
+            const response = await axios.get(`https://api.github.com/repos/${connectedUser.gitName}/${repoName}/contents`, {
                 headers: {
                     Authorization: `Bearer ${connectedUser.gitToken}`,
                 },
@@ -43,7 +43,7 @@ class GithubController {
 
     static async getBranches(connectedUser, repoName) {
         try {
-            const response = await axios.get(`https://api.github.com/repos/${connectedUser.name}/${repoName}/branches`, {
+            const response = await axios.get(`https://api.github.com/repos/${connectedUser.gitName}/${repoName}/branches`, {
                 headers: {
                     'Authorization': `Bearer ${connectedUser.gitToken}`
                 }
@@ -68,7 +68,7 @@ class GithubController {
             for(const ext of file_extension){
                 try{
                     const full_filename = file_name + '.' + ext;
-                    response = await axios.get(`https://api.github.com/repos/${connectedUser.name}/${repoName}/contents/${full_filename}`, {
+                    response = await axios.get(`https://api.github.com/repos/${connectedUser.gitName}/${repoName}/contents/${full_filename}`, {
                         headers: {
                             Authorization: `Bearer ${connectedUser.gitToken}`,
                             Accept: 'application/vnd.github+json'
