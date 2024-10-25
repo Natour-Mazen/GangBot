@@ -1,15 +1,23 @@
 const express = require('express');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
-const session = require('express-session');
 const cors = require('cors');
 const getDatabase = require('./database/config');
 const port = 3328;
+const app = express();
+
+
 const authRouter = require('./routes/auth');
 const githubRouter = require('./routes/github');
 const databaseRouter = require('./routes/database');
-const authJWTMiddleware = require("./middlewares/authTokenJWT");
-const app = express();
+const apiClientRouter = require('./routes/apiClient/index');
+
+
+
+const jwtMiddleware = require("./middlewares/validateJWTMiddleware");
+
+
+
 
 app.use(logger('dev'));
 app.use(express.json());
@@ -20,14 +28,16 @@ app.use(cors());
 
 app.use('/auth', authRouter);
 
-app.use(authJWTMiddleware());
+app.use('/api/v1', apiClientRouter);
+
+app.use(jwtMiddleware());
 
 app.use('/github', githubRouter);
 
 app.use("/database", databaseRouter);
 
 app.get('/', async (req, res) => {
-    const name = req.connectedUser.name;
+    const name = req.connectedUser.gitName;
     res.send(`Hello ${name}`);
 })
 
