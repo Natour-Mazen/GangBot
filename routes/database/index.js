@@ -1,39 +1,9 @@
 const express = require('express');
 const router = express.Router();
 const projectsRouter = require('./projectIndex');
-const flagsValidatorController = require("../../controllers/flagsValidatorController");
-const flagsController = require("../../database/controllers/flagsController");
-const projectController = require("../../database/controllers/projectController");
-const userController = require("../../database/controllers/userController");
-
-router.post('/save-flag-file',  async (req, res) => {
-    const {flag_file, filetype, repoName, branch } = req.body;
-    const { isFlagFile, flags} = flagsValidatorController.isValidFlagFile(flag_file, filetype);
-
-    if(!isFlagFile){
-        return res.status(400).send("Not a valid flag file");
-    }
-
-    const project = await projectController.getIfExistOrCreate(req.connectedUser.id, repoName);
-    const flag = await flagsController.createFlag(project.id, branch, flags);
-
-    res.json(flag.id);
-})
-
-router.get('/get-flag-file', async (req, res) => {
-    const { projectId, branch } = req.query;
-    const project = await projectController.getProjectById(projectId);
-    const flag = await flagsController.getFlag(project.id, branch);
-    res.json(flag);
-});
-
-router.get('/get-all-flag-file', async (req, res) => {
-    const { projectId } = req.query;
-    const project = await projectController.getProjectById(projectId);
-    const flag = await flagsController.getAllFlagsProject(project.id);
-    res.json(flag);
-});
+const flagRouter = require('./flagIndex');
 
 router.use('/projects', projectsRouter);
+router.use('/flags', flagRouter);
 
 module.exports = router;
