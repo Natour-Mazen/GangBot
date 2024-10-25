@@ -6,7 +6,7 @@ const UserController = require('../database/controllers/userController');
 dotenv.config();
 const { JWT_SECRET_KEY, APP_MODE } = process.env;
 
-const authJWTMiddleware = () => (req, res, next) => {
+const validateJWTMiddleware = () => (req, res, next) => {
     // Get the 'access Token' cookie from the request
     const accessToken = req.cookies.ff_access_token;
 
@@ -49,4 +49,4 @@ const authJWTMiddleware = () => (req, res, next) => {
     });
 };
 
-module.exports = authJWTMiddleware;
+module.exports = validateJWTMiddleware;
