@@ -13,7 +13,7 @@ router.get('/', async (req, res) => {
 })
 
 router.post('/', async (req, res) => {
-    const {repoName, branch} = req.query;
+    const {repoName, branch} = req.body;
     const [project, created] = await projectController.createProject(req.connectedUser.id, repoName, repoName, branch); // we use the repoName as default projectName
 
     if(!created){

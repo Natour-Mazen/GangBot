@@ -19,5 +19,7 @@ CREATE TABLE projects(
      flags JSON,
      CONSTRAINT fk_projects
          FOREIGN KEY(userId)
-             REFERENCES users(id)
+             REFERENCES users(id),
+     CONSTRAINT unique_repo_branch
+         UNIQUE (repoName, branch)
 );
