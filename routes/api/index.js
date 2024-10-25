@@ -4,7 +4,7 @@ const apiKeyMiddleware = require('../../middlewares/validateApiKeyMiddleware');
 
 router.use(apiKeyMiddleware());
 
-router.get('/flags/project/:flagName', async (req, res) => {
+router.get('/flags/:flagName', async (req, res) => {
     const { flagName } = req.params;
     const { clientProject } = req;
 
@@ -17,7 +17,7 @@ router.get('/flags/project/:flagName', async (req, res) => {
     res.json(flag);
 });
 
-router.get('/flags/project', async (req, res) => {
+router.get('/flags', async (req, res) => {
     const { clientProject } = req;
 
     res.json(clientProject.flags);
