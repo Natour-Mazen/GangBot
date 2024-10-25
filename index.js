@@ -10,7 +10,7 @@ const app = express();
 const authRouter = require('./routes/auth');
 const githubRouter = require('./routes/github');
 const databaseRouter = require('./routes/database');
-const apiClientRouter = require('./routes/apiClient/index');
+const apiClientRouter = require('./routes/api/index');
 
 
 

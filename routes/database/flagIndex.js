@@ -3,13 +3,15 @@ const router = express.Router();
 const flagsValidatorController = require("../../controllers/flagsValidatorController");
 const projectController = require("../../database/controllers/projectController");
 
-router.post('/projects/:id',  async (req, res) => {
+router.put('/projects/:id',  async (req, res) => {
     const {id} = req.params;
     const {flag_file, filetype} = req.body;
     const { isFlagFile, flags} = flagsValidatorController.isValidFlagFile(flag_file, filetype);
 
     if(!isFlagFile){
-        return res.status(400).send("Not a valid flag file");
+        return res.status(400).json({
+            error: "Not a valid flag file"
+        });
     }
 
     const projectUpdated = await projectController.updateProjectFlags(id, flags)
