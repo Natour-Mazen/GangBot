@@ -19,7 +19,7 @@ router.get('/flags/:flagName', async (req, res) => {
 
     if (!flag) {
         return res.status(404).json({
-            error: "Flag not found"
+            error: "Flag not found with this name"
         });
     }
 
