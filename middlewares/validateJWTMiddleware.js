@@ -36,6 +36,16 @@ const validateJWTMiddleware = () => (req, res, next) => {
 
         const db_User = await UserController.getUserByGitHubId(decoded.githubID);
 
+        if(!db_User){
+            if(APP_MODE === 'Dev') {
+                return res.status(401).json({message: 'User not found'});
+            }else if(APP_MODE === 'Prod'){
+                return res.redirect('/auth');
+            }else {
+                throw new Error('APP_MODE not set');
+            }
+        }
+
         //Add the user to the request to use it more easily
         req.connectedUser = {
             id : db_User.dataValues.id,
