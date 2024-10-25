@@ -1,22 +1,24 @@
 const express = require('express');
 const router = express.Router();
-const ProjectController = require("../../database/controllers/projectController");
 const projectController = require("../../database/controllers/projectController");
 
 router.get('/', async (req, res) => {
-    const user = req.connectedUser;
-    const projects = await ProjectController.getProjectsByUserId(user.id);
-    console.log(projects);
+    const projects = await projectController.getProjectsByUserId(req.connectedUser.id);
+    if(!projects){
+        return res.status(400).json({
+            error: "An error occurred while getting the projects"
+        })
+    }
     res.json(projects);
 })
 
 router.post('/', async (req, res) => {
     const {repoName, branch} = req.query;
-    const [project, created] =  projectController.createProject(req.connectedUser.id, repoName, repoName, branch); // we use the repoName as default projectName
+    const [project, created] = await projectController.createProject(req.connectedUser.id, repoName, repoName, branch); // we use the repoName as default projectName
 
     if(!created){
         return res.status(400).json({
-            error: "An error occured while creating the project"
+            error: "An error occurred while creating the project"
         })
     }
 
@@ -27,7 +29,7 @@ router.post('/', async (req, res) => {
 
 router.get('/:id', async (req, res) => {
     const {id} = req.params;
-    const project = projectController.getProjectById(id)
+    const project = await projectController.getProjectById(id)
     if(!project){
         return res.status(400).json({
             error: "An error occurred while getting the project"
@@ -41,7 +43,7 @@ router.get('/:id', async (req, res) => {
 
 router.put('/:id/projectname/:newName', async (req, res) => {
     const {id, newName} = req.params;
-    const projectUpdated = projectController.updateProjectName(id, newName)
+    const projectUpdated = await projectController.updateProjectName(id, newName)
     if(!projectUpdated){
         return res.status(400).json({
             error: "An error occurred while updating the project name"
