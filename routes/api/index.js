@@ -10,10 +10,6 @@ router.get('/flags/:flagName', async (req, res) => {
 
     const flag = clientProject.flags.find(flag => flag.name === flagName);
 
-    if (!flag) {
-        return res.status(404).json({error: "Flag not found"});
-    }
-
     res.json(flag);
 });
 
