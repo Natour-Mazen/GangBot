@@ -22,6 +22,7 @@ class ProjectController {
         let project;
         let created = false;
         let tries = 3;
+        let error_message = "";
         while(!created && tries > 0){
             try {
                 project = await models.projects.create({
@@ -36,12 +37,15 @@ class ProjectController {
             }catch(e){
                 console.log("Error creating user: ,", e);
                 console.log("Regenerating API Key");
+                if(e.parent.code === '23505'){ // unique constraint violation
+                    error_message = "A project pointing on the same repository and branch already exists";
+                }
                 apiKey = ProjectController.generateUUID();
                 tries--;
             }
         }
 
-        return [project, created];
+        return [project, created, error_message];
     }
 
     /**

@@ -21,11 +21,13 @@ module.exports = function(sequelize, DataTypes) {
     },
     reponame: {
       type: DataTypes.STRING(200),
-      allowNull: true
+      allowNull: false,
+      unique: "unique_repo_branch"
     },
     branch: {
       type: DataTypes.STRING(250),
-      allowNull: true
+      allowNull: false,
+      unique: "unique_repo_branch"
     },
     apikey: {
       type: DataTypes.STRING(250),
@@ -58,6 +60,14 @@ module.exports = function(sequelize, DataTypes) {
         unique: true,
         fields: [
           { name: "id" },
+        ]
+      },
+      {
+        name: "unique_repo_branch",
+        unique: true,
+        fields: [
+          { name: "reponame" },
+          { name: "branch" },
         ]
       },
     ]

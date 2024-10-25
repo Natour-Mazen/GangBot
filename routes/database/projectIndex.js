@@ -14,11 +14,11 @@ router.get('/', async (req, res) => {
 
 router.post('/', async (req, res) => {
     const {repoName, branch} = req.body;
-    const [project, created] = await projectController.createProject(req.connectedUser.id, repoName, repoName, branch); // we use the repoName as default projectName
+    const [project, created, error_message] = await projectController.createProject(req.connectedUser.id, repoName, repoName, branch); // we use the repoName as default projectName
 
     if(!created){
         return res.status(400).json({
-            error: "An error occurred while creating the project"
+            error: error_message !== "" ? error_message : "An error occurred while creating the project"
         })
     }
 
