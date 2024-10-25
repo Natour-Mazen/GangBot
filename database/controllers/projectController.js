@@ -3,8 +3,11 @@ const getDatabase = require("../config");
 dotenv.config();
 
 class ProjectController {
+
     static generateUUID() {
-        return crypto.randomUUID();
+        const uuid1 = crypto.randomUUID().replace(/-/g, '');
+        const uuid2 = crypto.randomUUID().replace(/-/g, '');
+        return uuid1 + uuid2;
     }
 
     /**

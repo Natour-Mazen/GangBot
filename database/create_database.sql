@@ -9,7 +9,7 @@ CREATE TABLE users(
 );
 
 CREATE TABLE projects(
-     id SERIAL PRIMARY KEY,
+     id uuid PRIMARY KEY,
      userId INT,
      projectName VARCHAR(200),
      repoName VARCHAR(200),
