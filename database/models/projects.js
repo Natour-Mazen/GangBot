@@ -29,7 +29,8 @@ module.exports = function(sequelize, DataTypes) {
     },
     apikey: {
       type: DataTypes.STRING(250),
-      allowNull: true
+      allowNull: false,
+      unique: "projects_apikey_key"
     },
     apikeyexpirationdate: {
       type: DataTypes.DATE,
@@ -45,6 +46,13 @@ module.exports = function(sequelize, DataTypes) {
     schema: 'public',
     timestamps: false,
     indexes: [
+      {
+        name: "projects_apikey_key",
+        unique: true,
+        fields: [
+          { name: "apikey" },
+        ]
+      },
       {
         name: "projects_pkey",
         unique: true,

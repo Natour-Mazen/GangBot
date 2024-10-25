@@ -14,7 +14,7 @@ CREATE TABLE projects(
      projectName VARCHAR(200),
      repoName VARCHAR(200),
      branch VARCHAR(250),
-     apiKey VARCHAR(250),
+     apiKey VARCHAR(250) UNIQUE NOT NULL,
      apiKeyExpirationDate TIMESTAMP,
      flags JSON,
      CONSTRAINT fk_projects
