@@ -9,6 +9,12 @@ router.get('/', async (req, res) => {
             error: "An error occurred while getting the projects"
         })
     }
+
+    //filter the project object to remove the userid
+    for(const project of projects){
+        delete project.dataValues.userid
+    }
+
     res.json(projects);
 })
 
@@ -21,6 +27,9 @@ router.post('/', async (req, res) => {
             error: error_message !== "" ? error_message : "An error occurred while creating the project"
         })
     }
+
+    //filter the project object to remove the userid
+    delete project.dataValues.userid;
 
     return res.json({
         project : project
@@ -35,6 +44,9 @@ router.get('/:id', async (req, res) => {
             error: "An error occurred while getting the project"
         })
     }
+
+    //filter the project object to remove the userid
+    delete project.dataValues.userid;
 
     return res.json({
         project : project
