@@ -3,24 +3,37 @@ const router = express.Router();
 const flagsValidatorController = require("../../controllers/flagsValidatorController");
 const projectController = require("../../database/controllers/projectController");
 
-router.post('/project',  async (req, res) => {
-    const {flag_file, filetype, id} = req.body;
+router.post('/projects/:id',  async (req, res) => {
+    const {id} = req.params;
+    const {flag_file, filetype} = req.body;
     const { isFlagFile, flags} = flagsValidatorController.isValidFlagFile(flag_file, filetype);
 
     if(!isFlagFile){
         return res.status(400).send("Not a valid flag file");
     }
 
-    const project = await projectController.getProjectById(id);
-    if(project === null) return res.json({saved: false, error: "Project not found"});
-    const flag = await project.updateProject(project.id, project.projectname, flags);
+    const projectUpdated = await projectController.updateProjectFlags(id, flags)
+    if(!projectUpdated){
+        return res.status(400).json({
+            error: "An error occurred while updating the project flags"
+        })
+    }
 
-    res.json({saved: flag, error: ""});
+    return res.json({
+        message: "Project flags updated successfully"
+    })
+
 })
 
-router.get('/project/:id', async (req, res) => {
-    const id = req.params['id'];
+router.get('/projects/:id', async (req, res) => {
+    const {id} = req.params;
     const project = await projectController.getProjectById(id);
+    if(!project){
+        return res.status(400).json({
+            error: "An error occurred while getting the project"
+        })
+    }
+
     res.json(project.flags);
 });
 
