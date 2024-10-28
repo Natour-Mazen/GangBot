@@ -1,6 +1,7 @@
 const jwt = require('jsonwebtoken');
 const dotenv = require('dotenv');
 const UserController = require('../database/controllers/userController');
+const GroupController = require('../database/controllers/groupController');
 
 // Load environment variables from .env file
 dotenv.config();
@@ -46,12 +47,16 @@ const validateJWTMiddleware = () => (req, res, next) => {
             }
         }
 
+        //get user's groups
+        const groups = await GroupController.getGroupsNamesByUserId(db_User.dataValues.id);
+
         //Add the user to the request to use it more easily
         req.connectedUser = {
             id : db_User.dataValues.id,
             gitID: decoded.githubID,
             gitName: decoded.githubName,
             gitToken: decoded.githubToken,
+            groups: groups.map(group => group.dataValues.groupname),
         };
 
         // Move to the next function (middleware or route manager)
