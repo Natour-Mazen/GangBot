@@ -29,7 +29,14 @@ router.get('/flags/:flagName', async (req, res) => {
 router.get('/flags', async (req, res) => {
     const { clientProject } = req;
 
-    res.json(clientProject.flags);
+    const projectFlags = clientProject.flags;
+    if(!projectFlags){
+        return res.status(404).json({
+            error: "No flags found in the project"
+        });
+    }
+
+    res.json(projectFlags);
 });
 
 
