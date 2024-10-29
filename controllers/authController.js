@@ -63,6 +63,12 @@ class AuthController {
                     jwttoken: newJwtToken
                 });
             }
+        }else{
+            //if user is new, create a user role for him
+            await models.usergroups.create({
+                userid: db_user.id,
+                groupid: 2 //USER
+            });
         }
 
     }
