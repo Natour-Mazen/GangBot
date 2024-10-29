@@ -14,7 +14,7 @@ const apiClientRouter = require('./routes/api/index');
 
 
 const jwtMiddleware = require("./middlewares/validateJWTMiddleware");
-const verifyGroupMiddleware = require("./middlewares/verifyGroupMiddleware");
+const validateGroupMiddleware = require("./middlewares/validateGroupMiddleware");
 
 
 app.use(logger('dev'));
@@ -33,9 +33,9 @@ app.use(jwtMiddleware());
 app.use('/github', githubRouter);
 
 // app.use("/database", databaseRouter);
-app.use("/database", verifyGroupMiddleware(['USER', 'ADMIN']), databaseRouter);
+app.use("/database", validateGroupMiddleware(['USER', 'ADMIN']), databaseRouter);
 
-app.get('/', verifyGroupMiddleware(['USER', 'ADMIN']), async (req, res) => {
+app.get('/', validateGroupMiddleware(['USER']), async (req, res) => {
     const name = req.connectedUser.gitName;
     res.send(`Hello ${name}`);
 })
