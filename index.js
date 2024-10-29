@@ -33,7 +33,7 @@ app.use(jwtMiddleware());
 app.use('/github', githubRouter);
 
 // app.use("/database", databaseRouter);
-app.use("/database", validateGroupMiddleware(['USER', 'ADMIN']), databaseRouter);
+app.use("/database", validateGroupMiddleware(['USER']), databaseRouter);
 
 app.get('/', validateGroupMiddleware(['USER']), async (req, res) => {
     const name = req.connectedUser.gitName;
