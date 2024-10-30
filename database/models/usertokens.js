@@ -1,36 +1,43 @@
 const Sequelize = require('sequelize');
 module.exports = function(sequelize, DataTypes) {
-  return sequelize.define('usergroups', {
-    userid: {
+  return sequelize.define('usertokens', {
+    id: {
       type: DataTypes.INTEGER,
       allowNull: false,
       primaryKey: true,
+      autoIncrement: true
+    },
+    userid: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
       references: {
         model: 'users',
         key: 'id'
       }
     },
-    groupid: {
+    authenticationmethod: {
       type: DataTypes.INTEGER,
       allowNull: false,
-      primaryKey: true,
       references: {
-        model: 'users',
+        model: 'providermethods',
         key: 'id'
       }
+    },
+    jwtoken: {
+      type: DataTypes.STRING(255),
+      allowNull: false
     }
   }, {
     sequelize,
-    tableName: 'usergroups',
+    tableName: 'usertokens',
     schema: 'public',
     timestamps: false,
     indexes: [
       {
-        name: "usergroups_pkey",
+        name: "usertokens_pkey",
         unique: true,
         fields: [
-          { name: "userid" },
-          { name: "groupid" },
+          { name: "id" },
         ]
       },
     ]

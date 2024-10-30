@@ -9,9 +9,17 @@ module.exports = function(sequelize, DataTypes) {
     },
     userid: {
       type: DataTypes.INTEGER,
-      allowNull: true,
+      allowNull: false,
       references: {
         model: 'users',
+        key: 'id'
+      }
+    },
+    authenticationmethod: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      references: {
+        model: 'providermethods',
         key: 'id'
       }
     },
@@ -19,12 +27,12 @@ module.exports = function(sequelize, DataTypes) {
       type: DataTypes.STRING(200),
       allowNull: true
     },
-    reponame: {
+    name: {
       type: DataTypes.STRING(200),
       allowNull: false,
       unique: "unique_repo_branch"
     },
-    branch: {
+    environment: {
       type: DataTypes.STRING(250),
       allowNull: false,
       unique: "unique_repo_branch"
@@ -66,8 +74,8 @@ module.exports = function(sequelize, DataTypes) {
         name: "unique_repo_branch",
         unique: true,
         fields: [
-          { name: "reponame" },
-          { name: "branch" },
+          { name: "name" },
+          { name: "environment" },
         ]
       },
     ]

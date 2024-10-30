@@ -9,21 +9,21 @@ DROP TABLE IF EXISTS providerMethods;
 DROP TABLE IF EXISTS users;
 
 CREATE TABLE users(
-    id UUID PRIMARY KEY,
+    id INT PRIMARY KEY,
     username VARCHAR(40) NOT NULL,
     password VARCHAR(255) NOT NULL,
     email VARCHAR(100) NOT NULL
 );
 
 CREATE TABLE providerMethods(
-    id UUID PRIMARY KEY,
+    id INT PRIMARY KEY,
     providerName VARCHAR(50) NOT NULL
 );
 
 CREATE TABLE userTokens(
-    id UUID PRIMARY KEY,
-    userId UUID NOT NULL,
-    authenticationMethod UUID NOT NULL,
+    id INT PRIMARY KEY,
+    userId INT NOT NULL,
+    authenticationMethod INT NOT NULL,
     jwToken VARCHAR(255) NOT NULL,
     CONSTRAINT fk_user
        FOREIGN KEY(userId)
@@ -35,8 +35,8 @@ CREATE TABLE userTokens(
 
 CREATE TABLE projects(
     id UUID PRIMARY KEY,
-    userId UUID NOT NULL,
-    importMethod UUID NOT NULL,
+    userId INT NOT NULL,
+    authenticationMethod INT NOT NULL,
     projectName VARCHAR(200),
     name VARCHAR(200) NOT NULL,
     environment VARCHAR(250) NOT NULL,
@@ -47,20 +47,20 @@ CREATE TABLE projects(
      FOREIGN KEY(userId)
          REFERENCES users(id),
     CONSTRAINT fk_importMethod
-        FOREIGN KEY(importMethod)
+        FOREIGN KEY(authenticationMethod)
             REFERENCES providerMethods(id),
     CONSTRAINT unique_repo_branch
      UNIQUE (name, environment)
 );
 
 CREATE TABLE accessGroup(
-    id UUID PRIMARY KEY,
+    id INT PRIMARY KEY,
     groupName VARCHAR(100) NOT NULL
 );
 
 CREATE TABLE userGroups(
-    userId UUID,
-    groupId UUID,
+    userId INT,
+    groupId INT,
     PRIMARY KEY (userId, groupId),
     CONSTRAINT fk_user
        FOREIGN KEY(userId)
@@ -77,7 +77,7 @@ CREATE TABLE organization(
 
 CREATE TABLE organizationUsers(
     organizationId UUID,
-    userId UUID,
+    userId INT,
     PRIMARY KEY (organizationId, userId),
     CONSTRAINT fk_organization
         FOREIGN KEY(organizationId)

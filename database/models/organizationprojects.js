@@ -1,36 +1,36 @@
 const Sequelize = require('sequelize');
 module.exports = function(sequelize, DataTypes) {
-  return sequelize.define('usergroups', {
-    userid: {
-      type: DataTypes.INTEGER,
+  return sequelize.define('organizationprojects', {
+    organizationid: {
+      type: DataTypes.UUID,
       allowNull: false,
       primaryKey: true,
       references: {
-        model: 'users',
+        model: 'organization',
         key: 'id'
       }
     },
-    groupid: {
-      type: DataTypes.INTEGER,
+    projectid: {
+      type: DataTypes.UUID,
       allowNull: false,
       primaryKey: true,
       references: {
-        model: 'users',
+        model: 'projects',
         key: 'id'
       }
     }
   }, {
     sequelize,
-    tableName: 'usergroups',
+    tableName: 'organizationprojects',
     schema: 'public',
     timestamps: false,
     indexes: [
       {
-        name: "usergroups_pkey",
+        name: "organizationprojects_pkey",
         unique: true,
         fields: [
-          { name: "userid" },
-          { name: "groupid" },
+          { name: "organizationid" },
+          { name: "projectid" },
         ]
       },
     ]
