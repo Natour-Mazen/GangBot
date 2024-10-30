@@ -15,7 +15,7 @@ class ProjectController {
      * Retry 3 times if the generated API key is not unique or if the user can't be created.
      * return the project and a boolean indicating if it was created
      * */
-    static async createProject(userId, projectName, repoName, branch) {
+    static async createProject(userId, projectName, name, environment, importMethodID) {
         const { models } = await getDatabase();
         let apiKey = ProjectController.generateUUID();
         const expDate = new Date().setFullYear(new Date().getFullYear() + 1);
@@ -28,8 +28,9 @@ class ProjectController {
                 project = await models.projects.create({
                     userid: userId,
                     projectname: projectName,
-                    reponame: repoName,
-                    branch: branch,
+                    name: name, // this name can't be changed
+                    environment: environment,
+                    importmethodid: importMethodID,
                     apikey: apiKey,
                     apikeyexpirationdate: expDate,
                 });
