@@ -7,7 +7,7 @@ const port = 3328;
 const app = express();
 
 
-const authRouter = require('./routes/auth');
+const authRouter = require('./routes/auth/index');
 const githubRouter = require('./routes/github');
 const databaseRouter = require('./routes/database');
 const apiClientRouter = require('./routes/api/index');
@@ -36,7 +36,7 @@ app.use('/github', githubRouter);
 app.use("/database", validateGroupMiddleware(['USER']), databaseRouter);
 
 app.get('/', validateGroupMiddleware(['USER']), async (req, res) => {
-    const name = req.connectedUser.gitName;
+    const name = req.connectedUser.vcsName;
     res.send(`Hello ${name}`);
 })
 
