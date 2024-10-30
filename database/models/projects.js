@@ -15,11 +15,11 @@ module.exports = function(sequelize, DataTypes) {
         key: 'id'
       }
     },
-    authenticationmethod: {
+    importmethodid: {
       type: DataTypes.INTEGER,
       allowNull: false,
       references: {
-        model: 'providermethods',
+        model: 'importmethodid',
         key: 'id'
       }
     },

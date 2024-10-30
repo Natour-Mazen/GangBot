@@ -23,7 +23,7 @@ module.exports = function(sequelize, DataTypes) {
         key: 'id'
       }
     },
-    jwtoken: {
+    jwttoken: {
       type: DataTypes.STRING(255),
       allowNull: false
     }

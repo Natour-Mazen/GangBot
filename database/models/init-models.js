@@ -32,10 +32,10 @@ function initModels(sequelize) {
   organization.hasMany(organizationusers, { as: "organizationusers", foreignKey: "organizationid"});
   organizationprojects.belongsTo(projects, { as: "project", foreignKey: "projectid"});
   projects.hasMany(organizationprojects, { as: "organizationprojects", foreignKey: "projectid"});
-  projects.belongsTo(providermethods, { as: "authenticationmethod_providermethod", foreignKey: "authenticationmethod"});
-  providermethods.hasMany(projects, { as: "projects", foreignKey: "authenticationmethod"});
-  usertokens.belongsTo(providermethods, { as: "authenticationmethod_providermethod", foreignKey: "authenticationmethod"});
-  providermethods.hasMany(usertokens, { as: "usertokens", foreignKey: "authenticationmethod"});
+  projects.belongsTo(providermethods, { as: "authenticationmethod_providermethod", foreignKey: "importmethodid"});
+  providermethods.hasMany(projects, { as: "projects", foreignKey: "importmethodid"});
+  usertokens.belongsTo(providermethods, { as: "authenticationmethod_providermethod", foreignKey: "importmethodid"});
+  providermethods.hasMany(usertokens, { as: "usertokens", foreignKey: "importmethodid"});
   organizationusers.belongsTo(users, { as: "user", foreignKey: "userid"});
   users.hasMany(organizationusers, { as: "organizationusers", foreignKey: "userid"});
   projects.belongsTo(users, { as: "user", foreignKey: "userid"});
