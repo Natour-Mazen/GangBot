@@ -3,6 +3,7 @@ const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 const cors = require('cors');
 const getDatabase = require('./database/config');
+const loadTestData = require('./config/loadTestData');
 const port = 3328;
 const app = express();
 
@@ -42,6 +43,7 @@ app.get('/', validateGroupMiddleware(['USER']), async (req, res) => {
 
 app.listen(port, async () => {
     await getDatabase();
+    await loadTestData();
     console.log(`Server listening on port ${port}`);
 });
 

@@ -1,0 +1,57 @@
+{
+  "users": [
+    {
+      "username": "user1",
+      "password": "password1",
+      "email": "user1@example.com"
+    },
+    {
+      "username": "user2",
+      "password": "password2",
+      "email": "user2@example.com"
+    }
+  ],
+  "projects": [
+    {
+      "id": "66a659d9-7fd0-48ad-b218-ae24a7dd8920",
+      "userid": 3,
+      "importmethodid": 1,
+      "projectname": "Project One",
+      "name": "project_one",
+      "environment": "development",
+      "apikey": "api_key_1",
+      "apikeyexpirationdate": "2024-12-31T23:59:59Z",
+      "flags": {}
+    },
+    {
+      "id": "e54f6330-d87b-4d7b-84a6-5b855ba19498",
+      "userid": 4,
+      "importmethodid": 1,
+      "projectname": "Project Two",
+      "name": "project_two",
+      "environment": "production",
+      "apikey": "api_key_2",
+      "apikeyexpirationdate": "2024-12-24T23:59:59Z",
+      "flags": [
+            {
+              "name": "newFeature",
+              "variationType": "boolean",
+              "value": false,
+              "variationOptions": {
+                "on": true,
+                "off": false
+              }
+            },
+            {
+              "name": "betaFeature",
+              "variationType": "boolean",
+              "value": false,
+              "variationOptions": {
+                "enabled": true,
+                "disabled": false
+              }
+            }
+        ]
+      }
+  ]
+}
