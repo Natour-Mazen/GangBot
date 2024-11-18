@@ -15,7 +15,7 @@ router.get('/flags/:flagName', async (req, res) => {
         });
     }
 
-    const flag = projectFlags.find(flag => flag.name === flagName);
+    const flag = projectFlags[flagName];
 
     if (!flag) {
         return res.status(404).json({
@@ -23,7 +23,14 @@ router.get('/flags/:flagName', async (req, res) => {
         });
     }
 
-    res.json(flag);
+    const defaultVariation = flag.defaultRule.variation;
+    const flagValue = flag.variations[defaultVariation];
+
+
+    res.json({
+        name: flagName,
+        value: flagValue
+    });
 });
 
 router.get('/flags', async (req, res) => {
