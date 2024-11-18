@@ -32,26 +32,35 @@
       "environment": "production",
       "apikey": "api_key_2",
       "apikeyexpirationdate": "2024-12-24T23:59:59Z",
-      "flags": [
-            {
-              "name": "newFeature",
-              "variationType": "boolean",
-              "value": false,
-              "variationOptions": {
-                "on": true,
-                "off": false
-              }
-            },
-            {
-              "name": "betaFeature",
-              "variationType": "boolean",
-              "value": false,
-              "variationOptions": {
-                "enabled": true,
-                "disabled": false
-              }
-            }
-        ]
+      "flags": {
+        "my-flag": {
+          "variations": {
+            "Variation_1": false,
+            "Variation_2": true
+          },
+          "defaultRule": {
+            "variation": "Variation_2"
+          }
+        },
+        "new-1": {
+          "variations": {
+            "Variation_1": "trueLOL",
+            "Variation_2": "falseYEAHHHH"
+          },
+          "defaultRule": {
+            "variation": "Variation_1"
+          }
+        },
+        "new-flag-2": {
+          "variations": {
+            "Variation_1": 1,
+            "Variation_5": 10
+          },
+          "defaultRule": {
+            "variation": "Variation_5"
+          }
+        }
       }
+    }
   ]
 }

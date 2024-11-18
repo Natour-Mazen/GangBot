@@ -11,17 +11,11 @@ async function loadTestData() {
 
 
     for (const userData of data.users) {
-    await models.users.findOrCreate({
-      where: { email: userData.email },
-      defaults: userData
-    });
+        await models.users.upsert(userData);
     }
 
     for (const projectData of data.projects) {
-    await models.projects.findOrCreate({
-      where: { apikey: projectData.apikey },
-      defaults: projectData
-    });
+        await models.projects.upsert(projectData);
     }
 
 
