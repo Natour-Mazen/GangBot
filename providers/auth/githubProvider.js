@@ -53,19 +53,6 @@ class GithubProvider extends VCSProvider {
         return primaryEmail ? primaryEmail.email : null;
     }
 
-    async getUserProfileInfos(accessToken) {
-        try {
-            const userResponse = await axios.get('https://api.github.com/user', {
-                headers: {
-                    Authorization: `Bearer ${accessToken}`
-                }
-            });
-            return { userData: userResponse.data, response_code: userResponse.status, message: "" };
-        } catch (error) {
-            return { userData: [], response_code: error.response.status, message: error.response.data.message };
-        }
-    }
-
     async createOrUpdateUserInDB(providerUser, providerUserEmail) {
         const { models } = await getDatabase();
 
