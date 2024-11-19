@@ -29,7 +29,7 @@ class VCSProvider {
     async fetchUserEmail(accessToken) {
         throw new Error("fetchUserEmail Must override method");
     }
-    
+
     async createOrUpdateUserInDB(providerUser, providerUserEmail) {
         throw new Error("createOrUpdateUserInDB Must override method");
     }
