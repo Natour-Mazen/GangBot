@@ -14,8 +14,9 @@ const validateApiKeyMiddleware = () => async (req, res, next) => {
     }
 
     const currentDate = new Date();
-    const apiKeyDate = JSON.stringify(project.apikeyexpirationdate);
-    if (new Date(apiKeyDate) < currentDate) {
+    const apiKeyDate = new Date(project.apikeyexpirationdate);
+
+    if (apiKeyDate < currentDate) {
         return res.status(401).json({ message: 'API key has expired' });
     }
 
