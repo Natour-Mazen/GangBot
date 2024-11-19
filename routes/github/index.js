@@ -1,12 +1,11 @@
 const express = require('express');
 const router = express.Router();
 const GithubController = require('../../controllers/githubController');
-const AuthController = require('../../controllers/authController');
 const handleResponse = require("../../handlers/responseHandler");
 
 
 router.get('/user', async (req, res) => {
-    const {userData, response_code, message} = await AuthController.getUserProfileInfos(req.connectedUser);
+    const {userData, response_code, message} = await GithubController.getUserProfileInfos(req.connectedUser);
     handleResponse(res, userData, response_code, message);
 })
 

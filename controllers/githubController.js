@@ -1,6 +1,5 @@
 const axios = require('axios');
 const dotenv = require('dotenv');
-const getDatabase = require("../database/config");
 
 dotenv.config();
 
@@ -13,7 +12,7 @@ class GithubController {
         try {
             const response = await axios.get(`https://api.github.com/user/repos`, {
                 headers: {
-                    'Authorization': `Bearer ${connectedUser.gitToken}`
+                    'Authorization': `Bearer ${connectedUser.vcsToken}`
                 },
                 params: {
                     visibility: 'all',
@@ -27,9 +26,9 @@ class GithubController {
 
     static async getRepoContent(connectedUser, repoName, branch) {
         try {
-            const response = await axios.get(`https://api.github.com/repos/${connectedUser.gitName}/${repoName}/contents`, {
+            const response = await axios.get(`https://api.github.com/repos/${connectedUser.vcsName}/${repoName}/contents`, {
                 headers: {
-                    Authorization: `Bearer ${connectedUser.gitToken}`,
+                    Authorization: `Bearer ${connectedUser.vcsToken}`,
                 },
                 params: {
                     ref: branch || 'main' // Utilise la branche spécifiée ou 'main' par défaut
@@ -43,9 +42,9 @@ class GithubController {
 
     static async getBranches(connectedUser, repoName) {
         try {
-            const response = await axios.get(`https://api.github.com/repos/${connectedUser.gitName}/${repoName}/branches`, {
+            const response = await axios.get(`https://api.github.com/repos/${connectedUser.vcsName}/${repoName}/branches`, {
                 headers: {
-                    'Authorization': `Bearer ${connectedUser.gitToken}`
+                    'Authorization': `Bearer ${connectedUser.vcsToken}`
                 }
             });
             return {branches: response.data, response_code: response.status, message: ""};
@@ -68,9 +67,9 @@ class GithubController {
             for(const ext of file_extension){
                 try{
                     const full_filename = file_name + '.' + ext;
-                    response = await axios.get(`https://api.github.com/repos/${connectedUser.gitName}/${repoName}/contents/${full_filename}`, {
+                    response = await axios.get(`https://api.github.com/repos/${connectedUser.vcsName}/${repoName}/contents/${full_filename}`, {
                         headers: {
-                            Authorization: `Bearer ${connectedUser.gitToken}`,
+                            Authorization: `Bearer ${connectedUser.vcsToken}`,
                             Accept: 'application/vnd.github+json'
                         },
                         params: {
@@ -93,6 +92,18 @@ class GithubController {
         }
     }
 
+    static async getUserProfileInfos(connectedUser){
+        try {
+            const userResponse = await axios.get('https://api.github.com/user', {
+                headers: {
+                    Authorization: `Bearer ${connectedUser.vcsToken}`
+                }
+            });
+            return {userData: userResponse.data, response_code: userResponse.status, message: ""};
+        } catch (error) {
+            return {userData: [], response_code: error.response.status, message: error.response.data.message};
+        }
+    }
 
 }
 
