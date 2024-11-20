@@ -1,8 +1,8 @@
 const jwt = require('jsonwebtoken');
 const dotenv = require('dotenv');
-const UserController = require('../database/controllers/userController');
-const GroupController = require('../database/controllers/groupController');
-const ProviderType = require("../providers/Types");
+const UserController = require('../database/controllers/usersController');
+const UserGroupsController = require('../database/controllers/userGroupsController');
+const ProviderType = require("../providers/providerTypes");
 
 // Load environment variables from .env file
 dotenv.config();
@@ -19,7 +19,7 @@ const handleErrorResponse = (res, message, status = 401) => {
 };
 
 const getUserGroups = async (userId) => {
-    const groups = await GroupController.getGroupsNamesByUserId(userId);
+    const groups = await UserGroupsController.getGroupsNamesByUserId(userId);
     return groups.map(group => group.dataValues.groupname);
 };
 
@@ -44,6 +44,7 @@ const validateJWTMiddleware = () => async (req, res, next) => {
 
         const groups = await getUserGroups(db_User.dataValues.id);
 
+
         req.connectedUser = {
             id: db_User.dataValues.id,
             vcsID: decoded.vcsID,
@@ -52,6 +53,7 @@ const validateJWTMiddleware = () => async (req, res, next) => {
             vcsProvider: decoded.vcsProvider,
             groups,
         };
+
 
         next();
     });
