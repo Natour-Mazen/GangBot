@@ -3,6 +3,8 @@ const dotenv = require('dotenv');
 const ProviderTypes = require("./providerTypes");
 const {sign} = require("jsonwebtoken");
 const UserController = require("../database/controllers/usersController");
+const ProviderMethodsController = require("../database/controllers/providerMethodsController");
+const UserTokensController = require("../database/controllers/userTokensController");
 dotenv.config();
 
 class ManualProvider {
@@ -24,7 +26,9 @@ class ManualProvider {
         const expirationDate = new Date(Date.now() + (24 * 60 * 60 * 1000)); // 24 hours
         const payload = {
             id: user.id,
-            username: user.username,
+            vcsID: -1,
+            vcsName: user.username,
+            vcsToken: '',
             vcsProvider: this.providerType,
             exp: Math.floor(expirationDate.getTime() / 1000)
         };
@@ -32,25 +36,18 @@ class ManualProvider {
     }
 
     async createOrUpdateUserTokenInDB(user, newJwtToken) {
-        const { models } = await getDatabase();
-        const providerMethod = await models.providermethods.findOne({
-            where: { providername: this.providerType }
-        });
+
+        const providerMethod = await ProviderMethodsController.getProviderMethodByName(this.providerType);
 
         if (!providerMethod) {
             throw new Error('Provider method not found');
         }
 
-        const [userToken, tokenCreated] = await models.usertokens.findOrCreate({
-            where: { userid: user.id, authenticationmethod: providerMethod.id },
-            defaults: { userid: user.id, authenticationmethod: providerMethod.id, jwttoken: newJwtToken }
-        });
+        const [userToken, tokenCreated]  = await UserTokensController.findOrCreateUserToken(db_user.id, providerMethod.id, newJwtToken);
 
         if (!tokenCreated && userToken.jwttoken !== newJwtToken) {
-            await userToken.update({ jwttoken: newJwtToken });
+            await UserTokensController.updateUserToken(userToken, newJwtToken);
         }
-
-        return userToken;
     }
 
     async handleAuth(username, password, email) {
