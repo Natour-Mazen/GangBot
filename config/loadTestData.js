@@ -9,12 +9,17 @@ async function loadTestData() {
     const data = JSON.parse(fs.readFileSync(path.join(__dirname, './data_test.json'), 'utf8'));
 
 
-    for (const userData of data.users) {
-        await models.users.upsert(userData);
+    for (const providerData of data.providermethods) {
+        await models.providermethods.upsert(providerData);
     }
 
+    for (const userData of data.users) {
+        await models.users.upsert(userData);
+
+    }
     for (const projectData of data.projects) {
         await models.projects.upsert(projectData);
+
     }
 
 
