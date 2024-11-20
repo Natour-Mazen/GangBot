@@ -8,7 +8,8 @@ const port = 3328;
 const app = express();
 
 
-const authRouter = require('./routes/auth/index');
+const authRouter = require('./routes/auth/loginIndex');
+const logoutRouter = require('./routes/auth/logoutIndex');
 const githubRouter = require('./routes/github');
 const databaseRouter = require('./routes/database');
 const apiClientRouter = require('./routes/api/index');
@@ -16,7 +17,6 @@ const apiClientRouter = require('./routes/api/index');
 
 const jwtMiddleware = require("./middlewares/validateJWTMiddleware");
 const validateGroupMiddleware = require("./middlewares/validateGroupMiddleware");
-
 
 app.use(logger('dev'));
 app.use(express.json());
@@ -31,6 +31,8 @@ app.use('/api/v1', apiClientRouter);
 
 app.use(jwtMiddleware());
 
+app.use('/logout', logoutRouter);
+
 app.use('/github', githubRouter);
 
 // app.use("/database", databaseRouter);
@@ -40,6 +42,8 @@ app.get('/', validateGroupMiddleware(['USER']), async (req, res) => {
     const name = req.connectedUser.vcsName;
     res.send(`Hello ${name}`);
 })
+
+
 
 app.listen(port, async () => {
     await getDatabase();
