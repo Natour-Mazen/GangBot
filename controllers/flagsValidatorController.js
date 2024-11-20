@@ -32,7 +32,7 @@ class FlagsValidatorController {
             return { isFlagFile: false, flags: null };
         }
 
-        return { isFlagFile: true, flags };
+        return { isFlagFile: true, flags: flags };
     }
 
 }
