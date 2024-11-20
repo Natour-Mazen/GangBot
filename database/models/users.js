@@ -18,7 +18,15 @@ module.exports = function(sequelize, DataTypes) {
     email: {
       type: DataTypes.STRING(100),
       allowNull: false
-    }
+    },
+    creationusermethod: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      references: {
+        model: 'creationusermethod',
+        key: 'id'
+      }
+    },
   }, {
     sequelize,
     tableName: 'users',

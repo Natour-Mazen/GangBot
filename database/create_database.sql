@@ -8,16 +8,22 @@ DROP TABLE IF EXISTS userTokens;
 DROP TABLE IF EXISTS providerMethods;
 DROP TABLE IF EXISTS users;
 
+CREATE TABLE providerMethods(
+    id SERIAL PRIMARY KEY,
+    providerName VARCHAR(50) NOT NULL,
+    CONSTRAINT unique_providerName
+        UNIQUE (providerName)
+);
+
 CREATE TABLE users(
     id SERIAL PRIMARY KEY,
     username VARCHAR(40) NOT NULL,
     password VARCHAR(255) NOT NULL,
-    email VARCHAR(100) NOT NULL
-);
-
-CREATE TABLE providerMethods(
-    id SERIAL PRIMARY KEY,
-    providerName VARCHAR(50) NOT NULL
+    email VARCHAR(100) NOT NULL,
+    creationUserMethod INT NOT NULL,
+    CONSTRAINT fk_creationUserMethod
+        FOREIGN KEY(creationUserMethod)
+            REFERENCES providerMethods(id)
 );
 
 CREATE TABLE userTokens(
@@ -55,7 +61,9 @@ CREATE TABLE projects(
 
 CREATE TABLE accessGroup(
     id SERIAL PRIMARY KEY,
-    groupName VARCHAR(100) NOT NULL
+    groupName VARCHAR(100) NOT NULL,
+    CONSTRAINT unique_groupName
+        UNIQUE (groupName)
 );
 
 CREATE TABLE userGroups(

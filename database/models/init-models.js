@@ -26,6 +26,7 @@ function initModels(sequelize) {
   users.belongsToMany(organization, { as: 'organizationid_organization_organizationusers', through: organizationusers, foreignKey: "userid", otherKey: "organizationid" });
   users.belongsToMany(users, { as: 'userid_users_usergroups', through: usergroups, foreignKey: "groupid", otherKey: "userid" });
   users.belongsToMany(users, { as: 'groupid_users', through: usergroups, foreignKey: "userid", otherKey: "groupid" });
+  users.belongsTo(providermethods, { as: "creationusermethod_providermethod", foreignKey: "creationusermethod"});
   organizationprojects.belongsTo(organization, { as: "organization", foreignKey: "organizationid"});
   organization.hasMany(organizationprojects, { as: "organizationprojects", foreignKey: "organizationid"});
   organizationusers.belongsTo(organization, { as: "organization", foreignKey: "organizationid"});
