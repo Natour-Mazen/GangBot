@@ -14,6 +14,16 @@ class UserTokensController {
     }
 
     /**
+     * Retrieve a user token by JWT token.
+     * @param jwtToken - The JWT token.
+     * @returns {Promise<Model|null>} - A promise that resolves to the user token or null if not found.
+     */
+    static async getUserTokenByJwtToken(jwtToken) {
+        const { models } = await getDatabase();
+        return await models.usertokens.findOne({where: {jwttoken: jwtToken}});
+    }
+
+    /**
      * Retrieve a user token by user ID and provider method ID.
      * @param {number} userId - The ID of the user.
      * @param {number} providerMethodId - The ID of the provider method.
