@@ -1,8 +1,11 @@
 const getDatabase = require("../database/config");
 const dotenv = require('dotenv');
 dotenv.config();
+
 const { JWT_SECRET_KEY } = process.env;
 
+const ProviderMethodsController = require("../database/controllers/providerMethodsController");
+const UserTokensController = require("../database/controllers/userTokensController");
 
 class VCSProvider {
 
@@ -53,36 +56,17 @@ class VCSProvider {
     }
 
     async createOrUpdateUserTokenInDB(db_user, newJwtToken) {
-        const { models } = await getDatabase();
-        const providerMethod = await models.providermethods.findOne({
-            where: {
-                providername: this.providerType
-            }
-        });
+        const providerMethod = await ProviderMethodsController.getProviderMethodByName(this.providerType);
 
         if (!providerMethod) {
             throw new Error('VCSProvider method not found');
         }
 
-        const [userToken, tokenCreated] = await models.usertokens.findOrCreate({
-            where: {
-                userid: db_user.id,
-                authenticationmethod: providerMethod.id
-            },
-            defaults: {
-                userid: db_user.id,
-                authenticationmethod: providerMethod.id,
-                jwttoken: newJwtToken
-            }
-        });
+        const [userToken, tokenCreated]  = await UserTokensController.findOrCreateUserToken(db_user.id, providerMethod.id, newJwtToken);
 
         if (!tokenCreated && userToken.jwttoken !== newJwtToken) {
-            await userToken.update({
-                jwttoken: newJwtToken
-            });
+            await UserTokensController.updateUserToken(userToken, newJwtToken);
         }
-
-        return userToken;
     }
 
 }

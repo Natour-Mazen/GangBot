@@ -1,8 +1,8 @@
 const getDatabase = require("../database/config");
 const dotenv = require('dotenv');
-const ProviderTypes = require("./Types");
+const ProviderTypes = require("./providerTypes");
 const {sign} = require("jsonwebtoken");
-const UserController = require("../database/controllers/userController");
+const UserController = require("../database/controllers/usersController");
 dotenv.config();
 
 class ManualProvider {
@@ -13,7 +13,7 @@ class ManualProvider {
     }
 
     async createAndLoginUser(username, password, email) {
-        const db_user = UserController.createUser(username, password, email);
+        const db_user = UserController.createManualUser(username, password, email);
         const token = this.generateJwtToken(db_user);
         await this.createOrUpdateUserTokenInDB(db_user, token);
         return token;
@@ -25,6 +25,7 @@ class ManualProvider {
         const payload = {
             id: user.id,
             username: user.username,
+            vcsProvider: this.providerType,
             exp: Math.floor(expirationDate.getTime() / 1000)
         };
         return sign(payload, this.JWT_SECRET_KEY);

@@ -1,10 +1,10 @@
 const axios = require('axios');
-
-
-const getDatabase = require("../../database/config");
-const ProviderType = require("../Types");
+const ProviderType = require("../providerTypes");
 const {sign} = require("jsonwebtoken");
 const VCSProvider = require("../vcsProvider");
+const ProviderMethodsController  = require("../../database/controllers/providerMethodsController");
+const UserGroupsController = require("../../database/controllers/userGroupsController");
+const UsersController = require("../../database/controllers/usersController");
 
 const { GITHUB_CLIENT_ID, GITHUB_CLIENT_SECRET } = process.env;
 
@@ -54,24 +54,12 @@ class GithubProvider extends VCSProvider {
     }
 
     async createOrUpdateUserInDB(providerUser, providerUserEmail) {
-        const { models } = await getDatabase();
+        const providerMethod = await ProviderMethodsController.getProviderMethodByName(this.providerType);
 
-        let [db_user, created] = await models.users.findOrCreate({
-            where: {
-                username: providerUser.login
-            },
-            defaults: {
-                username: providerUser.login,
-                password: '',
-                email: providerUserEmail
-            }
-        });
+        let [db_user, created] = await UsersController.createVCSUser(providerUser.login, providerUserEmail, providerMethod.id);
 
         if (created) {
-            await models.usergroups.create({
-                userid: db_user.id,
-                groupid: 1
-            });
+            await UserGroupsController.addUserToDefaultGroup(db_user.id);
         }
 
         return db_user;
