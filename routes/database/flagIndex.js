@@ -5,8 +5,8 @@ const projectController = require("../../database/controllers/projectController"
 
 router.put('/projects/:id',  async (req, res) => {
     const {id} = req.params;
-    const {flag_file, filetype} = req.body;
-    const { isFlagFile, flags} = flagsValidatorController.isValidFlagFile(flag_file, filetype);
+    const {flagFile, fileType} = req.body;
+    const { isFlagFile, flags} = flagsValidatorController.isValidFlagFile(flagFile, fileType);
 
     if(!isFlagFile){
         return res.status(400).json({
