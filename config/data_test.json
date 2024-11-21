@@ -34,7 +34,7 @@
       "projectname": "Project Two",
       "name": "project_two",
       "environment": "production",
-      "apikey": "api_key_2",
+      "apikey": "your_api_key",
       "apikeyexpirationdate": "2024-12-24T23:59:59Z",
       "flags": {
         "my-flag": {
@@ -63,6 +63,21 @@
           "defaultRule": {
             "variation": "Variation_5"
           }
+        },
+        "object-flag": {
+          "variations": {
+            "Variation_1": {
+              "name": "john doe",
+              "birth_date": "1 jan. 1970"
+            },
+            "Variation_2": {
+              "name": "jane doe",
+              "birth_date": "2 jan. 1970"
+            }
+          },
+          "defaultRule": {
+            "variation": "Variation_1"
+          }
         }
       }
     }
@@ -86,4 +101,3 @@
     }
   ]
 }
-

@@ -58,7 +58,6 @@ class ManualProvider {
         }
     }
 
-
 }
 
 module.exports = ManualProvider;

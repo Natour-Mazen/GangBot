@@ -21,9 +21,7 @@ async function loadTestData() {
 
 
     for (const groupData of data.accessGroups) {
-
-            await AccessGroupController.createGroup(groupData.groupname);
-
+        await AccessGroupController.createGroup(groupData.groupname);
     }
 
     for (const providerData of data.providermethods) {
