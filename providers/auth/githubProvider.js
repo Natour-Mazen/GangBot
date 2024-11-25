@@ -56,7 +56,7 @@ class GithubProvider extends VCSProvider {
     async createOrUpdateUserInDB(providerUser, providerUserEmail) {
         const providerMethod = await ProviderMethodsController.getProviderMethodByName(this.providerType);
 
-        let [db_user, created] = await UsersController.createVCSUser(providerUser.login, providerUserEmail, providerMethod.id);
+        let [db_user, created] = await UsersController.findOrCreateVCSUser(providerUser.login, providerUserEmail, providerMethod.id);
 
         if (created) {
             await UserGroupsController.addUserToDefaultGroup(db_user.id);
