@@ -14,14 +14,6 @@ class ManualProvider {
         this.providerType = ProviderTypes.SERLI;
     }
 
-    async createAndLoginUser(username, password, email) {
-        const db_user = UserController.createManualUser(username, password, email);
-        const token = this.generateJwtToken(db_user);
-        await this.createOrUpdateUserTokenInDB(db_user, token);
-        return token;
-
-    }
-
     generateJwtToken(user) {
         const expirationDate = new Date(Date.now() + (24 * 60 * 60 * 1000)); // 24 hours
         const payload = {
@@ -43,16 +35,32 @@ class ManualProvider {
             throw new Error('Provider method not found');
         }
 
-        const [userToken, tokenCreated]  = await UserTokensController.findOrCreateUserToken(db_user.id, providerMethod.id, newJwtToken);
+        const [userToken, tokenCreated]  = await UserTokensController.findOrCreateUserToken(user.id, providerMethod.id, newJwtToken);
 
         if (!tokenCreated && userToken.jwttoken !== newJwtToken) {
             await UserTokensController.updateUserToken(userToken, newJwtToken);
         }
     }
 
-    async handleAuth(username, password, email) {
+    async handleCreateAuth(email, password, username) {
         try {
-            return await this.createAndLoginUser(username, password, email);
+            const providerMethod = await ProviderMethodsController.getProviderMethodByName(this.providerType);
+            const db_user = await UserController.createManualUser(email, password, username, providerMethod.id);
+            const token = this.generateJwtToken(db_user);
+            await this.createOrUpdateUserTokenInDB(db_user, token);
+            return token;
+        } catch (err) {
+            throw err;
+        }
+    }
+
+    async handleLoginAuth(email, password) {
+        try {
+            const providerMethod = await ProviderMethodsController.getProviderMethodByName(this.providerType);
+            const db_user = await UserController.findManualUser(email, password, providerMethod.id);
+            const token = this.generateJwtToken(db_user);
+            await this.createOrUpdateUserTokenInDB(db_user, token);
+            return token;
         } catch (err) {
             throw err;
         }
