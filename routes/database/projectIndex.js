@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const projectController = require("../../database/controllers/projectController");
+const ProviderMethodsController = require("../../database/controllers/providerMethodsController");
 
 router.get('/', async (req, res) => {
     const projects = await projectController.getProjectsByUserId(req.connectedUser.id);
@@ -10,17 +11,20 @@ router.get('/', async (req, res) => {
         })
     }
 
-    //filter the project object to remove the userid
+    //filter the project object to remove some fields
     for(const project of projects){
         delete project.dataValues.userid
+        delete project.dataValues.importmethodid
     }
 
     res.json(projects);
 })
 
 router.post('/', async (req, res) => {
-    const {name, environment, importMethodID} = req.body;
-    const [project, created, error_message] = await projectController.createProject(req.connectedUser.id, name, name, environment, importMethodID); // we use the repoName as default projectName
+    const {name, environment} = req.body;
+    const providerMethod = await ProviderMethodsController.getProviderMethodByName(req.connectedUser.vcsProvider);
+
+    const [_, created, error_message] = await projectController.createProject(req.connectedUser.id, name, name, environment, providerMethod.id); // we use the repoName as default projectName
 
     if(!created){
         return res.status(400).json({
@@ -28,12 +32,9 @@ router.post('/', async (req, res) => {
         })
     }
 
-    //filter the project object to remove the userid
-    delete project.dataValues.userid;
-
     return res.json({
-        project : project
-    })
+        message : "Project created successfully",
+    });
 });
 
 router.get('/:id', async (req, res) => {
@@ -45,8 +46,9 @@ router.get('/:id', async (req, res) => {
         })
     }
 
-    //filter the project object to remove the userid
+    //filter the project object to remove some fields
     delete project.dataValues.userid;
+    delete project.dataValues.importmethodid;
 
     return res.json({
         project : project
