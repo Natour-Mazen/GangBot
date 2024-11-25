@@ -3,9 +3,10 @@ module.exports = function(sequelize, DataTypes) {
   return sequelize.define('users', {
     id: {
       autoIncrement: true,
-      type: DataTypes.INTEGER,
+      type: DataTypes.UUID,
       allowNull: false,
-      primaryKey: true
+      primaryKey: true,
+      defaultValue: Sequelize.UUIDV4
     },
     username: {
       type: DataTypes.STRING(40),
@@ -38,6 +39,14 @@ module.exports = function(sequelize, DataTypes) {
         unique: true,
         fields: [
           { name: "id" },
+        ]
+      },
+      {
+        name: "unique_emailCreationUserMethod",
+        unique: true,
+        fields: [
+          { name: "email" },
+          { name: "creationusermethod" },
         ]
       },
     ]

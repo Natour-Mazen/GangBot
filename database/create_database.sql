@@ -16,19 +16,21 @@ CREATE TABLE providerMethods(
 );
 
 CREATE TABLE users(
-    id SERIAL PRIMARY KEY,
+    id UUID PRIMARY KEY,
     username VARCHAR(40) NOT NULL,
     password VARCHAR(255) NOT NULL,
     email VARCHAR(100) NOT NULL,
     creationUserMethod INT NOT NULL,
     CONSTRAINT fk_creationUserMethod
         FOREIGN KEY(creationUserMethod)
-            REFERENCES providerMethods(id)
+            REFERENCES providerMethods(id),
+    CONSTRAINT unique_emailCreationUserMethod
+        UNIQUE (email, creationUserMethod)
 );
 
 CREATE TABLE userTokens(
     id SERIAL PRIMARY KEY,
-    userId SERIAL NOT NULL,
+    userId UUID NOT NULL,
     authenticationMethod INT NOT NULL,
     jwtToken VARCHAR(1000) NOT NULL,
     CONSTRAINT fk_user
@@ -41,7 +43,7 @@ CREATE TABLE userTokens(
 
 CREATE TABLE projects(
     id UUID PRIMARY KEY,
-    userId SERIAL NOT NULL,
+    userId UUID NOT NULL,
     importMethodID INT NOT NULL,
     projectName VARCHAR(200),
     name VARCHAR(200) NOT NULL,
@@ -67,7 +69,7 @@ CREATE TABLE accessGroup(
 );
 
 CREATE TABLE userGroups(
-    userId SERIAL,
+    userId UUID,
     groupId SERIAL,
     PRIMARY KEY (userId, groupId),
     CONSTRAINT fk_user
@@ -85,7 +87,7 @@ CREATE TABLE organization(
 
 CREATE TABLE organizationUsers(
     organizationId UUID,
-    userId SERIAL,
+    userId UUID,
     PRIMARY KEY (organizationId, userId),
     CONSTRAINT fk_organization
         FOREIGN KEY(organizationId)

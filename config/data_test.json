@@ -1,14 +1,14 @@
 {
   "users": [
     {
-      "id": 4,
+      "id": "cd862e12-8d31-4c54-a640-ffb6bc10ebbf",
       "username": "user1",
       "password": "password1",
       "email": "user1@example.com",
       "creationusermethod": 10
     },
     {
-      "id": 5,
+      "id": "a94815f9-1c3a-429e-9fa5-7de3e1af5e05",
       "username": "user2",
       "password": "password2",
       "email": "user2@example.com",
@@ -18,7 +18,7 @@
   "projects": [
     {
       "id": "66a659d9-7fd0-48ad-b218-ae24a7dd8920",
-      "userid": 4,
+      "userid": "cd862e12-8d31-4c54-a640-ffb6bc10ebbf",
       "importmethodid": 20,
       "projectname": "Project One",
       "name": "project_one",
@@ -29,7 +29,7 @@
     },
     {
       "id": "e54f6330-d87b-4d7b-84a6-5b855ba19498",
-      "userid": 5,
+      "userid": "a94815f9-1c3a-429e-9fa5-7de3e1af5e05",
       "importmethodid": 10,
       "projectname": "Project Two",
       "name": "project_two",
