@@ -9,10 +9,7 @@ router.delete('/', async (req, res) => {
     const userID = req.connectedUser.id;
     const actualProviderDBObject = await ProviderMethodsController.getProviderMethodByName(actualProvider);
     await UserTokensController.deleteUserToken(userID, actualProviderDBObject.id);
-
-    res.clearCookie('ff_access_token', {path: '/', sameSite: 'None', secure: true});
-    res.json({message: 'Logged out successfully'});
-
+    
     unSetAuthCookieAndRedirectHandler(res);
 });
 
