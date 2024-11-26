@@ -9,7 +9,7 @@ router.delete('/', async (req, res) => {
     const userID = req.connectedUser.id;
     const actualProviderDBObject = await ProviderMethodsController.getProviderMethodByName(actualProvider);
     await UserTokensController.deleteUserToken(userID, actualProviderDBObject.id);
-    
+
     unSetAuthCookieAndRedirectHandler(res);
 });
 
