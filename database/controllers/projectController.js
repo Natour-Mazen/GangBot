@@ -123,9 +123,25 @@ class ProjectController {
     /**
         * Get all projects for a specific user id in the database. null if none found.
      **/
-    static async getProjectsByUserId(userId) {
+    static async getProjectsByUserId(userId, limit, offset) {
         const { models } = await getDatabase();
         return await models.projects.findAll({
+            where: {
+                userid: userId,
+            },
+            limit: limit,
+            offset: offset
+        });
+    }
+
+    /**
+     * Count the number of projects for a specific user id in the database.
+     * @param userId - The user id
+     * @returns {Promise<*>} - The number of projects
+     */
+    static async countProjectsByUserId(userId) {
+        const { models } = await getDatabase();
+        return await models.projects.count({
             where: {
                 userid: userId,
             }

@@ -4,21 +4,32 @@ const projectController = require("../../database/controllers/projectController"
 const ProviderMethodsController = require("../../database/controllers/providerMethodsController");
 
 router.get('/', async (req, res) => {
-    const projects = await projectController.getProjectsByUserId(req.connectedUser.id);
-    if(!projects){
+    const { page = 1, limit = 10 } = req.query;
+    const offset = (page - 1) * limit;
+    const userID = req.connectedUser.id;
+
+    const projects = await projectController.getProjectsByUserId(userID, limit, offset);
+    const totalProjects = await projectController.countProjectsByUserId(userID);
+    const totalPages = Math.ceil(totalProjects / limit);
+
+    if (!projects) {
         return res.status(400).json({
             error: "An error occurred while getting the projects"
-        })
+        });
     }
 
-    //filter the project object to remove some fields
-    for(const project of projects){
-        delete project.dataValues.userid
-        delete project.dataValues.importmethodid
+    // Filter the project object to remove some fields
+    for (const project of projects) {
+        delete project.dataValues.userid;
+        delete project.dataValues.importmethodid;
     }
 
-    res.json(projects);
-})
+    res.json({
+        projects,
+        currentPage: page,
+        totalPages
+    });
+});
 
 router.post('/', async (req, res) => {
     const {name, environment} = req.body;
@@ -55,7 +66,7 @@ router.get('/:id', async (req, res) => {
     })
 });
 
-router.put('/:id/projectname/:newName', async (req, res) => {
+router.put('/:id/projectName/:newName', async (req, res) => {
     const {id, newName} = req.params;
     const projectUpdated = await projectController.updateProjectName(id, newName)
     if(!projectUpdated){
