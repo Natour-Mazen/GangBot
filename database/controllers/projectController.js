@@ -12,7 +12,7 @@ class ProjectController {
 
     /**
      * Try to create a new project in the database.
-     * Retry 3 times if the generated API key is not unique or if the user can't be created.
+     * Retry 3 times if the generated API key is not unique or if the project can't be created.
      * return the project and a boolean indicating if it was created
      * */
     static async createProject(userId, projectName, name, environment, importMethodID) {
@@ -36,7 +36,7 @@ class ProjectController {
                 });
                 created = true;
             }catch(e){
-                console.log("Error creating user: ,", e);
+                console.log("Error creating project: ,", e);
                 console.log("Regenerating API Key");
                 if(e.parent.code === '23505'){ // unique constraint violation
                     error_message = "A project pointing on the same repository and branch already exists";
