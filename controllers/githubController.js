@@ -8,11 +8,11 @@ const {GITHUB_CLIENT_ID, GITHUB_CLIENT_SECRET} = process.env;
 
 class GithubController {
 
-    static async getRepos(connectedUser) {
+    static async getRepos(connectedProvider) {
         try {
             const response = await axios.get(`https://api.github.com/user/repos`, {
                 headers: {
-                    'Authorization': `Bearer ${connectedUser.vcsToken}`
+                    'Authorization': `Bearer ${connectedProvider.token}`
                 },
                 params: {
                     visibility: 'all',
@@ -24,11 +24,11 @@ class GithubController {
         }
     }
 
-    static async getRepoContent(connectedUser, repoName, branch) {
+    static async getRepoContent(connectedProvider, repoName, branch) {
         try {
-            const response = await axios.get(`https://api.github.com/repos/${connectedUser.vcsName}/${repoName}/contents`, {
+            const response = await axios.get(`https://api.github.com/repos/${connectedProvider.username}/${repoName}/contents`, {
                 headers: {
-                    Authorization: `Bearer ${connectedUser.vcsToken}`,
+                    Authorization: `Bearer ${connectedProvider.token}`,
                 },
                 params: {
                     ref: branch || 'main' // Utilise la branche spécifiée ou 'main' par défaut
@@ -40,11 +40,11 @@ class GithubController {
         }
     }
 
-    static async getBranches(connectedUser, repoName) {
+    static async getBranches(connectedProvider, repoName) {
         try {
-            const response = await axios.get(`https://api.github.com/repos/${connectedUser.vcsName}/${repoName}/branches`, {
+            const response = await axios.get(`https://api.github.com/repos/${connectedProvider.username}/${repoName}/branches`, {
                 headers: {
-                    'Authorization': `Bearer ${connectedUser.vcsToken}`
+                    'Authorization': `Bearer ${connectedProvider.token}`
                 }
             });
             return {branches: response.data, response_code: response.status, message: ""};
@@ -53,7 +53,7 @@ class GithubController {
         }
     }
 
-    static async getFlagFile(connectedUser, repoName, branch) {
+    static async getFlagFile(connectedProvider, repoName, branch) {
 
         if (!repoName) {
             return {FlagFile: {}, response_code: 400, message: 'Missing repository name'};
@@ -67,9 +67,9 @@ class GithubController {
             for(const ext of file_extension){
                 try{
                     const full_filename = file_name + '.' + ext;
-                    response = await axios.get(`https://api.github.com/repos/${connectedUser.vcsName}/${repoName}/contents/${full_filename}`, {
+                    response = await axios.get(`https://api.github.com/repos/${connectedProvider.username}/${repoName}/contents/${full_filename}`, {
                         headers: {
-                            Authorization: `Bearer ${connectedUser.vcsToken}`,
+                            Authorization: `Bearer ${connectedProvider.token}`,
                             Accept: 'application/vnd.github+json'
                         },
                         params: {
@@ -92,11 +92,11 @@ class GithubController {
         }
     }
 
-    static async getUserProfileInfos(connectedUser){
+    static async getUserProfileInfos(connectedProvider){
         try {
             const userResponse = await axios.get('https://api.github.com/user', {
                 headers: {
-                    Authorization: `Bearer ${connectedUser.vcsToken}`
+                    Authorization: `Bearer ${connectedProvider.token}`
                 }
             });
             return {userData: userResponse.data, response_code: userResponse.status, message: ""};
