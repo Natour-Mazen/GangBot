@@ -6,6 +6,7 @@ const ProviderMethodsController  = require("../../database/controllers/providerM
 const UserGroupsController = require("../../database/controllers/userGroupsController");
 const UsersController = require("../../database/controllers/usersController");
 
+
 const { GITHUB_CLIENT_ID, GITHUB_CLIENT_SECRET } = process.env;
 
 class GithubProvider extends VCSProvider {
@@ -14,9 +15,13 @@ class GithubProvider extends VCSProvider {
         super(ProviderType.GITHUB);
     }
 
-    getAuthUrl() {
+    getAuthUrl(redirect_uri = "") {
         const scope = 'repo user:email';
-        return `https://github.com/login/oauth/authorize?client_id=${GITHUB_CLIENT_ID}&scope=${scope}`;
+        if(redirect_uri === "") {
+            return `https://github.com/login/oauth/authorize?client_id=${GITHUB_CLIENT_ID}&scope=${scope}`;
+        }else {
+            return `https://github.com/login/oauth/authorize?client_id=${GITHUB_CLIENT_ID}&scope=${scope}&redirect_uri=${redirect_uri}`;
+        }
     }
 
     async exchangeCodeForAccessToken(code) {

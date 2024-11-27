@@ -1,4 +1,3 @@
-const getDatabase = require("../database/config");
 const dotenv = require('dotenv');
 dotenv.config();
 
@@ -17,7 +16,7 @@ class VCSProvider {
         this.providerType = provType;
     }
 
-    getAuthUrl() {
+    getAuthUrl(redirect_uri) {
         throw new Error("getAuthUrl Must override method");
     }
 
