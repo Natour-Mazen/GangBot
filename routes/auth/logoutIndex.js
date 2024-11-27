@@ -3,6 +3,7 @@ const router = express.Router();
 const ProviderMethodsController = require("../../database/controllers/providerMethodsController");
 const UserTokensController = require("../../database/controllers/userTokensController");
 const {unSetAuthCookieAndRedirectHandler} = require("../../handlers/authCookieAndRedirectHandler");
+const {unSetProviderCookieHandler} = require("../../handlers/providerCookieHandler");
 
 router.delete('/', async (req, res) => {
     const actualProvider = req.connectedUser.vcsProvider;
@@ -10,6 +11,7 @@ router.delete('/', async (req, res) => {
     const actualProviderDBObject = await ProviderMethodsController.getProviderMethodByName(actualProvider);
     await UserTokensController.deleteUserToken(userID, actualProviderDBObject.id);
 
+    unSetProviderCookieHandler(res);
     unSetAuthCookieAndRedirectHandler(res);
 });
 
