@@ -32,10 +32,9 @@ router.get('/', async (req, res) => {
 });
 
 router.post('/', async (req, res) => {
-    const {name, environment} = req.body;
-    const providerMethod = await ProviderMethodsController.getProviderMethodByName(req.connectedUser.vcsProvider);
+    const {name, environment, importMethodeID} = req.body;
 
-    const [_, created, error_message] = await projectController.createProject(req.connectedUser.id, name, name, environment, providerMethod.id); // we use the repoName as default projectName
+    const [_, created, error_message] = await projectController.createProject(req.connectedUser.id, name, name, environment, importMethodeID); // we use the repoName as default projectName
 
     if(!created){
         return res.status(400).json({
