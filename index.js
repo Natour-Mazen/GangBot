@@ -10,7 +10,7 @@ const app = express();
 
 const authRouter = require('./routes/auth/loginIndex');
 const logoutRouter = require('./routes/auth/logoutIndex');
-const githubRouter = require('./routes/github');
+const vcsRouter = require('./routes/vcs/vcsIndex');
 const databaseRouter = require('./routes/database');
 const apiClientRouter = require('./routes/api/index');
 
@@ -33,7 +33,7 @@ app.use(jwtMiddleware());
 
 app.use('/logout', logoutRouter);
 
-app.use('/github', githubRouter);
+app.use('/vcs', vcsRouter);
 
 // app.use("/database", databaseRouter);
 app.use("/database", validateGroupMiddleware(['USER']), databaseRouter);
