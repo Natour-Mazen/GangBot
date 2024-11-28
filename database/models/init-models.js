@@ -30,6 +30,8 @@ function initModels(sequelize) {
   organizationprojects.belongsTo(organization, { as: "organization", foreignKey: "organizationid"});
   organization.hasMany(organizationprojects, { as: "organizationprojects", foreignKey: "organizationid"});
   organizationusers.belongsTo(organization, { as: "organization", foreignKey: "organizationid"});
+  organization.belongsTo(users, { as: "user", foreignKey: "creatorid"});
+  users.hasMany(organization, { as: "organization", foreignKey: "creatorid"});
   organization.hasMany(organizationusers, { as: "organizationusers", foreignKey: "organizationid"});
   organizationprojects.belongsTo(projects, { as: "project", foreignKey: "projectid"});
   projects.hasMany(organizationprojects, { as: "organizationprojects", foreignKey: "projectid"});
