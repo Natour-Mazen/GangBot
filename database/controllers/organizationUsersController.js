@@ -28,11 +28,25 @@ class OrganizationUsersController {
     /**
      * Retrieve all organizations associated with a user.
      * @param {number} userId - The ID of the user.
+     * @param limit - The maximum number of organizations to retrieve.
+     * @param offset - The number of organizations to skip
      * @returns {Promise<Array>} - A promise that resolves to an array of organization user objects.
      */
-    static async getOrganizationsByUserId(userId) {
+    static async getOrganizationsByUserId(userId, limit, offset) {
         const {models} = await getDatabase();
         return await models.organizationusers.findAll({
+            where: {
+                userId
+            },
+            limit,
+            offset
+        });
+    }
+
+
+    static async countOrganizationsByUserId(userId) {
+        const {models} = await getDatabase();
+        return await models.organizationusers.count({
             where: {
                 userId
             }
