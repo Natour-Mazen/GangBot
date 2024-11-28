@@ -35,7 +35,7 @@ const getProviderMethod = async (providerName) => {
     };
 };
 
-const validateProviderTokenMiddleware = (verifiedType) => async (req, res, next) => {
+const validateProviderToken = (verifiedType) => async (req, res, next) => {
     const vcsProviderConnectedUser = req.connectedUser.vcsProvider;
 
     if (!vcsProviderConnectedUser) {
@@ -71,4 +71,4 @@ const validateProviderTokenMiddleware = (verifiedType) => async (req, res, next)
     }
 };
 
-module.exports = validateProviderTokenMiddleware;
+module.exports = validateProviderToken;

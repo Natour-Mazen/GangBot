@@ -1,26 +1,26 @@
 const express = require('express');
 const router = express.Router();
-const GithubController = require('../../../controllers/githubController');
-const handleResponse = require("../../../handlers/responseHandler");
-const validateProviderTokenMiddleware = require("../../../middlewares/validateProviderTokenMiddleware")
+const github = require('../../../api/github');
+const handleResponse = require("../../../handlers/response");
+const validateProviderTokenMiddleware = require("../../../middlewares/validateProviderToken")
 const ProviderTypes = require("../../../providers/providerTypes");
 
 router.use(validateProviderTokenMiddleware(ProviderTypes.GITHUB))
 
 router.get('/user', async (req, res) => {
-    const {userData, response_code, message} = await Github.getUserProfileInfos(req.connectedProvider);
+    const {userData, response_code, message} = await github.getUserProfileInfos(req.connectedProvider);
     handleResponse(res, userData, response_code, message);
 })
 
 
 router.get('/repos',  async (req, res) => {
-    const {repos, response_code, message} = await Github.getRepos(req.connectedProvider);
+    const {repos, response_code, message} = await github.getRepos(req.connectedProvider);
     handleResponse(res, repos, response_code, message);
 })
 
 router.get('/branches',async (req, res) => {
     const repoName = req.query.repoName;
-    const {branches, response_code, message} = await Github.getBranches(req.connectedProvider, repoName);
+    const {branches, response_code, message} = await github.getBranches(req.connectedProvider, repoName);
     handleResponse(res, branches, response_code, message);
 })
 
@@ -29,7 +29,7 @@ router.get("/flag-file", async (req, res) => {
     const connectedProvider = req.connectedProvider;
     let flagFiles = [];
     if(all_branch === "true"){
-        const {branches, response_code, message} = await Github.getBranches(connectedProvider, repoName);
+        const {branches, response_code, message} = await github.getBranches(connectedProvider, repoName);
         if(response_code >= 400){
             return handleResponse(res, [], response_code, message);
         }
@@ -38,7 +38,7 @@ router.get("/flag-file", async (req, res) => {
                 flagFile,
                 response_code,
                 message
-            } = await Github.getFlagFile(connectedProvider, repoName, branch.name);
+            } = await github.getFlagFile(connectedProvider, repoName, branch.name);
             if(response_code >= 400){
                 flagFiles.push({error: "could not get flag file for branch " + branch.name});
                 continue;
@@ -47,7 +47,7 @@ router.get("/flag-file", async (req, res) => {
             flagFiles.push(flagFile);
         }
     }else {
-        const {flagFile, response_code, message} = await Github.getFlagFile(connectedProvider, repoName, branch);
+        const {flagFile, response_code, message} = await github.getFlagFile(connectedProvider, repoName, branch);
         if(response_code >= 400){
             return handleResponse(res, [], response_code, message);
         }
