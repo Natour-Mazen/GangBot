@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const projectController = require("../../../database/controllers/projectController");
-const ProviderMethodsController = require("../../../database/controllers/providerMethodsController");
+const flagsRouter = require('./flags');
 
 router.get('/', async (req, res) => {
     const { page = 1, limit = 10 } = req.query;
@@ -31,22 +31,6 @@ router.get('/', async (req, res) => {
     });
 });
 
-router.post('/', async (req, res) => {
-    const {name, environment, importMethodeID} = req.body;
-
-    const [_, created, error_message] = await projectController.createProject(req.connectedUser.id, name, name, environment, importMethodeID); // we use the repoName as default projectName
-
-    if(!created){
-        return res.status(400).json({
-            error: error_message !== "" ? error_message : "An error occurred while creating the project"
-        })
-    }
-
-    return res.json({
-        message : "Project created successfully",
-    });
-});
-
 router.get('/:id', async (req, res) => {
     const {id} = req.params;
     const project = await projectController.getProjectById(id)
@@ -63,6 +47,22 @@ router.get('/:id', async (req, res) => {
     return res.json({
         project : project
     })
+});
+
+router.post('/', async (req, res) => {
+    const {name, environment, importMethodeID} = req.body;
+
+    const [_, created, error_message] = await projectController.createProject(req.connectedUser.id, name, name, environment, importMethodeID); // we use the repoName as default projectName
+
+    if(!created){
+        return res.status(400).json({
+            error: error_message !== "" ? error_message : "An error occurred while creating the project"
+        })
+    }
+
+    return res.json({
+        message : "Project created successfully",
+    });
 });
 
 router.put('/:id/projectName/:newName', async (req, res) => {
@@ -94,5 +94,7 @@ router.delete('/:id', async (req, res) => {
         message: "Project deleted successfully"
     });
 });
+
+router.use('/flags', flagsRouter);
 
 module.exports = router;

@@ -1,10 +1,10 @@
 const express = require('express');
 const router = express.Router();
-const flagsValidator = require("../../../utils/flagsValidator");
-const projectController = require("../../../database/controllers/projectController");
+const flagsValidator = require("../../../../utils/flagsValidator");
+const projectController = require("../../../../database/controllers/projectController");
 
-router.put('/projects/:id',  async (req, res) => {
-    const {id} = req.params;
+router.put('/:projectID',  async (req, res) => {
+    const {projectID} = req.params;
     const {flagFile, fileType} = req.body;
     const { isFlagFile, flags} = flagsValidator.isValidFlagFile(flagFile, fileType);
 
@@ -14,7 +14,7 @@ router.put('/projects/:id',  async (req, res) => {
         });
     }
 
-    const projectUpdated = await projectController.updateProjectFlags(id, flags)
+    const projectUpdated = await projectController.updateProjectFlags(projectID, flags)
     if(!projectUpdated){
         return res.status(400).json({
             error: "An error occurred while updating the project flags"
@@ -27,9 +27,9 @@ router.put('/projects/:id',  async (req, res) => {
 
 })
 
-router.get('/projects/:id', async (req, res) => {
-    const {id} = req.params;
-    const project = await projectController.getProjectById(id);
+router.get('/:projectID', async (req, res) => {
+    const {projectID} = req.params;
+    const project = await projectController.getProjectById(projectID);
     if(!project){
         return res.status(400).json({
             error: "An error occurred while getting the project"
