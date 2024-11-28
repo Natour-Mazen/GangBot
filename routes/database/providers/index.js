@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const ProviderMethodsController = require("../../database/controllers/providerMethodsController");
+const ProviderMethodsController = require("../../../database/controllers/providerMethodsController");
 
 
 router.get('/', async (req, res) => {

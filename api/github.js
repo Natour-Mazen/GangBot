@@ -3,10 +3,7 @@ const dotenv = require('dotenv');
 
 dotenv.config();
 
-// Retrieve environment variables
-const {GITHUB_CLIENT_ID, GITHUB_CLIENT_SECRET} = process.env;
-
-class GithubController {
+class Github {
 
     static async getRepos(connectedProvider) {
         try {
@@ -107,4 +104,4 @@ class GithubController {
 
 }
 
-module.exports = GithubController;
+module.exports = Github;

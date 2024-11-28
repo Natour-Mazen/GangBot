@@ -1,12 +1,12 @@
 const express = require('express');
 const router = express.Router();
-const flagsValidatorController = require("../../controllers/flagsValidatorController");
-const projectController = require("../../database/controllers/projectController");
+const flagsValidator = require("../../../utils/flagsValidator");
+const projectController = require("../../../database/controllers/projectController");
 
 router.put('/projects/:id',  async (req, res) => {
     const {id} = req.params;
     const {flagFile, fileType} = req.body;
-    const { isFlagFile, flags} = flagsValidatorController.isValidFlagFile(flagFile, fileType);
+    const { isFlagFile, flags} = flagsValidator.isValidFlagFile(flagFile, fileType);
 
     if(!isFlagFile){
         return res.status(400).json({

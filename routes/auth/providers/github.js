@@ -1,9 +1,9 @@
 const express = require('express');
 const router = express.Router();
-const GithubProvider = require('../../../providers/auth/githubProvider');
-const {setAuthCookieAndRedirectHandler} = require("../../../handlers/authCookieAndRedirectHandler");
+const GithubProvider = require('../../../providers/auth/github');
+const {setAuthCookieAndRedirectHandler} = require("../../../handlers/authCookieAndRedirect");
 const dotenv = require('dotenv');
-const {setProviderCookieHandler} = require("../../../handlers/providerCookieHandler");
+const {setProviderCookieHandler} = require("../../../handlers/providerCookie");
 const ProviderTypes = require("../../../providers/providerTypes");
 dotenv.config();
 const { SERVER_HOST_URL } = process.env;

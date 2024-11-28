@@ -25,7 +25,7 @@ const getUserGroups = async (userId) => {
 };
 
 
-const validateJWTMiddleware = () => async (req, res, next) => {
+const validateJWT = () => async (req, res, next) => {
     const accessToken = req.cookies.ff_access_token;
 
     if (!accessToken) {
@@ -66,4 +66,4 @@ const validateJWTMiddleware = () => async (req, res, next) => {
     });
 };
 
-module.exports = validateJWTMiddleware;
+module.exports = validateJWT;

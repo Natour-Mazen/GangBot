@@ -1,7 +1,7 @@
 const yaml = require('js-yaml');
 
 // Controller for the flags validator
-class FlagsValidatorController {
+class FlagsValidator {
 
     static #parseFileContent(fileContent, fileType) {
         switch (fileType) {
@@ -19,7 +19,7 @@ class FlagsValidatorController {
         let flags;
 
         try {
-            flags = FlagsValidatorController.#parseFileContent(fileContent, fileType);
+            flags = FlagsValidator.#parseFileContent(fileContent, fileType);
         } catch (error) {
             return { isFlagFile: false, flags: null };
         }
@@ -37,4 +37,4 @@ class FlagsValidatorController {
 
 }
 
-module.exports = FlagsValidatorController;
+module.exports = FlagsValidator;

@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
-const GithubRouter = require('./providers/githubIndex');
-const ManualRouter = require('./providers/manualIndex');
+const GithubRouter = require('./providers/github');
+const ManualRouter = require('./providers/manual');
 
 router.use('/github', GithubRouter);
 router.use('/manual', ManualRouter);

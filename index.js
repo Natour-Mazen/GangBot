@@ -10,13 +10,13 @@ const app = express();
 
 const authRouter = require('./routes/auth/loginIndex');
 const logoutRouter = require('./routes/auth/logoutIndex');
-const vcsRouter = require('./routes/vcs/vcsIndex');
+const vcsRouter = require('./routes/vcs');
 const databaseRouter = require('./routes/database');
 const apiClientRouter = require('./routes/api/index');
 
 
-const jwtMiddleware = require("./middlewares/validateJWTMiddleware");
-const validateGroupMiddleware = require("./middlewares/validateGroupMiddleware");
+const jwtMiddleware = require("./middlewares/validateJWT");
+const validateGroupMiddleware = require("./middlewares/validateGroup");
 
 app.use(logger('dev'));
 app.use(express.json());

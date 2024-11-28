@@ -1,6 +1,6 @@
 const express = require('express');
-const ManualProvider = require("../../../providers/manualProvider");
-const {setAuthCookieAndRedirectHandler} = require("../../../handlers/authCookieAndRedirectHandler");
+const ManualProvider = require("../../../providers/manual");
+const {setAuthCookieAndRedirectHandler} = require("../../../handlers/authCookieAndRedirect");
 const router = express.Router();
 
 

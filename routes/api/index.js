@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const apiKeyMiddleware = require('../../middlewares/validateApiKeyMiddleware');
+const apiKeyMiddleware = require('../../middlewares/validateApiKey');
 
 router.use(apiKeyMiddleware());
 

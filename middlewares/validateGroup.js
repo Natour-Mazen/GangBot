@@ -1,5 +1,5 @@
 
-const validateGroupMiddleware = (authorizedGroup) => (req, res, next) => {
+const validateGroup = (authorizedGroup) => (req, res, next) => {
   const user = req.connectedUser;
   const userGroups = user.groups;
 
@@ -16,4 +16,4 @@ const validateGroupMiddleware = (authorizedGroup) => (req, res, next) => {
   next();
 }
 
-module.exports = validateGroupMiddleware;
+module.exports = validateGroup;

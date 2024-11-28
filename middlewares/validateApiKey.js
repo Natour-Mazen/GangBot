@@ -1,6 +1,6 @@
 const projectController = require('../database/controllers/projectController');
 
-const validateApiKeyMiddleware = () => async (req, res, next) => {
+const validateApiKey = () => async (req, res, next) => {
     const apiKey = req.headers['authorization'];
 
     if (!apiKey) {
@@ -27,4 +27,4 @@ const validateApiKeyMiddleware = () => async (req, res, next) => {
     next();
 };
 
-module.exports = validateApiKeyMiddleware;
+module.exports = validateApiKey;

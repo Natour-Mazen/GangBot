@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
-const projectController = require("../../database/controllers/projectController");
-const ProviderMethodsController = require("../../database/controllers/providerMethodsController");
+const projectController = require("../../../database/controllers/projectController");
+const ProviderMethodsController = require("../../../database/controllers/providerMethodsController");
 
 router.get('/', async (req, res) => {
     const { page = 1, limit = 10 } = req.query;

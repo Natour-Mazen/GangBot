@@ -2,8 +2,8 @@ const express = require('express');
 const router = express.Router();
 const ProviderMethodsController = require("../../database/controllers/providerMethodsController");
 const UserTokensController = require("../../database/controllers/userTokensController");
-const {unSetAuthCookieAndRedirectHandler} = require("../../handlers/authCookieAndRedirectHandler");
-const {unSetProviderCookieHandler} = require("../../handlers/providerCookieHandler");
+const {unSetAuthCookieAndRedirectHandler} = require("../../handlers/authCookieAndRedirect");
+const {unSetProviderCookieHandler} = require("../../handlers/providerCookie");
 
 router.delete('/', async (req, res) => {
     const actualProvider = req.connectedUser.vcsProvider;
