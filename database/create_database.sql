@@ -82,7 +82,16 @@ CREATE TABLE userGroups(
 
 CREATE TABLE organization(
     id UUID PRIMARY KEY,
-    organizationName VARCHAR(100) NOT NULL
+    organizationName VARCHAR(100) NOT NULL,
+    organizationDescription VARCHAR(500),
+    creationDate TIMESTAMP NOT NULL,
+    creatorId UUID NOT NULL,
+    CONSTRAINT fk_creator
+        FOREIGN KEY(creatorId)
+            REFERENCES users(id),
+    CONSTRAINT unique_organizationNameCreator
+        UNIQUE (organizationName, creatorId)
+
 );
 
 CREATE TABLE organizationUsers(

@@ -10,6 +10,22 @@ module.exports = function(sequelize, DataTypes) {
     organizationname: {
       type: DataTypes.STRING(100),
       allowNull: false
+    },
+    organizationdescription: {
+      type: DataTypes.STRING(255),
+      allowNull: false
+    },
+    creationdate: {
+      type: DataTypes.DATE,
+      allowNull: false
+    },
+    creatorid: {
+      type: DataTypes.UUID,
+      allowNull: false,
+      references: {
+        model: 'user',
+        key: 'id'
+      }
     }
   }, {
     sequelize,
@@ -22,6 +38,14 @@ module.exports = function(sequelize, DataTypes) {
         unique: true,
         fields: [
           { name: "id" },
+        ]
+      },
+      {
+        name: "unique_organizationNameCreator",
+        unique: true,
+        fields: [
+          { name: "organizationname" },
+          { name: "creatorid" },
         ]
       },
     ]
