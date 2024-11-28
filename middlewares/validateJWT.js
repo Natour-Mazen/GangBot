@@ -26,7 +26,7 @@ const getUserGroups = async (userId) => {
 
 
 const validateJWT = () => async (req, res, next) => {
-    const accessToken = req.cookies.ff_access_token;
+    const accessToken = req.cookies["ff_access_token"];
 
     if (!accessToken) {
         return handleErrorResponse(res, 'No access token');
