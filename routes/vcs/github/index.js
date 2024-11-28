@@ -1,8 +1,8 @@
 const express = require('express');
 const router = express.Router();
-const GithubController = require('../../../controllers/githubController');
-const handleResponse = require("../../../handlers/responseHandler");
-const validateProviderTokenMiddleware = require("../../../middlewares/validateProviderTokenMiddleware")
+const Github = require('../../../api/github');
+const handleResponse = require("../../../handlers/response");
+const validateProviderTokenMiddleware = require("../../../middlewares/validateProviderToken")
 const ProviderTypes = require("../../../providers/providerTypes");
 
 router.use(validateProviderTokenMiddleware(ProviderTypes.GITHUB))
