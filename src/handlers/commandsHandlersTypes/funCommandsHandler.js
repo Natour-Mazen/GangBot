@@ -1,4 +1,3 @@
-import QuoiCouCommand from "../../commandes/fun/quoiCommand.js";
 import RouletteCommand from "../../commandes/fun/roulette/rouletteCommand.js";
 import ConvocationCommand from "../../commandes/fun/convocation/convocationCommand.js";
 import ConflitCommand from "../../commandes/fun/conflit/conflitCommand.js";
@@ -8,7 +7,6 @@ import GrosseToursCommand from "../../commandes/fun/grosseTours/grosseToursComma
 class FunCommandHandler {
     constructor() {
         this.commands = [
-            QuoiCouCommand,
             RouletteCommand,
             ConvocationCommand,
             ConflitCommand,
