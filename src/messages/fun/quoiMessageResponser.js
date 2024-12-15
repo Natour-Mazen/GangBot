@@ -2,7 +2,7 @@ import BasicMessageResponser from "../basicMessageResponser.js";
 
 class QuoiMessageResponser extends BasicMessageResponser {
     constructor() {
-        super('quoi');
+        super(['quoi', 'koi']);
     }
 
 
