@@ -3,7 +3,8 @@ import express from 'express';
 import {Client, REST} from 'discord.js';
 import {config} from "dotenv";
 import CommandHandler from './src/handlers/commandsHandler.js'
-import EventHandler from "./src/handlers/eventHandler.js";
+import EventsHandler from "./src/handlers/eventsHandler.js";
+import MessageHandler from "./src/handlers/messagesHandler.js";
 const app = express();
 const port = process.env.PORT || 3000;
 
@@ -35,13 +36,19 @@ const TOKEN =  process.env.DISCORD_BOT_TOKEN_ACCESS;
 
 
 const client = new Client({
-    intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildMembers]
+    intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildMembers, GatewayIntentBits.GuildPresences,
+        GatewayIntentBits.GuildMessages, GatewayIntentBits.GuildMessageReactions,
+        GatewayIntentBits.GuildMessageTyping, GatewayIntentBits.GuildScheduledEvents,
+        GatewayIntentBits.MessageContent, GatewayIntentBits.DirectMessages, GatewayIntentBits.DirectMessageReactions,
+        GatewayIntentBits.DirectMessageTyping
+    ],
 });
 
 const rest = new REST({ version: '10' }).setToken(process.env.DISCORD_BOT_TOKEN_ACCESS);
 
 const commandHandler = new CommandHandler(rest);
-const eventHandler = new EventHandler(client);
+const eventHandler = new EventsHandler(client);
+const messageHandler = new MessageHandler();
 
 client.on('ready', () => {
     console.log(`Logged in as ${client.user.tag}!`);
@@ -49,6 +56,8 @@ client.on('ready', () => {
 });
 
 client.on('interactionCreate', commandHandler.handleInteraction);
+
+client.on('messageCreate', messageHandler.handleMessage );
 
 app.get('/', (req, res) => {
     res.send('Bot is running');
