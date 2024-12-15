@@ -10,7 +10,7 @@ export default class EventScheduler {
         if (scheduledDates) {
             // Planifie les événements manuellement pour les dates spécifiques
             scheduledDates.forEach(date => {
-                const cronTime = `0 ${date.split(' ')[1]} ${date.split(' ')[0]} * * *`; // Format cron simple
+                const cronTime = `0 0 ${date.split(' ')[1]} ${date.split(' ')[0]} *`; // Format cron simple
                 const job = schedule.scheduleJob(cronTime, () => {
                     event.execute();
                 });
