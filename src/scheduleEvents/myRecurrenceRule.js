@@ -25,6 +25,42 @@ export default class MyRecurrenceRule {
         if(tz && tz !== "*") this.rule.tz = tz;
     }
 
+    /**
+     * Static method to create a rule that runs every X minutes
+     */
+    static everyXMinutes(minute) {
+        const rule = new schedule.RecurrenceRule();
+        rule.minute = new Array(60).fill(0).map((_, i) => i).filter(m => m % minute === 0);
+        return new MyRecurrenceRule(
+            0, // second
+            rule.minute, // every 10 minutes
+            "*", // every hour
+            "*", // every day
+            "*", // every month
+            "*", // every year
+            "*", // every day of the week
+            "*" // any timezone
+        );
+    }
+
+    /**
+     * Static method to create a rule that runs every X seconds
+     */
+    static everyXSecondes(second) {
+        const rule = new schedule.RecurrenceRule();
+        rule.second = new Array(60).fill(0).map((_, i) => i).filter(m => m % second === 0);
+        return new MyRecurrenceRule(
+            rule.second, // every X seconds
+            "*", // every minutes
+            "*", // every hour
+            "*", // every day
+            "*", // every month
+            "*", // every year
+            "*", // every day of the week
+            "*" // any timezone
+        );
+    }
+
     getRule() {
         return this.rule;
     }

@@ -2,6 +2,7 @@
 import AlternantsRappelEvent from "../scheduleEvents/events/rappelMessageEventTypes/alternantsRappelEvent.js";
 import StagiairesRappelEvent from "../scheduleEvents/events/rappelMessageEventTypes/stagiairesRappelEvent.js";
 import EventScheduler from "../scheduleEvents/eventScheduler.js";
+import LonelyEvent from "../scheduleEvents/events/lonelyEvent.js";
 
 
 class EventHandler {
@@ -9,7 +10,8 @@ class EventHandler {
         this.client = client;
         this.events = [
             new AlternantsRappelEvent(client),
-            new StagiairesRappelEvent(client)
+            new StagiairesRappelEvent(client),
+            new LonelyEvent(client)
         ];
         this.scheduler = new EventScheduler();
     }
