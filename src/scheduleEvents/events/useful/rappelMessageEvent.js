@@ -1,4 +1,4 @@
-import BaseEvent from '../baseEvent.js';
+import BaseEvent from '../../baseEvent.js';
 
 export default class RappelMessageEvent extends BaseEvent {
     constructor(client, name, recurrenceRule, channelId, message) {

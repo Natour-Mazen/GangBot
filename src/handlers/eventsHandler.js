@@ -1,17 +1,17 @@
-// eventHandler.js
-import AlternantsRappelEvent from "../scheduleEvents/events/rappelMessageEventTypes/alternantsRappelEvent.js";
-import StagiairesRappelEvent from "../scheduleEvents/events/rappelMessageEventTypes/stagiairesRappelEvent.js";
+// eventsHandler.js
+import AlternantsRappelEvent from "../scheduleEvents/events/useful/rappelMessageEventTypes/alternantsRappelEvent.js";
+import StagiairesRappelEvent from "../scheduleEvents/events/useful/rappelMessageEventTypes/stagiairesRappelEvent.js";
 import EventScheduler from "../scheduleEvents/eventScheduler.js";
-import LonelyEvent from "../scheduleEvents/events/lonelyEvent.js";
+import LonelyEvent from "../scheduleEvents/events/fun/lonely/lonelyEvent.js";
 
 
-class EventHandler {
+class EventsHandler {
     constructor(client) {
         this.client = client;
         this.events = [
             new AlternantsRappelEvent(client),
             new StagiairesRappelEvent(client),
-            //new LonelyEvent(client)
+            new LonelyEvent(client)
         ];
         this.scheduler = new EventScheduler();
     }
@@ -24,4 +24,4 @@ class EventHandler {
     }
 }
 
-export default EventHandler;
+export default EventsHandler;
