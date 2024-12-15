@@ -3,7 +3,7 @@ import MyRecurrenceRule from "../myRecurrenceRule.js";
 
 export default class LonelyEvent extends BaseEvent {
     constructor(client) {
-        const trollRecurrenceRule = MyRecurrenceRule.everyXMinutes(10)
+        const trollRecurrenceRule = MyRecurrenceRule.everyXMinutes(1)
         super(client, "LonelyEvent", trollRecurrenceRule);
         this.channelId = "1317561997847691274";
     }
