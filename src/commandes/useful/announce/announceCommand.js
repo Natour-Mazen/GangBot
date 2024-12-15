@@ -31,7 +31,6 @@ class AnnounceCommand extends BasicCommand {
         }else {
             category = interaction.channel.parent;
         }
-       // const category = interaction.channel.parent.parent ? interaction.channel.parent : interaction.channel.parent.parent ; // we get the parent of the parent of the channel because where we write the command is a post in a forum in a category
         if(category.id !== '1315784881858412574') { // id de la catégorie EVENEMENTS
             return interaction.reply({
                 content: 'Ce salon n\'est pas dans une catégorie ou les annonces sont autorisées. Veuillez ne pas spammer !',
