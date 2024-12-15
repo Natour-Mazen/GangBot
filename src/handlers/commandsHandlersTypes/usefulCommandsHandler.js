@@ -13,8 +13,8 @@ class UsefulCommandHandler {
         ];
     }
 
-    handleCommand(commandName, interaction) {
-        const handler = this.commands.find(cmd => cmd.commandData.name === commandName).handleCommand;
+    handleCommand(command, commandName, interaction) {
+        const handler = command.handleCommand;
         if (handler) {
             return handler(interaction);
         }

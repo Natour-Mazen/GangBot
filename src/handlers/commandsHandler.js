@@ -21,12 +21,12 @@ class CommandHandler {
 
         const commandName = interaction.commandName;
 
-        if (this.adminHandler.commands.some(cmd => cmd.commandData.name === commandName)) {
-            await this.adminHandler.handleCommand(commandName, interaction);
-        } else if (this.usefulHandler.commands.some(cmd => cmd.commandData.name === commandName)) {
-            await this.usefulHandler.handleCommand(commandName, interaction);
-        } else if (this.funHandler.commands.some(cmd => cmd.commandData.name === commandName)) {
-            await this.funHandler.handleCommand(commandName, interaction);
+        for (const handler of  [this.funHandler, this.usefulHandler, this.adminHandler]) {
+            for (let command of handler.commands) {
+                if (command.commandData.name === commandName) {
+                    await handler.handleCommand(command, commandName, interaction);
+                }
+            }
         }
     }
 
