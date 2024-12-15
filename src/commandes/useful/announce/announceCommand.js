@@ -32,7 +32,7 @@ class AnnounceCommand extends BasicCommand {
             category = interaction.channel.parent;
         }
         if(category.id !== '1315784881858412574') { // id de la catégorie EVENEMENTS
-            return interaction.reply({
+            return await interaction.reply({
                 content: 'Ce salon n\'est pas dans une catégorie ou les annonces sont autorisées. Veuillez ne pas spammer !',
                 ephemeral: true
             });
@@ -43,7 +43,7 @@ class AnnounceCommand extends BasicCommand {
 
         // Vérifier si le salon est déjà enregistré
         if (channelsData[channelID]) {
-            return interaction.reply({
+            return await interaction.reply({
                 content: 'Ce salon a déjà été utilisé pour une annonce. Veuillez ne pas spammer !',
                 ephemeral: true
             });
