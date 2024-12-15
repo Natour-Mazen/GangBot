@@ -1,8 +1,11 @@
 // main.js
+import express from 'express';
 import {Client, REST} from 'discord.js';
 import {config} from "dotenv";
 import CommandHandler from './src/handlers/commandsHandler.js'
 import EventHandler from "./src/handlers/eventHandler.js";
+const app = express();
+const port = process.env.PORT || 3000;
 
 const GatewayIntentBits = {
     Guilds: 1 << 0,
@@ -47,9 +50,14 @@ client.on('ready', () => {
 
 client.on('interactionCreate', commandHandler.handleInteraction);
 
-async function main(){
+app.get('/', (req, res) => {
+    res.send('Bot is running');
+});
+
+app.listen(port, async () => {
+    console.log(`Server is listening on port ${port}`);
+
     await commandHandler.registerCommands();
     await client.login(TOKEN);
-}
+});
 
-main().then(r => console.log('Bot is ready')).catch(e => console.error(e));
