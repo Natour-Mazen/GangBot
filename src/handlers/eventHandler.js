@@ -11,7 +11,7 @@ class EventHandler {
         this.events = [
             new AlternantsRappelEvent(client),
             new StagiairesRappelEvent(client),
-            new LonelyEvent(client)
+            //new LonelyEvent(client)
         ];
         this.scheduler = new EventScheduler();
     }
