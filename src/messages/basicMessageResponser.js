@@ -3,25 +3,21 @@ class BasicMessageResponser {
 
     /**
      * Constructor
-     * @param keywords {Array} - Keywords that will trigger the command
+     * @param keyword - The keyword that triggers the command
      */
-    constructor(keywords) {
+    constructor(keyword) {
         if (new.target === BasicMessageResponser) {
             throw new Error("BasicCommand is an abstract class and cannot be instantiated directly.");
         }
-        if(!Array.isArray(keywords)) {
-            throw new Error("Keywords must be an array");
-        }
-        this.keywords = keywords;
-        this.isRunning = false;
+        this.keyword = keyword;
     }
 
     async handleTheMessage(interaction) {
         throw new Error(`handleCommand method must be implemented in ${this.constructor.name}`);
     }
 
-    getKeywords() {
-        return this.keywords;
+    getKeyword() {
+        return this.keyword;
     }
 
 }

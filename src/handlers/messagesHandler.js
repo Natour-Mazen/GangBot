@@ -16,7 +16,7 @@ class MessageHandler {
 
         for (const handler of  [this.funHandler, this.usefulHandler, this.adminHandler]) {
             for (let messagesResponser of handler.messagesResponsers) {
-                if (messagesResponser.getKeywords().some(keyword => message.content.includes(keyword))) {
+                if (message.content.includes(messagesResponser.getKeyword())) {
                     await handler.handleMessage(messagesResponser, message);
                 }
             }
