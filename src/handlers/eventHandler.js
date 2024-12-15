@@ -1,7 +1,7 @@
 // eventHandler.js
 import AlternantsRappelEvent from "../scheduleEvents/events/rappelMessageEventTypes/alternantsRappelEvent.js";
 import StagiairesRappelEvent from "../scheduleEvents/events/rappelMessageEventTypes/stagiairesRappelEvent.js";
-import EventScheduler from "../scheduleEvents/EventScheduler.js";
+import EventScheduler from "../scheduleEvents/eventScheduler.js";
 
 
 class EventHandler {
