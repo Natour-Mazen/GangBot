@@ -13,6 +13,7 @@ class BasicMessageResponser {
             throw new Error("Keywords must be an array");
         }
         this.keywords = keywords;
+        this.isRunning = false;
     }
 
     async handleTheMessage(interaction) {
