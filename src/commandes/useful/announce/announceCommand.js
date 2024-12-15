@@ -68,9 +68,10 @@ class AnnounceCommand extends BasicCommand {
                 await this.saveChannelsData(channelsData);
 
             })
-            .catch(error => {
+            .catch(async error => {
                 console.error('Erreur lors de la soumission du modal :', error);
-               // interaction.reply({ content: 'Une erreur s\'est produite lors de l\'envoi de l\'annonce. Veuillez réessayer plus tard.', ephemeral: true });
+                await interaction.deferReply({ephemeral: true});
+                // interaction.reply({ content: 'Une erreur s\'est produite lors de l\'envoi de l\'annonce. Veuillez réessayer plus tard.', ephemeral: true });
             });
     }
 
