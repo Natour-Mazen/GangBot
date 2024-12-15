@@ -4,11 +4,12 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "start": "node index.js",
     "test": "echo \"Error: no test specified\" && exit 1",
     "start:dev": "nodemon ./src/index.js"
   },
   "keywords": [],
-  "author": "",
+  "author": "Mazen",
   "license": "ISC",
   "dependencies": {
     "@discordjs/builders": "^1.7.0",
