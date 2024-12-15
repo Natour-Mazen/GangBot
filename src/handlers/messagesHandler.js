@@ -14,9 +14,9 @@ class MessageHandler {
     handleMessage = async (message) => {
         if (message.author.bot) return; // Ignorer les messages des bots
 
-        for (const handler of  [this.funHandler, this.usefulHandler, this.adminHandler]) {
+        for (const handler of [this.funHandler, this.usefulHandler, this.adminHandler]) {
             for (let messagesResponser of handler.messagesResponsers) {
-                if (message.content.includes(messagesResponser.getKeyword())) {
+                if (message.content.toLowerCase().includes(messagesResponser.getKeyword().toLowerCase())) {
                     await handler.handleMessage(messagesResponser, message);
                 }
             }
