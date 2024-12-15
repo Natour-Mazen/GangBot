@@ -1,5 +1,5 @@
 import RappelMessageEvent from "../rappelMessageEvent.js";
-import MyRecurrenceRule from "../../../myRecurrenceRule.js";
+import MyRecurrenceRule from "../../../scheduleEvents/myRecurrenceRule.js";
 
 export default class StagiairesRappelEvent extends RappelMessageEvent {
      constructor(client) {

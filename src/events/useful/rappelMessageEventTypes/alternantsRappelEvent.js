@@ -1,6 +1,6 @@
 
 import RappelMessageEvent from "../rappelMessageEvent.js";
-import MyRecurrenceRule from "../../../myRecurrenceRule.js";
+import MyRecurrenceRule from "../../../scheduleEvents/myRecurrenceRule.js";
 
 
 export default class AlternantsRappelEvent extends RappelMessageEvent {
