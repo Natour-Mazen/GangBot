@@ -29,6 +29,8 @@ export default class LonelyEvent extends BaseEvent {
                 } else {
                     console.error(`Le salon ${this.channelId} n'est pas textuel ou introuvable.`);
                 }
+            } else {
+                console.log('Pas de membre seul en ligne ou pas de chance pour le troll.');
             }
         } catch (error) {
             console.error(`Erreur lors de l'exécution de ${this.name} pour le salon ${this.channelId}:`, error);
