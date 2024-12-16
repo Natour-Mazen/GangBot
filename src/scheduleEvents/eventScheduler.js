@@ -7,6 +7,7 @@ export default class EventScheduler {
 
     scheduleEvent(event) {
         const recurrenceRule = event.getRecurrenceRule();
+        // push the event name and the id to the scheduledEvents array
         if (Array.isArray(recurrenceRule)) {
             recurrenceRule.forEach(rule => {
                 this.#scheduleJob(event, rule);
@@ -19,18 +20,28 @@ export default class EventScheduler {
     #scheduleJob(event, rule) {
         const job = schedule.scheduleJob(rule.getRule(), () => {
             event.execute();
+            if (event.isRecalculatedEvent()) {
+                 this.cancelEvent(event.getUUID());
+                 event = new event.constructor(event.getClient());
+                 this.scheduleEvent(event);
+                 //console.log(`Recalcul de l'événement ${event.name}`);
+            }
         });
-        console.log(`Prochaine exécution de ${event.name} : ${job.nextInvocation().toString()}`);
+        this.scheduledEvents.push({eventName: event.getName(), eventID: event.getUUID(), job: job});
+        console.log(`Prochaine exécution de ${event.name} avec ID ${event.getUUID()} : ${job.nextInvocation().toString()}`);
     }
 
-    cancelEvent(eventName) {
-        const eventIndex = this.scheduledEvents.findIndex(e => e.event.name === eventName);
+    cancelEvent(eventID) {
+        const eventIndex = this.scheduledEvents.findIndex(e => e.eventID === eventID);
+        // console log each element of scheduledEvents
+        // this.scheduledEvents.forEach(e => console.log(e));
+        // console.log(`Index de l'événement ${eventID} : ${eventIndex}`);
         if (eventIndex >= 0) {
             this.scheduledEvents[eventIndex].job.cancel();
-            console.log(`Événement annulé : ${eventName}`);
+            //console.log(`Événement annulé : ${eventID}`);
             this.scheduledEvents.splice(eventIndex, 1);
         } else {
-            console.error(`Aucun événement trouvé avec le nom : ${eventName}`);
+            console.error(`Aucun événement trouvé avec le nom : ${eventID}`);
         }
     }
 }
