@@ -70,6 +70,7 @@ class AnnounceCommand extends BasicCommand {
             })
             .catch(async error => {
                 console.error('Erreur lors de la soumission du modal :', error);
+                await new Promise(resolve => setTimeout(resolve, 100));
                 await interaction.deferReply({ephemeral: true});
                 // interaction.reply({ content: 'Une erreur s\'est produite lors de l\'envoi de l\'annonce. Veuillez réessayer plus tard.', ephemeral: true });
             });
