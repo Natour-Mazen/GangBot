@@ -1,8 +1,8 @@
 import BaseEvent from '../../baseEvent.js';
 
 export default class RappelMessageEvent extends BaseEvent {
-    constructor(client, name, recurrenceRule, channelId, message) {
-        super(client, name, recurrenceRule);
+    constructor(client, name, recurrenceRule, recalculatedEvent, channelId, message) {
+        super(client, name, recurrenceRule, recalculatedEvent);
         this.channelId = channelId;
         this.message = message;
     }

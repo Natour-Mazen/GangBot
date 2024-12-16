@@ -7,7 +7,7 @@ export default class StagiairesRappelEvent extends RappelMessageEvent {
          const lesStagiairesRole = "<@&1315307100485980223>";
          const message = `Bonjour ${lesStagiairesRole}, préparez-vous ! La réunion de fin de sprint avec Hakim approche et il risque de ne pas être content ! Mettez du lubrifiant, vous en aurez besoin 😅`;
          const recurrenceRules = StagiairesRappelEvent.defineRecurrenceRule();
-         super(client, "StagiairesRappel", recurrenceRules, channelId, message);
+         super(client, "StagiairesRappel", recurrenceRules, false, channelId, message);
      }
 
      static defineRecurrenceRule() {

@@ -5,7 +5,7 @@ import fs from "fs";
 export default class LonelyEvent extends BaseEvent {
     constructor(client) {
         const trollRecurrenceRule = MyRecurrenceRule.everyXMinutes(30);
-        super(client, "LonelyEvent", trollRecurrenceRule);
+        super(client, "LonelyEvent", trollRecurrenceRule, false);
         this.channelId = "1317561997847691274";
     }
 
