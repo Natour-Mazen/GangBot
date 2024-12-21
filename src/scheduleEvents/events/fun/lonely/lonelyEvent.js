@@ -24,7 +24,7 @@ export default class LonelyEvent extends BaseEvent {
                 && !member.user.bot
             );
 
-            if (onlineMembers.size === 1 && Math.floor(Math.random() * 30) === 0) {
+            if (onlineMembers.size === 1 && Math.floor(Math.random() * 60) === 0) {
                 const channel = await this.client.channels.fetch(this.channelId);
                 if (channel && channel.isTextBased()) {
                     const lonelyMember = onlineMembers.first();
