@@ -13,7 +13,7 @@ const handleErrorResponse = (res, message, status = 401) => {
     if (APP_MODE === 'Dev') {
         return res.status(status).json({ message });
     } else if (APP_MODE === 'Prod') {
-        return res.redirect('/auth');
+        return res.redirect('/auth/manual/login');
     } else {
         throw new Error('APP_MODE not set');
     }
