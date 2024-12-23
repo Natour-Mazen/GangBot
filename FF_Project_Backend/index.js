@@ -1,57 +1,45 @@
-const express = require('express');
-const cookieParser = require('cookie-parser');
-const logger = require('morgan');
-const cors = require('cors');
-const getDatabase = require('./database/config');
-const loadTestData = require('./config/loadTestData');
+const express = require("express");
+const cookieParser = require("cookie-parser");
+const logger = require("morgan");
+const cors = require("cors");
+const getDatabase = require("./database/config");
+const loadTestData = require("./config/loadTestData");
 const port = 3328;
 const app = express();
 
-
-const authRouter = require('./routes/auth/loginIndex');
-const logoutRouter = require('./routes/auth/logoutIndex');
-const vcsRouter = require('./routes/vcs');
-const databaseRouter = require('./routes/database');
-const apiClientRouter = require('./routes/api/index');
-
+const authRouter = require("./routes/auth/loginIndex");
+const logoutRouter = require("./routes/auth/logoutIndex");
+const vcsRouter = require("./routes/vcs");
+const databaseRouter = require("./routes/database");
 
 const jwtMiddleware = require("./middlewares/validateJWT");
 const validateGroupMiddleware = require("./middlewares/validateGroup");
 
-app.use(logger('dev'));
+app.use(logger("dev"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(cors());
 
-
-app.use('/auth', authRouter);
-
-app.use('/api/v1', apiClientRouter);
+app.use("/auth", authRouter);
 
 app.use(jwtMiddleware());
 
-app.use('/logout', logoutRouter);
+app.use("/logout", logoutRouter);
 
-app.use('/vcs', vcsRouter);
+app.use("/vcs", vcsRouter);
 
-// app.use("/database", databaseRouter);
-app.use("/database", validateGroupMiddleware(['USER']), databaseRouter);
+app.use("/database", validateGroupMiddleware(["USER"]), databaseRouter);
 
-app.get('/', validateGroupMiddleware(['USER']), async (req, res) => {
-    const name = req.connectedUser.vcsName;
-    res.send(`Hello ${name}`);
-})
-
-
-
-app.listen(port, async () => {
-    await getDatabase();
-    await loadTestData();
-    console.log(`Server listening on port ${port}`);
+app.get("/", validateGroupMiddleware(["USER"]), async (req, res) => {
+  const name = req.connectedUser.vcsName;
+  res.send(`Hello ${name}`);
 });
 
-
-
+app.listen(port, async () => {
+  await getDatabase();
+  await loadTestData();
+  console.log(`Server listening on port ${port}`);
+});
 
 module.exports = app;
