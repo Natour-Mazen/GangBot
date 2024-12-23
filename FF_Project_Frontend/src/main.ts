@@ -16,6 +16,7 @@ import {FontAwesomeIcon} from "@fortawesome/vue-fontawesome"
 import { fas } from '@fortawesome/free-solid-svg-icons'
 import { far } from '@fortawesome/free-regular-svg-icons'
 import { fab } from '@fortawesome/free-brands-svg-icons'
+import axios from "axios";
 
 
 const app = createApp(App);
@@ -39,5 +40,7 @@ library.add(fas, far, fab);
 
 app.use(pinia);
 app.use(router);
+
+axios.defaults.withCredentials = true;
 
 app.mount('#app')
