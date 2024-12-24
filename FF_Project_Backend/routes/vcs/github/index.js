@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const Github = require('../../../controllers/VCS-APIs/github');
+const Github = require('../../../controllers/vcs/github');
 const handleResponse = require("../../../handlers/response");
 const validateProviderTokenMiddleware = require("../../../middlewares/validateProviderToken")
 const ProviderTypes = require("../../../controllers/authentication/providerTypes");
