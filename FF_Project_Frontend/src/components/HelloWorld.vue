@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import { ref } from 'vue'
-import {Button} from "primevue";
 import {FontAwesomeIcon} from "@fortawesome/vue-fontawesome";
 
 defineProps<{ msg: string }>()
@@ -17,7 +16,7 @@ const count = ref(0)
       Edit
       <code>components/HelloWorld.vue</code> to test HMR
     </p>
-    <Button label="Click" @click="count++" />
+    <Button label="Click" @click="count++"  />
     <font-awesome-icon icon="fa-brands fa-github" size="6x" bounce />
   </div>
 
