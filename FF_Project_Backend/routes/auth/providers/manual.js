@@ -1,6 +1,6 @@
 const express = require('express');
 const ManualProvider = require("../../../providers/manual");
-const {setAuthCookieAndRedirectHandler} = require("../../../handlers/authCookieAndRedirect");
+const {setAuthCookie} = require("../../../handlers/authCookie");
 const router = express.Router();
 
 
@@ -14,7 +14,7 @@ router.post('/create', async (req, res) => {
     const provider = new ManualProvider();
     try {
         const accessToken = await provider.handleCreateAuth(email, password, username);
-        setAuthCookieAndRedirectHandler(res, accessToken);
+        setAuthCookie(res, accessToken);
     } catch (error) {
        res.status(400).json({
            error: "An error occurred while creating the user"
@@ -32,7 +32,7 @@ router.post('/login', async (req, res) => {
     const provider = new ManualProvider();
     try {
         const accessToken = await provider.handleLoginAuth(email, password);
-        setAuthCookieAndRedirectHandler(res, accessToken);
+        setAuthCookie(res, accessToken);
     } catch (error) {
         res.status(400).json({
             error: error.message
