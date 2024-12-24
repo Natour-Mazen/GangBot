@@ -4,9 +4,10 @@ DROP TABLE IF EXISTS organization;
 DROP TABLE IF EXISTS userGroups;
 DROP TABLE IF EXISTS accessGroup;
 DROP TABLE IF EXISTS projects;
-DROP TABLE IF EXISTS userTokens;
-DROP TABLE IF EXISTS providerMethods;
+DROP TABLE IF EXISTS authUsersTokens;
+DROP TABLE IF EXISTS providersAuthUsersTokens;
 DROP TABLE IF EXISTS users;
+DROP TABLE IF EXISTS providerMethods;
 
 CREATE TABLE providerMethods(
     id SERIAL PRIMARY KEY,
@@ -28,8 +29,8 @@ CREATE TABLE users(
         UNIQUE (email, creationUserMethod)
 );
 
-CREATE TABLE userTokens(
-    id SERIAL PRIMARY KEY,
+CREATE TABLE authUsersTokens(
+    id UUID PRIMARY KEY,
     userId UUID NOT NULL,
     authenticationMethod INT NOT NULL,
     jwtToken VARCHAR(1000) NOT NULL,
@@ -39,6 +40,17 @@ CREATE TABLE userTokens(
     CONSTRAINT fk_authenticationMethod
        FOREIGN KEY(authenticationMethod)
            REFERENCES providerMethods(id)
+);
+
+CREATE TABLE providersAuthUsersTokens(
+   id UUID PRIMARY KEY,
+   providerMethod INT NOT NULL,
+   jwtToken VARCHAR(1000) NOT NULL,
+   CONSTRAINT fk_providerAuthenticationMethod
+       FOREIGN KEY(providerMethod)
+           REFERENCES providerMethods(id),
+   CONSTRAINT unique_providerMethod_jwtToken
+           UNIQUE (providerMethod, jwtToken)
 );
 
 CREATE TABLE projects(
