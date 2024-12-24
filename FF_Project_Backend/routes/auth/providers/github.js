@@ -1,10 +1,10 @@
 const express = require('express');
 const router = express.Router();
 const GithubProvider = require('../../../providers/auth/github');
-const {setAuthCookieAndRedirectHandler} = require("../../../handlers/authCookieAndRedirect");
 const dotenv = require('dotenv');
-const {setProviderCookieHandler} = require("../../../handlers/providerCookie");
-const ProviderTypes = require("../../../providers/providerTypes");
+const {setAuthCookie} = require("../../../handlers/authCookie");
+const {setProviderCookie} = require("../../../handlers/providerCookie");
+
 dotenv.config();
 const { SERVER_HOST_URL } = process.env;
 
@@ -29,9 +29,9 @@ router.get('/callback', async (req, res) => {
 
   try {
     const provider = new GithubProvider();
-    const accessToken = await provider.handleOAuthCallback(code);
+    const accessTokenID = await provider.handleOAuthCallback(code);
 
-    setAuthCookieAndRedirectHandler(res, accessToken);
+    setAuthCookie(res, accessTokenID);
   } catch (error) {
     res.status(500).json({ error: 'Failed to fetch access token' });
     console.log(error);
@@ -47,11 +47,9 @@ router.get('/callback/githubToken', async (req, res) => {
 
   try {
     const provider = new GithubProvider();
-    const accessToken = await provider.exchangeCodeForAccessToken(code);
-    const userInfos = await provider.fetchUserInfo(accessToken);
+    const accessTokenID = await provider.handleOAuthProviderCallback(code);
 
-    //res.json({ accessToken });
-    setProviderCookieHandler(res, accessToken, userInfos.id, userInfos.login ,  ProviderTypes.GITHUB);
+    await setProviderCookie(res, accessTokenID);
   } catch (error) {
     res.status(500).json({ error: 'Failed to fetch access token' });
     console.log(error);
