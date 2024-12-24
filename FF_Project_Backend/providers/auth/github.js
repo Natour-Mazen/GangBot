@@ -70,7 +70,7 @@ class GithubProvider extends VCSProvider {
         return db_user;
     }
 
-    generateJwtToken(providerUser, db_user, access_token) {
+    generateJwtAuthToken(providerUser, db_user, access_token) {
         const expirationDate = new Date(Date.now() + (24 * 60 * 60 * 1000)); // 24 hours in milliseconds
         const jwtPayload = {
             id: db_user.id,
@@ -78,6 +78,18 @@ class GithubProvider extends VCSProvider {
             vcsName: providerUser.login,
             vcsToken: access_token,
             vcsProvider: this.providerType,
+            exp: expirationDate.getTime() / 1000
+        };
+        return sign(jwtPayload, this.JWT_SECRET_KEY);
+    }
+
+    generateJwtProviderToken(providerUser, access_token) {
+        const expirationDate = new Date(Date.now() + (24 * 60 * 60 * 1000)); // 24 hours in milliseconds
+        const jwtPayload = {
+            userid: providerUser.id,
+            username: providerUser.login,
+            token: access_token,
+            type: this.providerType,
             exp: expirationDate.getTime() / 1000
         };
         return sign(jwtPayload, this.JWT_SECRET_KEY);
