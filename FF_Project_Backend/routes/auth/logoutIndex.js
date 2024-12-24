@@ -1,18 +1,20 @@
 const express = require('express');
 const router = express.Router();
-const ProviderMethodsController = require("../../database/controllers/providerMethodsController");
-const UserTokensController = require("../../database/controllers/userTokensController");
-const {unSetAuthCookieAndRedirectHandler} = require("../../handlers/authCookieAndRedirect");
-const {unSetProviderCookieHandler} = require("../../handlers/providerCookie");
+const UserTokensController = require("../../database/controllers/authUsersTokensController");
+const {unSetAuthCookie, getAuthCookieValue} = require("../../handlers/authCookie");
+const {unSetProviderCookie, getProviderCookieValue} = require("../../handlers/providerCookie");
+const ProvidersUsersTokensController = require("../../database/controllers/providersAuthUsersTokensController");
 
-router.delete('/', async (req, res) => {
-    const actualProvider = req.connectedUser.vcsProvider;
-    const userID = req.connectedUser.id;
-    const actualProviderDBObject = await ProviderMethodsController.getProviderMethodByName(actualProvider);
-    await UserTokensController.deleteUserToken(userID, actualProviderDBObject.id);
+router.get('/', async (req, res) => {
+    const authUserTokenID = getAuthCookieValue(req);
+    await UserTokensController.deleteUserToken(authUserTokenID);
 
-    unSetProviderCookieHandler(res);
-    unSetAuthCookieAndRedirectHandler(res);
+    const providerTokenID = getProviderCookieValue(req);
+    if (providerTokenID) {
+        await ProvidersUsersTokensController.deleteProviderUserToken(providerTokenID);
+        unSetProviderCookie(res);
+    }
+    unSetAuthCookie(res);
 });
 
 module.exports = router;
