@@ -1,10 +1,10 @@
-const getDatabase = require("../database/config");
+const getDatabase = require("../../database/config");
 const dotenv = require('dotenv');
 const ProviderTypes = require("./providerTypes");
 const {sign} = require("jsonwebtoken");
-const UserController = require("../database/controllers/usersController");
-const ProviderMethodsController = require("../database/controllers/providerMethodsController");
-const UserTokensController = require("../database/controllers/authUsersTokensController");
+const UserController = require("../../database/controllers/usersController");
+const ProviderMethodsController = require("../../database/controllers/providerMethodsController");
+const UserTokensController = require("../../database/controllers/authUsersTokensController");
 dotenv.config();
 
 class ManualProvider {

@@ -7,8 +7,8 @@ const loadTestData = require("./config/loadTestData");
 const port = 3328;
 const app = express();
 
-const authRouter = require("./routes/auth/loginIndex");
-const logoutRouter = require("./routes/auth/logoutIndex");
+const authRouter = require("./routes/authentication/loginIndex");
+const logoutRouter = require("./routes/authentication/logoutIndex");
 const vcsRouter = require("./routes/vcs");
 const databaseRouter = require("./routes/database");
 

@@ -1,7 +1,7 @@
 const fs = require('fs');
 const path = require('path');
 const getDatabase = require("../database/config");
-const ProviderType = require("../providers/providerTypes");
+const ProviderType = require("../controllers/authentication/providerTypes");
 const ProviderMethodsController = require("../database/controllers/providerMethodsController");
 const AccessGroupController = require("../database/controllers/accessGroupController");
 

@@ -2,9 +2,9 @@ const axios = require('axios');
 const ProviderType = require("../providerTypes");
 const {sign} = require("jsonwebtoken");
 const VCSProvider = require("../vcsProvider");
-const ProviderMethodsController  = require("../../database/controllers/providerMethodsController");
-const UserGroupsController = require("../../database/controllers/userGroupsController");
-const UsersController = require("../../database/controllers/usersController");
+const ProviderMethodsController  = require("../../../database/controllers/providerMethodsController");
+const UserGroupsController = require("../../../database/controllers/userGroupsController");
+const UsersController = require("../../../database/controllers/usersController");
 
 
 const { GITHUB_CLIENT_ID, GITHUB_CLIENT_SECRET } = process.env;

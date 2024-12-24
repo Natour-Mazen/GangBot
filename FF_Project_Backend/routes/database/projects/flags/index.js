@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const flagsValidator = require("../../../../utils/flagsValidator");
+const flagsValidator = require("../../../../controllers/utils/flagsValidator");
 const projectController = require("../../../../database/controllers/projectController");
 
 router.put('/:projectID',  async (req, res) => {

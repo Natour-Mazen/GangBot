@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const GithubProvider = require('../../../providers/auth/github');
+const GithubProvider = require('../../../controllers/authentication/vcs/github');
 const dotenv = require('dotenv');
 const {setAuthCookie} = require("../../../handlers/authCookie");
 const {setProviderCookie} = require("../../../handlers/providerCookie");

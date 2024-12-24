@@ -3,9 +3,9 @@ dotenv.config();
 
 const { JWT_SECRET_KEY } = process.env;
 
-const ProviderMethodsController = require("../database/controllers/providerMethodsController");
-const UserTokensController = require("../database/controllers/authUsersTokensController");
-const ProvidersUsersTokensController = require("../database/controllers/providersAuthUsersTokensController");
+const ProviderMethodsController = require("../../database/controllers/providerMethodsController");
+const UserTokensController = require("../../database/controllers/authUsersTokensController");
+const ProvidersUsersTokensController = require("../../database/controllers/providersAuthUsersTokensController");
 
 class VCSProvider {
 

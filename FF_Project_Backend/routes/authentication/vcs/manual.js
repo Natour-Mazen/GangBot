@@ -1,5 +1,5 @@
 const express = require('express');
-const ManualProvider = require("../../../providers/manual");
+const ManualProvider = require("../../../controllers/authentication/manual");
 const {setAuthCookie} = require("../../../handlers/authCookie");
 const router = express.Router();
 
