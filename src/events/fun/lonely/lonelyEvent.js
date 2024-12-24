@@ -1,5 +1,5 @@
-import BaseEvent from '../../../baseEvent.js';
-import MyRecurrenceRule from "../../../myRecurrenceRule.js";
+import BaseEvent from '../../baseEvent.js';
+import MyRecurrenceRule from "../../../scheduleEvents/myRecurrenceRule.js";
 import fs from "fs";
 
 export default class LonelyEvent extends BaseEvent {
