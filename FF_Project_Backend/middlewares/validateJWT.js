@@ -2,8 +2,8 @@ const jwt = require('jsonwebtoken');
 const dotenv = require('dotenv');
 const UserController = require('../database/controllers/usersController');
 const UserGroupsController = require('../database/controllers/userGroupsController');
-const ProviderType = require("../providers/providerTypes");
-const UserTokensController = require("../database/controllers/userTokensController");
+const UserTokensController = require("../database/controllers/authUsersTokensController");
+const {getAuthCookieValue} = require("../handlers/authCookie");
 
 // Load environment variables from .env file
 dotenv.config();
@@ -26,21 +26,23 @@ const getUserGroups = async (userId) => {
 
 
 const validateJWT = () => async (req, res, next) => {
-    const accessToken = req.cookies["ff_access_token"];
+    const accessTokenID = getAuthCookieValue(req);
 
-    if (!accessToken) {
+    if (!accessTokenID) {
         return handleErrorResponse(res, 'No access token');
     }
+
+    const db_UserToken = await UserTokensController.getUserTokenByID(accessTokenID);
+
+    if(!db_UserToken){
+        return handleErrorResponse(res, 'No access token is accessible');
+    }
+
+    const accessToken = db_UserToken.dataValues.jwttoken;
 
     jwt.verify(accessToken, JWT_SECRET_KEY, async (err, decoded) => {
         if (err) {
             return handleErrorResponse(res, 'Invalid or expired token');
-        }
-
-        const db_UserToken = await UserTokensController.getUserTokenByJwtToken(accessToken);
-
-        if(!db_UserToken){
-            return handleErrorResponse(res, 'User token not found');
         }
 
         const db_User = await UserController.getUserById(decoded.id);

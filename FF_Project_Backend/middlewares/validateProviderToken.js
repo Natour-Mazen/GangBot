@@ -1,6 +1,8 @@
 const jwt = require("jsonwebtoken");
 const dotenv = require('dotenv');
 const ProviderMethodsController = require("../database/controllers/providerMethodsController");
+const ProvidersUsersTokensController = require("../database/controllers/providersAuthUsersTokensController");
+const {getProviderCookieValue} = require("../handlers/providerCookie");
 dotenv.config();
 
 const { JWT_SECRET_KEY, APP_MODE } = process.env;
@@ -52,10 +54,18 @@ const validateProviderToken = (verifiedType) => async (req, res, next) => {
         return next();
     }
 
-    const providerToken = req.cookies["ff_provider_token"];
-    if (!providerToken) {
+    const providerTokenID = getProviderCookieValue(req);
+    if (!providerTokenID) {
         return res.status(401).json({ message: 'Provider Token is missing' });
     }
+
+    const db_ProviderUserToken = await ProvidersUsersTokensController.getProviderUserTokenByID(providerTokenID);
+
+    if(!db_ProviderUserToken){
+        return handleErrorResponse(res, 'No access token is accessible');
+    }
+
+    const providerToken = db_ProviderUserToken.dataValues.jwttoken;
 
     try {
         const decoded = await verifyToken(providerToken, JWT_SECRET_KEY);
