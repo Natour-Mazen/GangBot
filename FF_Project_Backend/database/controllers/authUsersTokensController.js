@@ -1,37 +1,17 @@
 const getDatabase = require("../config");
 
 
-class UserTokensController {
+class AuthUsersTokensController {
+
 
     /**
-     * Retrieve all user tokens for a specific user ID.
-     * @param {number} userId - The ID of the user.
-     * @returns {Promise<Array>} - A promise that resolves to an array of user tokens.
-     */
-    static async getUserTokensByUserId(userId) {
-        const { models } = await getDatabase();
-        return await models.usertokens.findAll({where: {userid: userId}});
-    }
-
-    /**
-     * Retrieve a user token by JWT token.
-     * @param jwtToken - The JWT token.
+     * Retrieve a user token by ID.
+     * @param id - The ID of the user token.
      * @returns {Promise<Model|null>} - A promise that resolves to the user token or null if not found.
      */
-    static async getUserTokenByJwtToken(jwtToken) {
+    static async getUserTokenByID(id) {
         const { models } = await getDatabase();
-        return await models.usertokens.findOne({where: {jwttoken: jwtToken}});
-    }
-
-    /**
-     * Retrieve a user token by user ID and provider method ID.
-     * @param {number} userId - The ID of the user.
-     * @param {number} providerMethodId - The ID of the provider method.
-     * @returns {Promise<Object|null>} - A promise that resolves to the user token or null if not found.
-     */
-    static async getUserTokenByUserIdAndProviderMethod(userId, providerMethodId) {
-        const { models } = await getDatabase();
-        return await models.usertokens.findOne({where: {userid: userId, authenticationmethod: providerMethodId}});
+        return await models.authuserstokens.findByPk(id);
     }
 
     /**
@@ -44,7 +24,7 @@ class UserTokensController {
      */
     static async findOrCreateUserToken(userId, providerMethodId, newJwtToken) {
         const { models } = await getDatabase();
-        const [userToken, tokenCreated] = await models.usertokens.findOrCreate({
+        const [userToken, tokenCreated] = await models.authuserstokens.findOrCreate({
             where: {
                 userid: userId,
                 authenticationmethod: providerMethodId
@@ -75,14 +55,13 @@ class UserTokensController {
 
     /**
      * Delete a user token by user ID and provider method.
-     * @param {number} userId - The ID of the user.
-     * @param {number} providerMethodId - The provider method object ID .
+     * @param {number} id - The ID of the userToken.
      * @returns {Promise<number>} - A promise that resolves to the number of rows deleted.
      */
-    static async deleteUserToken(userId, providerMethodId) {
+    static async deleteUserToken(id) {
         const { models } = await getDatabase();
-        return await models.usertokens.destroy({where: {userid: userId, authenticationmethod: providerMethodId}});
+        return await models.authuserstokens.destroy({where: {id: id}});
     }
 }
 
-module.exports = UserTokensController;
+module.exports = AuthUsersTokensController;
