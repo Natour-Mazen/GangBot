@@ -36,16 +36,14 @@ class CreateReminderCommand extends BasicCommand {
         const channel = interaction.options.getChannel('channel');
         const role = interaction.options.getRole('role');
 
-        // Créer la modal de paramètres supplémentaires (étape 2)
         const modalStep = this.createReminderModalStep();
 
         // Afficher la modal étape 2
-        if (!interaction.replied) {
-            await interaction.showModal(modalStep);
-        }
+        await interaction.showModal(modalStep);
+
 
         interaction.awaitModalSubmit({ filter: i => i.customId === 'create_reminder_modal_step', time: 300000 })
-            .then(async submittedInteraction2 => {
+            .then(async submittedInteraction => {
                 const { message, isRecalculated, eventName, schedule } = this.getModalValuesStep(submittedInteraction2);
 
                 try {
@@ -89,20 +87,19 @@ class CreateReminderCommand extends BasicCommand {
 
                     await new Promise(resolve => setTimeout(resolve, 100));
 
-                    if (!submittedInteraction2.replied) {
-                        await submittedInteraction2.reply({
-                            content: `✅ L'événement **${eventName}** a été créé avec succès !`,
-                            ephemeral: true
-                        });
-                    }
+
+                    await submittedInteraction.reply({
+                        content: `✅ L'événement **${eventName}** a été créé avec succès !`,
+                        ephemeral: true
+                    });
+
                 } catch (error) {
                     console.error('Erreur lors de la création de l\'événement :', error);
-                    if (!submittedInteraction2.replied) {
-                        await submittedInteraction2.reply({
-                            content: '❌ Une erreur est survenue lors de la création de l\'événement.',
-                            ephemeral: true
-                        });
-                    }
+                    await new Promise(resolve => setTimeout(resolve, 100));
+                    await submittedInteraction.reply({
+                        content: '❌ Une erreur est survenue lors de la création de l\'événement. Veuillez réessayer.',
+                        ephemeral: true
+                    });
                 }
             })
             .catch(async error => {
