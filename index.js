@@ -40,14 +40,16 @@ const client = new Client({
         GatewayIntentBits.GuildMessages, GatewayIntentBits.GuildMessageReactions,
         GatewayIntentBits.GuildMessageTyping, GatewayIntentBits.GuildScheduledEvents,
         GatewayIntentBits.MessageContent, GatewayIntentBits.DirectMessages, GatewayIntentBits.DirectMessageReactions,
-        GatewayIntentBits.DirectMessageTyping
+        GatewayIntentBits.DirectMessageTyping, GatewayIntentBits.GuildVoiceStates, GatewayIntentBits.GuildWebhooks,
+        GatewayIntentBits.GuildInvites, GatewayIntentBits.GuildEmojisAndStickers, GatewayIntentBits.GuildBans,
+        GatewayIntentBits.GuildIntegrations, GatewayIntentBits.AutoModerationConfiguration, GatewayIntentBits.AutoModerationExecution
     ],
 });
 
 const rest = new REST({ version: '10' }).setToken(process.env.DISCORD_BOT_TOKEN_ACCESS);
 
-const commandHandler = new CommandHandler(rest);
 const eventHandler = new EventsHandler(client);
+const commandHandler = new CommandHandler(rest);
 const messageHandler = new MessageHandler();
 
 client.on('ready', () => {
@@ -70,3 +72,4 @@ app.listen(port, async () => {
     await client.login(TOKEN);
 });
 
+export default eventHandler;
