@@ -83,7 +83,7 @@ class CreateReminderCommand extends BasicCommand {
                     fs.writeFileSync(eventsFilePath, JSON.stringify(events, null, 2), 'utf-8');
 
                     // Etp 4: Ajouter l'événement à la liste des événements et le planifier
-                    await eventHandler.registerEvents();
+                  //  await eventHandler.registerEvents();
 
                     await new Promise(resolve => setTimeout(resolve, 100));
 
