@@ -3,6 +3,7 @@ import AlternantsRappelEvent from "../events/useful/rappelMessageEventTypes/alte
 import StagiairesRappelEvent from "../events/useful/rappelMessageEventTypes/stagiairesRappelEvent.js";
 import EventScheduler from "../scheduleEvents/eventScheduler.js";
 import LonelyEvent from "../events/fun/lonely/lonelyEvent.js";
+import {readEventsFromJson} from "../commandes/admin/reminderCommands/utils/readEventsFromJson.js";
 
 
 class EventsHandler {
@@ -16,15 +17,21 @@ class EventsHandler {
         this.scheduler = new EventScheduler();
     }
 
-    registerEvents() {
+    async registerEvents() {
+        // load events from JSON file and add them to the events list and schedule them
+        const filePath = 'src/commandes/admin/reminderCommands/ephemeralEvents.json';
+        const events = await readEventsFromJson(filePath, this.client);
+
+        this.events = [...this.events, ...events];
+
         // Planifie tous les événements enregistrés dans l'EventScheduler
         console.log(`Loading ${this.events.length} events...`);
         this.events.forEach(event => this.scheduler.scheduleEvent(event));
         console.log('All events scheduled.');
     }
 
-    registerEvent(event) {
-        this.scheduler.scheduleEvent(event);
+    getScheduledEvents() {
+        return this.scheduler.scheduledEvents;
     }
 }
 
