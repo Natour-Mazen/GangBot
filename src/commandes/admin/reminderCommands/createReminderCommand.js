@@ -44,7 +44,7 @@ class CreateReminderCommand extends BasicCommand {
             await interaction.showModal(modalStep);
         }
 
-        interaction.awaitModalSubmit({ filter: i => i.customId === 'create_reminder_modal_step2', time: 300000 })
+        interaction.awaitModalSubmit({ filter: i => i.customId === 'create_reminder_modal_step', time: 300000 })
             .then(async submittedInteraction2 => {
                 const { message, isRecalculated, eventName, schedule } = this.getModalValuesStep(submittedInteraction2);
 
@@ -62,7 +62,7 @@ class CreateReminderCommand extends BasicCommand {
                         finalMessage
                     );
 
-                    // Étape 1: Charger les événements existants depuis le fichier JSON
+                    // Etp 1: Charger les événements existants depuis le fichier JSON
                     const eventsFilePath = 'src/commandes/admin/reminderCommands/ephemeralEvents.json';
                     let events = [];
                     if (fs.existsSync(eventsFilePath)) {
@@ -70,7 +70,7 @@ class CreateReminderCommand extends BasicCommand {
                         events = JSON.parse(fileContent);
                     }
 
-                    // Étape 2: Créer une structure sérialisée pour l'événement
+                    // Etp 2: Créer une structure sérialisée pour l'événement
                     const eventData = {
                         id: event.getUUID(),
                         name: eventName,
@@ -80,12 +80,15 @@ class CreateReminderCommand extends BasicCommand {
                         channelId: event.channelId,
                     };
 
-                    // Étape 3: Ajouter le nouvel événement au tableau et le sauvegarder
+                    // Etp 3: Ajouter le nouvel événement au tableau et le sauvegarder
                     events.push(eventData);
                     fs.writeFileSync(eventsFilePath, JSON.stringify(events, null, 2), 'utf-8');
 
+                    // Etp 4: Ajouter l'événement à la liste des événements et le planifier
                     await eventHandler.registerEvents();
-                    // Réponse de succès
+
+                    await new Promise(resolve => setTimeout(resolve, 100));
+
                     if (!submittedInteraction2.replied) {
                         await submittedInteraction2.reply({
                             content: `✅ L'événement **${eventName}** a été créé avec succès !`,
@@ -112,7 +115,7 @@ class CreateReminderCommand extends BasicCommand {
 
     createReminderModalStep() {
         const modal = new ModalBuilder()
-            .setCustomId('create_reminder_modal_step2')
+            .setCustomId('create_reminder_modal_step')
             .setTitle('Paramètres supplémentaires');
 
         const nameInput = new TextInputBuilder()
