@@ -36,6 +36,10 @@ export default class BaseEvent {
         return this.uuid;
     }
 
+    setUUID(uuid) {
+        this.uuid = uuid;
+    }
+
     getName() {
         return this.name;
     }
