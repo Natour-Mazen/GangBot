@@ -37,8 +37,9 @@ export default class EventScheduler {
         // this.scheduledEvents.forEach(e => console.log(e));
         // console.log(`Index de l'événement ${eventID} : ${eventIndex}`);
         if (eventIndex >= 0) {
-            this.scheduledEvents[eventIndex].job.cancel();
-            //console.log(`Événement annulé : ${eventID}`);
+            const event = this.scheduledEvents[eventIndex];
+            event.job.cancel();
+            console.log(`Événement ${event.eventName} de id ${event.eventID} est bien annulé `);
             this.scheduledEvents.splice(eventIndex, 1);
         } else {
             console.error(`Aucun événement trouvé avec le nom : ${eventID}`);
