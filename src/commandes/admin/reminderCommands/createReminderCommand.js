@@ -44,7 +44,7 @@ class CreateReminderCommand extends BasicCommand {
 
         interaction.awaitModalSubmit({ filter: i => i.customId === 'create_reminder_modal_step', time: 300000 })
             .then(async submittedInteraction => {
-                const { message, isRecalculated, eventName, schedule } = this.getModalValuesStep(submittedInteraction2);
+                const { message, isRecalculated, eventName, schedule } = this.getModalValuesStep(submittedInteraction);
 
                 try {
                     const [second, minute, hour, day, month, year] = schedule.split(' ');
