@@ -33,7 +33,7 @@ export default class MyRecurrenceRule {
         rule.minute = new Array(60).fill(0).map((_, i) => i).filter(m => m % minute === 0);
         return new MyRecurrenceRule(
             0, // second
-            rule.minute, // every 10 minutes
+            rule.minute, // every X minutes
             "*", // every hour
             "*", // every day
             "*", // every month
