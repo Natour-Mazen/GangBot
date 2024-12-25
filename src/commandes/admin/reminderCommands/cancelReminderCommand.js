@@ -81,12 +81,15 @@ class CancelReminderCommand extends BasicCommand {
             // Find the event in the events array and remove it
             const eventIndex = events.findIndex(e => e.id === selectedEventID);
             if (eventIndex >= 0) {
-                events.splice(eventIndex, 1);
-                fs.writeFileSync(eventsFilePath, JSON.stringify(events, null, 2), 'utf-8');
                 await i.reply({
                     content: `✅ L'événement **${selectedEvent.eventName}** a été annulé avec succès.`,
                     ephemeral: true,
                 });
+
+                events.splice(eventIndex, 1);
+                fs.writeFileSync(eventsFilePath, JSON.stringify(events, null, 2), 'utf-8');
+
+                await eventHandler.registerEvents();
 
                 // Arrêter le collecteur une fois l'événement annulé
                 collector.stop();
