@@ -107,6 +107,7 @@ class CancelReminderCommand extends BasicCommand {
         collector.on('end', async (collected) => {
             if (collected.size === 0) {
                 collector.stop();
+                await new Promise(resolve => setTimeout(resolve, 100));
                 await interaction.followUp({ content: '❌ Aucun événement sélectionné.', ephemeral: true });
             }
         })
