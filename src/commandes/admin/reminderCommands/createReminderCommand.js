@@ -3,6 +3,8 @@ import BasicCommand from "../../basicCommand.js";
 import MyRecurrenceRule from "../../../scheduleEvents/myRecurrenceRule.js";
 import RappelMessageEvent from "../../../events/useful/rappelMessageEvent.js";
 import fs from 'fs';
+import eventsHandler from "../../../handlers/eventsHandler.js";
+import eventHandler from "../../../../index.js";
 
 class CreateReminderCommand extends BasicCommand {
     constructor() {
@@ -82,6 +84,7 @@ class CreateReminderCommand extends BasicCommand {
                     events.push(eventData);
                     fs.writeFileSync(eventsFilePath, JSON.stringify(events, null, 2), 'utf-8');
 
+                    await eventHandler.registerEvents();
                     // Réponse de succès
                     if (!submittedInteraction2.replied) {
                         await submittedInteraction2.reply({
