@@ -44,69 +44,58 @@ class CreateReminderCommand extends BasicCommand {
 
         interaction.awaitModalSubmit({ filter: i => i.customId === 'create_reminder_modal_step', time: 300000 })
             .then(async submittedInteraction => {
-                const { message, isRecalculated, eventName, schedule } = this.getModalValuesStep(submittedInteraction);
+                const { message, isRecalculated,
+                    eventName, schedule } = this.getModalValuesStep(submittedInteraction);
 
-                try {
-                    const [second, minute, hour, day, month, year] = schedule.split(' ');
-                    const recurrenceRule = new MyRecurrenceRule(second, minute, hour, day, month, year, "*", "*");
-                    const finalMessage = role ? `<@&${role.id}> ${message}` : message;
+                await submittedInteraction.reply({
+                    content: `✅ L'événement **${eventName}** a été créé avec succès !`,
+                    ephemeral: true
+                });
+                
+                const [second, minute,
+                    hour, day, month, year] = schedule.split(' ');
+                const recurrenceRule = new MyRecurrenceRule(second, minute, hour, day, month, year, "*", "*");
+                const finalMessage = role ? `<@&${role.id}> ${message}` : message;
 
-                    const event = new RappelMessageEvent(
-                        interaction.client,
-                        eventName,
-                        recurrenceRule,
-                        isRecalculated,
-                        channel.id,
-                        finalMessage
-                    );
+                const event = new RappelMessageEvent(
+                    interaction.client,
+                    eventName,
+                    recurrenceRule,
+                    isRecalculated,
+                    channel.id,
+                    finalMessage
+                );
 
-                    // Etp 1: Charger les événements existants depuis le fichier JSON
-                    const eventsFilePath = 'src/commandes/admin/reminderCommands/ephemeralEvents.json';
-                    let events = [];
-                    if (fs.existsSync(eventsFilePath)) {
-                        const fileContent = fs.readFileSync(eventsFilePath, 'utf-8');
-                        events = JSON.parse(fileContent);
-                    }
-
-                    // Etp 2: Créer une structure sérialisée pour l'événement
-                    const eventData = {
-                        id: event.getUUID(),
-                        name: eventName,
-                        message: finalMessage,
-                        isRecalculated: isRecalculated,
-                        recurrenceRule: event.recurrenceRule.toString(), // Vous pouvez serialiser la règle de récurrence si nécessaire
-                        channelId: event.channelId,
-                    };
-
-                    // Etp 3: Ajouter le nouvel événement au tableau et le sauvegarder
-                    events.push(eventData);
-                    fs.writeFileSync(eventsFilePath, JSON.stringify(events, null, 2), 'utf-8');
-
-                    // Etp 4: Ajouter l'événement à la liste des événements et le planifier
-                  //  await eventHandler.registerEvents();
-
-                    await new Promise(resolve => setTimeout(resolve, 100));
-
-
-                    await submittedInteraction.reply({
-                        content: `✅ L'événement **${eventName}** a été créé avec succès !`,
-                        ephemeral: true
-                    });
-
-                } catch (error) {
-                    console.error('Erreur lors de la création de l\'événement :', error);
-                    await new Promise(resolve => setTimeout(resolve, 100));
-                    await submittedInteraction.reply({
-                        content: '❌ Une erreur est survenue lors de la création de l\'événement. Veuillez réessayer.',
-                        ephemeral: true
-                    });
+                // Etp 1: Charger les événements existants depuis le fichier JSON
+                const eventsFilePath = 'src/commandes/admin/reminderCommands/ephemeralEvents.json';
+                let events = [];
+                if (fs.existsSync(eventsFilePath)) {
+                    const fileContent = fs.readFileSync(eventsFilePath, 'utf-8');
+                    events = JSON.parse(fileContent);
                 }
+
+                // Etp 2: Créer une structure sérialisée pour l'événement
+                const eventData = {
+                    id: event.getUUID(),
+                    name: eventName,
+                    message: finalMessage,
+                    isRecalculated: isRecalculated,
+                    recurrenceRule: event.recurrenceRule.toString(), // Vous pouvez serialiser la règle de récurrence si nécessaire
+                    channelId: event.channelId,
+                };
+
+                // Etp 3: Ajouter le nouvel événement au tableau et le sauvegarder
+                events.push(eventData);
+                fs.writeFileSync(eventsFilePath, JSON.stringify(events, null, 2), 'utf-8');
+
+                // Etp 4: Ajouter l'événement à la liste des événements et le planifier
+                await eventHandler.registerEvents();
             })
             .catch(async error => {
                 console.error('Erreur lors de la soumission de la modal :', error);
-                if (!interaction.replied) {
-                    await interaction.reply({ content: '❌ Une erreur est survenue. Veuillez réessayer.', ephemeral: true });
-                }
+                await new Promise(resolve => setTimeout(resolve, 100));
+                await interaction.reply({ content: '❌ Une erreur est survenue. Veuillez réessayer.', ephemeral: true });
+
             });
     }
 
