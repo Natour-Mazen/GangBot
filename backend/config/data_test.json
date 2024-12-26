@@ -79,7 +79,7 @@
       "name": "project_two",
       "environment": "production",
       "apikey": "your_api_key",
-      "apikeyexpirationdate": "2024-12-24T23:59:59Z",
+      "apikeyexpirationdate": "2025-12-24T23:59:59Z",
       "flags": {
         "my-flag": {
           "variations": {
