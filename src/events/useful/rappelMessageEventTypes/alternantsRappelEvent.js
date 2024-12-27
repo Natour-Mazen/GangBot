@@ -7,9 +7,7 @@ export default class AlternantsRappelEvent extends RappelMessageEvent {
         const channelId = "1315307101723033645"; // ID du salon #général-étude-m2
         const lesAlternantsRole = "<@&1315307100485980224>";
         const message = `Bonjour ${lesAlternantsRole}, on est à la fin du mois, n'oubliez pas de remplir votre fiche de présence et l'envoyer à Sylvie, sinon Hakim va pas être content !`;
-        const recurrenceRule = [];
-        recurrenceRule.push(AlternantsRappelEvent.calculateRecurrenceRule());
-        recurrenceRule.push(new MyRecurrenceRule(0, 31, 10, 31, 11, 2024, "*", "*"));
+        const recurrenceRule = AlternantsRappelEvent.calculateRecurrenceRule();
         super(client, "AlternantRappel", recurrenceRule,true, channelId, message);
     }
 
