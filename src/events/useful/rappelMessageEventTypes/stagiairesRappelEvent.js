@@ -12,7 +12,7 @@ export default class StagiairesRappelEvent extends RappelMessageEvent {
 
      static defineRecurrenceRule() {
          const recurrenceRules = [];
-         recurrenceRules.push(new MyRecurrenceRule(0, 0, 9, 27, 11, 2024, "*", "*"));
+        // recurrenceRules.push(new MyRecurrenceRule(0, 0, 9, 27, 11, 2024, "*", "*"));
          recurrenceRules.push(new MyRecurrenceRule(0, 0, 9, 3, 0, 2025, "*", "*"));
          recurrenceRules.push(new MyRecurrenceRule(0, 0, 9, 10, 0, 2025, "*", "*"));
          recurrenceRules.push(new MyRecurrenceRule(0, 0, 9, 31, 0, 2025, "*", "*"));
