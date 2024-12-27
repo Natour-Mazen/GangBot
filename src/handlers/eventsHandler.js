@@ -8,19 +8,22 @@ import {readEventsFromJson} from "../commandes/admin/reminderCommands/utils/read
 class EventsHandler {
     constructor(client) {
         this.client = client;
-        this.events = [
+        this.initialEvents = [
             new AlternantsRappelEvent(client),
             new LonelyEvent(client)
         ];
+        this.events = [...this.initialEvents];
         this.scheduler = new EventScheduler();
     }
 
     async registerEvents() {
+        await new Promise(resolve => setTimeout(resolve, 5000));
+
         // load events from JSON file and add them to the events list and schedule them
         const filePath = 'src/commandes/admin/reminderCommands/ephemeralEvents.json';
         const events = await readEventsFromJson(filePath, this.client);
 
-        this.events = [...this.events, ...events];
+        this.events = [...this.initialEvents, ...events.filter(event => !this.initialEvents.some(e => e.getUUID() === event.getUUID()))];
 
         // Planifie tous les événements enregistrés dans l'EventScheduler
         console.log(`Loading ${this.events.length} events...`);
