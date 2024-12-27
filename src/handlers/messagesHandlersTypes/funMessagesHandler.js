@@ -1,10 +1,12 @@
 // src/messageHandlersTypes/funMessageHandler.js
 import QuoiMessageResponser from "../../messages/fun/quoiMessageResponser.js";
+import ExcuseMessageResponser from "../../messages/fun/ExcuseMessageResponser.js";
 
 class FunMessagesHandler {
     constructor() {
         this.messagesResponsers = [
              QuoiMessageResponser,
+             ExcuseMessageResponser
         ];
     }
 
