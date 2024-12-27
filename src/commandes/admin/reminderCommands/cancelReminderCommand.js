@@ -1,4 +1,4 @@
-import { ActionRowBuilder, PermissionsBitField, StringSelectMenuBuilder } from 'discord.js';
+import { ModalBuilder, TextInputBuilder, TextInputStyle, ActionRowBuilder, PermissionsBitField } from 'discord.js';
 import eventHandler from "../../../../index.js";
 import BasicCommand from "../../basicCommand.js";
 import fs from "fs";
@@ -19,7 +19,6 @@ class CancelReminderCommand extends BasicCommand {
         // Récupérer la liste des événements programmés
         const scheduledEvents = eventHandler.getScheduledEvents();
 
-        // Vérifier s'il y a des événements programmés
         if (scheduledEvents.length === 0) {
             return await interaction.reply({
                 content: '❌ Aucun événement programmé disponible à annuler.',
@@ -27,93 +26,89 @@ class CancelReminderCommand extends BasicCommand {
             });
         }
 
-        const seenEventIDs = new Set();
-        const uniqueScheduledEvents = scheduledEvents.filter(event => {
-            if (seenEventIDs.has(event.eventID)) {
-                return false;
-            } else {
-                seenEventIDs.add(event.eventID);
-                return true;
-            }
-        });
+        // Générer une liste des événements disponibles
+        const eventsList = scheduledEvents
+            .map(event => `• ${event.eventName} (ID: ${event.eventID})`)
+            .join('\n');
 
-        // Créer le menu de sélection pour choisir l'événement à annuler
-        const selectMenu = new StringSelectMenuBuilder()
-            .setCustomId('cancel_event_poll')
-            .setPlaceholder('Choisissez un événement à annuler')
-            .addOptions(uniqueScheduledEvents.map(event => ({
-                label: event.eventName,
-                description: `Annuler l’événement ${event.eventName}`,
-                value: event.eventID,
-            })));
+        // Afficher une modal avec la liste des événements et demander à l'utilisateur d'entrer un ID
+        const modal = this.createCancelReminderModal(eventsList);
+        await interaction.showModal(modal);
 
-        const row = new ActionRowBuilder().addComponents(selectMenu);
+        // Attendre la soumission de la modal
+        interaction.awaitModalSubmit({ filter: i => i.customId === 'cancel_reminder_modal', time: 300000 })
+            .then(async submittedInteraction => {
+                const eventID = submittedInteraction.fields.getTextInputValue('event_id');
 
-        // Envoyer le sondage pour sélectionner l'événement à annuler
-        await interaction.reply({
-            content: 'Choisissez un événement à annuler.',
-            components: [row],
-            ephemeral: true,
-        });
+                // Vérifier l'événement sélectionné
+                const selectedEvent = scheduledEvents.find(event => event.eventID === eventID);
 
-        // Créer un collecteur pour l'interaction de sélection
-        const filter = i => i.customId === 'cancel_event_poll' && i.user.id === interaction.user.id;
-        const collector = interaction.channel.createMessageComponentCollector({ filter, time: 60000 });
+                if (!selectedEvent) {
+                    return await submittedInteraction.reply({
+                        content: '❌ Aucun événement avec cet ID trouvé. Veuillez réessayer.',
+                        ephemeral: true,
+                    });
+                }
 
-        collector.on('collect', async i => {
-            const selectedEventID = i.values[0];
+                const eventsFilePath = 'src/commandes/admin/reminderCommands/ephemeralEvents.json';
+                let events = [];
+                if (fs.existsSync(eventsFilePath)) {
+                    const fileContent = fs.readFileSync(eventsFilePath, 'utf-8');
+                    events = JSON.parse(fileContent);
+                }
 
-            // Vérifier l'événement sélectionné
-            const selectedEvent = scheduledEvents.find(event => event.eventID === selectedEventID);
+                // Trouver l'événement dans le fichier JSON et le supprimer
+                const eventIndex = events.findIndex(e => e.id === eventID);
+                if (eventIndex >= 0) {
+                    await submittedInteraction.reply({
+                        content: `✅ L'événement **${selectedEvent.eventName}** a été annulé avec succès.`,
+                        ephemeral: true,
+                    });
+                    events.splice(eventIndex, 1);
+                    fs.writeFileSync(eventsFilePath, JSON.stringify(events, null, 2), 'utf-8');
 
-            if (!selectedEvent) {
-                await i.reply({ content: '❌ Événement introuvable.', ephemeral: true });
-                return;
-            }
+                    // Rafraîchir les événements enregistrés
+                    await eventHandler.registerEvents();
 
-            const eventsFilePath = 'src/commandes/admin/reminderCommands/ephemeralEvents.json';
-            let events = [];
-            if (fs.existsSync(eventsFilePath)) {
-                const fileContent = fs.readFileSync(eventsFilePath, 'utf-8');
-                events = JSON.parse(fileContent);
-            }
 
-            // Find the event in the events array and remove it
-            const eventIndex = events.findIndex(e => e.id === selectedEventID);
-            if (eventIndex >= 0) {
-                await i.reply({
-                    content: `✅ L'événement **${selectedEvent.eventName}** a été annulé avec succès.`,
-                    ephemeral: true,
-                });
+                } else {
+                    return await submittedInteraction.reply({
+                        content: '❌ Erreur lors de la suppression de l\'événement. Veuillez réessayer.',
+                        ephemeral: true,
+                    });
+                }
+            })
+            .catch(async error => {
+                console.error('Erreur lors de la soumission de la modal :', error);
+                await interaction.followUp({ content: '❌ Temps écoulé ou erreur. Veuillez réessayer.', ephemeral: true });
+            });
+    }
 
-                events.splice(eventIndex, 1);
-                fs.writeFileSync(eventsFilePath, JSON.stringify(events, null, 2), 'utf-8');
+    createCancelReminderModal(eventsList) {
+        const modal = new ModalBuilder()
+            .setCustomId('cancel_reminder_modal')
+            .setTitle('Annuler un rappel');
 
-                await eventHandler.registerEvents();
+        const eventsListInput = new TextInputBuilder()
+            .setCustomId('events_list')
+            .setLabel('Événements disponibles (lecture seule)')
+            .setStyle(TextInputStyle.Paragraph)
+            .setValue(eventsList)
+            .setRequired(false); // Champ non modifiable par l'utilisateur
 
-                // Arrêter le collecteur une fois l'événement annulé
-                collector.stop();
+        const eventIDInput = new TextInputBuilder()
+            .setCustomId('event_id')
+            .setLabel('ID de l\'événement à annuler')
+            .setStyle(TextInputStyle.Short)
+            .setPlaceholder('Exemple : abc123-def456-ghi789')
+            .setRequired(true);
 
-               // console.log(`Event with ID ${selectedEventID} removed successfully.`);
-            } else {
-                await i.reply({
-                    content: `❌ Événement avec ID ${selectedEventID} introuvable.`,
-                    ephemeral: true,
-                });
+        modal.addComponents(
+            new ActionRowBuilder().addComponents(eventsListInput),
+            new ActionRowBuilder().addComponents(eventIDInput)
+        );
 
-                // Arrêter le collecteur une fois l'événement annulé
-                collector.stop();
-               // console.log(`Event with ID ${selectedEventID} not found.`);
-            }
-        });
-
-        collector.on('end', async (collected) => {
-            if (collected.size === 0) {
-                collector.stop();
-                await new Promise(resolve => setTimeout(resolve, 100));
-                await interaction.followUp({ content: '❌ Aucun événement sélectionné.', ephemeral: true });
-            }
-        })
+        return modal;
     }
 
     addOptionalCommandData() {
