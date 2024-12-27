@@ -11,6 +11,7 @@ export default class EventScheduler {
         if (Array.isArray(recurrenceRule)) {
             recurrenceRule.forEach(rule => {
                 this.#scheduleJob(event, rule);
+               // console.log(`Règle de récurrence : ${rule}`);
             });
         } else {
             this.#scheduleJob(event, recurrenceRule);
@@ -18,6 +19,19 @@ export default class EventScheduler {
     }
 
     #scheduleJob(event, rule) {
+        const tempJob = schedule.scheduleJob(rule.getRule(), () => {});
+        if (!tempJob) {
+            console.log(`Invalid rule for event ${event.getName()}. The event will not be scheduled.`);
+            return;
+        }
+        const nextInvocation = tempJob.nextInvocation();
+        tempJob.cancel();
+        const now = new Date();
+
+        if (nextInvocation <= now) {
+            console.log(`The rule for event ${event.getName()} has already passed. The event will not be scheduled.`);
+            return;
+        }
         const job = schedule.scheduleJob(rule.getRule(), () => {
             event.execute();
             if (event.isRecalculatedEvent()) {
