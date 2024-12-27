@@ -104,8 +104,8 @@ class CancelReminderCommand extends BasicCommand {
             .setRequired(true);
 
         modal.addComponents(
-            new ActionRowBuilder().addComponents(eventsListInput),
-            new ActionRowBuilder().addComponents(eventIDInput)
+            new ActionRowBuilder().addComponents(eventIDInput),
+            new ActionRowBuilder().addComponents(eventsListInput)
         );
 
         return modal;
