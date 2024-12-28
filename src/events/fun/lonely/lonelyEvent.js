@@ -34,7 +34,7 @@ export default class LonelyEvent extends BaseEvent {
                     const channel = await this.client.channels.fetch(this.channelId);
                     if (channel && channel.isTextBased()) {
                         // Lire le fichier JSON
-                        const messages = JSON.parse(fs.readFileSync('src/scheduleEvents/events/fun/lonely/lonelyMsgs.json', 'utf8'));
+                        const messages = JSON.parse(fs.readFileSync('src/events/fun/lonely/lonelyMsgs.json', 'utf8'));
                         const randomPhrase = messages[Math.floor(Math.random() * messages.length)];
                         const message = `Hey ${lonelyMember}, ${randomPhrase}`;
                         await channel.send(message);
