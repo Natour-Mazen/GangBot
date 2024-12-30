@@ -35,6 +35,11 @@ router.get('/', async (req, res) => {
 
 router.get('/:id', async (req, res) => {
     const {id} = req.params;
+    if(!id){
+        return res.status(400).json({
+            error: "Project ID is required"
+        })
+    }
     const project = await projectController.getProjectById(id)
     if(!project){
         return res.status(400).json({

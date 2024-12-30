@@ -42,7 +42,7 @@ class ProjectController {
                 if(e.parent.code === '23505'){ // unique constraint violation
                     error_message = "A project pointing on the same repository and branch already exists";
                 }
-                [apiKey, _] = ProjectController.generateUUIDAPIKey();
+                [apiKey, expDate] = ProjectController.generateUUIDAPIKey();
                 tries--;
             }
         }
