@@ -54,6 +54,12 @@ router.get('/:id', async (req, res) => {
 router.post('/', async (req, res) => {
     const {name, environment, importMethodeID} = req.body;
 
+    if(!name || !environment || !importMethodeID){
+        return res.status(400).json({
+            error: "Name, Environment and ImportMethodeID are required"
+        })
+    }
+
     const [_, created, error_message] = await projectController.createProject(req.connectedUser.id, name, name, environment, importMethodeID); // we use the repoName as default projectName
 
     if(!created){
@@ -69,6 +75,11 @@ router.post('/', async (req, res) => {
 
 router.put('/:id/projectName/:newName', async (req, res) => {
     const {id, newName} = req.params;
+    if(!id || !newName){
+        return res.status(400).json({
+            error: "Project ID and new name are required"
+        })
+    }
     const projectUpdated = await projectController.updateProjectName(id, newName)
     if(!projectUpdated){
         return res.status(400).json({
@@ -81,8 +92,36 @@ router.put('/:id/projectName/:newName', async (req, res) => {
     })
 });
 
+router.put('/:id/refreshApiKey', async (req, res) => {
+    const {id} = req.params;
+
+    if(!id){
+        return res.status(400).json({
+            error: "Project ID is required"
+        })
+    }
+
+    const isUpdated = await projectController.updateProjectKey(id);
+
+    if(!isUpdated){
+        return res.status(400).json({
+            error: "An error occurred while refreshing the API Key"
+        })
+    }
+
+    return res.json({
+        message: "API Key refreshed successfully"
+    });
+});
+
 router.delete('/:id', async (req, res) => {
     const { id } = req.params;
+
+    if (!id) {
+        return res.status(400).json({
+            error: "Project ID is required"
+        });
+    }
 
     const { deleted, _ } = await projectController.deleteProject(id);
 
