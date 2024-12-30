@@ -82,6 +82,20 @@ class ProviderMethodsController {
         const { models } = await getDatabase();
         return await models.providermethods.findAll();
     }
+
+    /**
+     * Retrieve a provider method by its id.
+     * @param id - The id of the provider method.
+     * @returns {Promise<Model|null>} - A promise that resolves to the provider method object or null if not found.
+     */
+    static async getProviderMethodById(id){
+        const { models } = await getDatabase();
+        return await models.providermethods.findOne({
+            where: {
+                id : id
+            }
+        })
+    }
 }
 
 module.exports = ProviderMethodsController;

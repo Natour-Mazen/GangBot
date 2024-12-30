@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const projectController = require("../../../database/controllers/projectController");
+const providerMethodsController = require("../../../database/controllers/providerMethodsController");
 const flagsRouter = require('./flags');
 
 router.get('/', async (req, res) => {
@@ -18,9 +19,10 @@ router.get('/', async (req, res) => {
         });
     }
 
-    // Filter the project object to remove some fields
-    for (const project of projects) {
-        delete project.dataValues.userid;
+    for(let project of projects){
+        const importID = project.dataValues.importmethodid;
+        const importMethod = await providerMethodsController.getProviderMethodById(importID);
+        project.dataValues.importmethod = importMethod.dataValues.providername;
         delete project.dataValues.importmethodid;
     }
 

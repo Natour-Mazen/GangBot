@@ -129,6 +129,7 @@ class ProjectController {
             where: {
                 userid: userId,
             },
+            attributes: ['id', 'projectname', 'importmethodid'],
             limit: limit,
             offset: offset
         });
