@@ -4,10 +4,12 @@ dotenv.config();
 
 class ProjectController {
 
-    static generateUUID() {
+    static generateUUIDAPIKey() {
         const uuid1 = crypto.randomUUID().replace(/-/g, '');
         const uuid2 = crypto.randomUUID().replace(/-/g, '');
-        return uuid1 + uuid2;
+        const apiKey = uuid1 + uuid2;
+        const apiKeyExpDate = new Date().setFullYear(new Date().getFullYear() + 1);
+        return [apiKey, apiKeyExpDate] ;
     }
 
     /**
@@ -17,8 +19,7 @@ class ProjectController {
      * */
     static async createProject(userId, projectName, name, environment, importMethodID) {
         const { models } = await getDatabase();
-        let apiKey = ProjectController.generateUUID();
-        const expDate = new Date().setFullYear(new Date().getFullYear() + 1);
+        let [apiKey, expDate]  = ProjectController.generateUUIDAPIKey();
         let project;
         let created = false;
         let tries = 3;
@@ -41,7 +42,7 @@ class ProjectController {
                 if(e.parent.code === '23505'){ // unique constraint violation
                     error_message = "A project pointing on the same repository and branch already exists";
                 }
-                apiKey = ProjectController.generateUUID();
+                [apiKey, _] = ProjectController.generateUUIDAPIKey();
                 tries--;
             }
         }
@@ -79,6 +80,19 @@ class ProjectController {
         const project = await ProjectController.getProjectById(id);
         if(project === null) return false;
         await project.update({projectname: projectName});
+        return true;
+    }
+
+    /**
+     * Update the API key of a project in the database.
+     * @param id - The project id
+     * @returns {Promise<boolean>} - True if the project was updated, false otherwise
+     */
+    static async updateProjectKey(id){
+        const project = await ProjectController.getProjectById(id);
+        if(project === null) return false;
+        let [newApiKey, expDate] = ProjectController.generateUUIDAPIKey();
+        await project.update({apikey: newApiKey, apikeyexpirationdate: expDate});
         return true;
     }
 
