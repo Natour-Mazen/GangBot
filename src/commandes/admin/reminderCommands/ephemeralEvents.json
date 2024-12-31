@@ -52,7 +52,7 @@
     "name": "AlternantsRappelEvent-31/12/2024",
     "message": "Bonjour <@&1315307100485980224>, on est à la fin du mois, n'oubliez pas de remplir votre fiche de présence et l'envoyer à Sylvie, sinon Hakim va pas être content !",
     "isRecalculated": false,
-    "recurrenceRule": "second: 0, minute: 0, hour: 11, date: 31, month: 11, dayOfWeek: *, year: 2024",
+    "recurrenceRule": "second: 0, minute: 9, hour: 11, date: 31, month: 11, dayOfWeek: *, year: 2024",
     "channelId": "1315307101723033645"
   }
 ]
