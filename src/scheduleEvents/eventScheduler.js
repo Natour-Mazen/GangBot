@@ -33,6 +33,7 @@ export default class EventScheduler {
             return;
         }
         const job = schedule.scheduleJob(rule.getRule(), () => {
+            console.log(`Exécution de l'événement ${event.name} avec ID ${event.getUUID()}`);
             event.execute();
             if (event.isRecalculatedEvent()) {
                  this.cancelEvent(event.getUUID());
