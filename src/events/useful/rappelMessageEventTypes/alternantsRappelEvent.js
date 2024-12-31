@@ -31,7 +31,7 @@ export default class AlternantsRappelEvent extends RappelMessageEvent {
         }
 
         const lastDay = AlternantsRappelEvent.getLastDayOfMonth(year, month); // Ajouter 1 car `getLastDayOfMonth` prend un mois indexé à 1
-        console.log(`Le dernier jour du mois est : ${lastDay} pour le mois ${month + 1} de l'année ${year}`);
+        // console.log(`Le dernier jour du mois est : ${lastDay} pour le mois ${month + 1} de l'année ${year}`);
         return new MyRecurrenceRule(0, 0, 10, lastDay, month, year, "*", "*");
     }
 
