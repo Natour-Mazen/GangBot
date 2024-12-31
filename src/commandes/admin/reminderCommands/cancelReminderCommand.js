@@ -50,33 +50,12 @@ class CancelReminderCommand extends BasicCommand {
                     });
                 }
 
-                const eventsFilePath = 'src/commandes/admin/reminderCommands/ephemeralEvents.json';
-                let events = [];
-                if (fs.existsSync(eventsFilePath)) {
-                    const fileContent = fs.readFileSync(eventsFilePath, 'utf-8');
-                    events = JSON.parse(fileContent);
-                }
+                eventHandler.cancelEvent(eventID);
 
-                // Trouver l'événement dans le fichier JSON et le supprimer
-                const eventIndex = events.findIndex(e => e.id === eventID);
-                if (eventIndex >= 0) {
-                    await submittedInteraction.reply({
-                        content: `✅ L'événement **${selectedEvent.eventName}** a été annulé avec succès.`,
-                        ephemeral: true,
-                    });
-                    events.splice(eventIndex, 1);
-                    fs.writeFileSync(eventsFilePath, JSON.stringify(events, null, 2), 'utf-8');
-
-                    // Rafraîchir les événements enregistrés
-                    await eventHandler.registerEvents();
-
-
-                } else {
-                    return await submittedInteraction.reply({
-                        content: '❌ Erreur lors de la suppression de l\'événement. Veuillez réessayer.',
-                        ephemeral: true,
-                    });
-                }
+                await submittedInteraction.reply({
+                    content: `✅ L'événement **${selectedEvent.eventName}** a été annulé avec succès.`,
+                    ephemeral: true,
+                });
             })
             .catch(async error => {
                 console.error('Erreur lors de la soumission de la modal :', error);
