@@ -37,12 +37,11 @@ export default class StagiairesRappelEvent extends RappelMessageEvent {
         return new MyRecurrenceRule(
             0, // Secondes
             0, // Minutes
-            10, // Heures
+            9, // Heures
             nextDate.day, // Jour du mois
             nextDate.month, // Mois (indexé à partir de 0)
             nextDate.year, // Année
-            "*", // Jour de la semaine
-            "*"
+            "*" // Jour de la semaine
         );
     }
 }
