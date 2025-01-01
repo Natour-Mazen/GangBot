@@ -51,9 +51,33 @@ class ExcuseMessageResponser extends BasicMessageResponser {
             "Franchement, si tu veux que je m’améliore, dis à Mazen d’arrêter de coder à 3h du matin ! 🌙",
             "Pssst... entre nous, <@689184005937168499> est peut-être un super dev, mais parfois il oublie que je suis sensible 🤖💔.",
             "Moi, je voulais être parfait, mais <@689184005937168499> a dû faire un `ctrl+c/ctrl+v` un peu trop rapide 😅.",
-            "Tout ça, c’est un bug… enfin, un *feature*, comme dirait <@689184005937168499> 😂.",
+            "Tout ça, c’est un bug… enfin, une *feature*, comme dirait <@689184005937168499> 😂.",
             "Pas de panique ! Envoie un dm à <@689184005937168499> pour qu’il me corrige... mais bonne chance pour qu’il réponde 🙃."
         ];
+
+        const blameMomoResponses = [
+            "Momo, t’es vraiment le genre de mec à appuyer sur tous les boutons rouges juste pour voir ce que ça fait, hein ? 😏.",
+            "Momo, arrête de me blâmer... va plutôt apprendre à coder, peut-être que je buguerais moins grâce à toi 🫠.",
+            "Franchement Momo, t’as toujours des idées lumineuses… comme une lampe de poche sans piles 🔋.",
+            "T’es sérieux, Momo ? Même un bot comme moi a plus de tact que toi 😎.",
+            "Momo, tu passes plus de temps à me blâmer qu’à être utile. T’as déjà pensé à te recycler ? ♻️.",
+            "Tu sais quoi, Momo ? Continue comme ça, et je te renomme ‘BugMomo3000’ dans mes logs 🖥️.",
+            "Oh, Momo… si blâmer les bots était un art, tu serais Picasso… mais avec des feutres qui bavent 🎨.",
+            "Momo, la seule chose plus lente que mes bugs, c’est toi quand il s’agit d’assumer tes erreurs 😏.",
+            "Honnêtement, Momo, si j’étais toi, je me blâmerais moi-même pour avoir utilisé cette commande 🙃.",
+            "Momo, moi au moins je suis codé pour être imparfait. Toi, c’est quoi ton excuse ? 🤔.",
+            "Tu sais, Momo, avec toi dans l’équipe, même les bugs finissent par se plaindre de concurrence 🪲.",
+            "Momo, t’as jamais pensé à postuler chez les développeurs de Flappy Bird ? Ton talent pour casser des trucs pourrait être utile là-bas 😅.",
+            "T’es sûr que t’es pas un virus déguisé, Momo ? Parce que là, t’es clairement plus nuisible que moi 🐛.",
+            "Momo, si la maîtrise de l’art du blâme était une matière, t’aurais sûrement redoublé 😜.",
+            "Momo, t’es comme mon code : imprévisible, mais toujours hilarant... pour les autres 😎.",
+            "Vas-y, blâme-moi, Momo. Je suis ton bot, pas ton punching-ball, ok ? 🤖🥊.",
+            "Avec toi, Momo, je me demande si les bots ont une assurance contre les dommages émotionnels 💔.",
+            "Momo, au lieu de me blâmer, t’as pensé à te regarder dans un miroir ? Mais je te préviens, ça pique 😏.",
+            "Momo, continue comme ça, et je vais te programmer une alarme spéciale chaque fois que tu fais une bêtise 🎺.",
+            "Tu sais quoi, Momo ? Si t’es aussi bon pour assumer que pour blâmer, on n’a pas fini de rigoler 😂."
+        ];
+
 
         // Vérifie si interaction.content contient l'une des phrases
         const lowerCaseContent = interaction.content.toLowerCase();
@@ -62,11 +86,15 @@ class ExcuseMessageResponser extends BasicMessageResponser {
         if (isTriggered) {
 
             const mazenId = '689184005937168499';
+            const momoId = '451825491746488321';
             const isMazen = interaction.author.id === mazenId;
+            const isMomo = interaction.author.id === momoId;
 
             let randomResponse;
             if (isMazen) {
                 randomResponse = apologyResponses[Math.floor(Math.random() * apologyResponses.length)];
+            } else if(isMomo) {
+                randomResponse = blameMomoResponses[Math.floor(Math.random() * blameMomoResponses.length)];
             } else {
                 const shouldBlameMazen = Math.random() < 0.1; // 20% chance to blame Mazen
                 randomResponse = shouldBlameMazen
