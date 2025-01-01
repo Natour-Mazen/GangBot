@@ -19,20 +19,28 @@ export default class AlternantsRappelEvent extends RappelMessageEvent {
         const now = new Date();
         let year = now.getFullYear();
         let month = now.getMonth(); // Mois actuel (indexé à partir de 0)
+        let lastDay = AlternantsRappelEvent.getLastDayOfMonth(year, month);
 
-        // Vérifier si on est passé après 10h00
-        if (now.getHours() >= 10) {
+        // si on est passé après 10h00 et qu'on est le dernier jour du mois
+        if (now.getHours() >= 10 && now.getDate() === lastDay) {
             month += 1; // Passer au mois suivant
-            // Gérer le passage à l'année suivante si le mois dépasse décembre
+            // passage à l'année suivante si le mois dépasse décembre
             if (month > 11) {
                 month = 0; // Janvier de l'année suivante
                 year += 1;
             }
+            lastDay = AlternantsRappelEvent.getLastDayOfMonth(year, month);
         }
 
-        const lastDay = AlternantsRappelEvent.getLastDayOfMonth(year, month); // Ajouter 1 car `getLastDayOfMonth` prend un mois indexé à 1
-        // console.log(`Le dernier jour du mois est : ${lastDay} pour le mois ${month + 1} de l'année ${year}`);
-        return new MyRecurrenceRule(0, 0, 10, lastDay, month, year, "*", "*");
+        return new MyRecurrenceRule(
+            0,
+            0,
+            9,
+            lastDay,
+            month,
+            year,
+            "*"
+        );
     }
 
 }
