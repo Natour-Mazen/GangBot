@@ -6,7 +6,7 @@ export default class BaseEvent {
      * Create a new BaseEvent
      * @param {import('discord.js').Client} client - Discord client
      * @param {string} name - Name of the event (useful for logs)
-     * @param {MyRecurrenceRule|| MyRecurrenceRule[]} recurrenceRule - Recurrence rule for scheduling
+     * @param {MyRecurrenceRule} recurrenceRule - Recurrence rule for scheduling
      * @param {boolean} recalculatedEvent - If the event is recalculated or not
      */
     constructor(client, name, recurrenceRule, recalculatedEvent = false) {

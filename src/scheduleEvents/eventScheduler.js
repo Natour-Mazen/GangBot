@@ -9,10 +9,7 @@ export default class EventScheduler {
         const recurrenceRule = event.getRecurrenceRule();
         // push the event name and the id to the scheduledEvents array
         if (Array.isArray(recurrenceRule)) {
-            recurrenceRule.forEach(rule => {
-                this.#scheduleJob(event, rule);
-               // console.log(`Règle de récurrence : ${rule}`);
-            });
+            throw new Error("Les règles de récurrence multiples ne sont pas encore prises en charge.");
         } else {
             this.#scheduleJob(event, recurrenceRule);
         }
