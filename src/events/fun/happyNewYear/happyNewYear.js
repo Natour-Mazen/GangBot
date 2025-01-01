@@ -4,9 +4,20 @@ import fs from "fs";
 
 export default class HappyNewYearEvent extends BaseEvent {
     constructor(client) {
-        const newYearRecurrenceRule = new MyRecurrenceRule(0,0,0,1,0,"*","*");
-        super(client, "HappyNewYearEvent", newYearRecurrenceRule, false);
+        const newYearRecurrenceRule = HappyNewYearEvent.defineRecurrenceRule();
+        super(client, "HappyNewYearEvent", newYearRecurrenceRule, true);
         this.channelId = "1315307101093892159";
+    }
+
+    static defineRecurrenceRule() {
+        const nowDate = new Date();
+        const isNewYear = nowDate.getDate() === 1 && nowDate.getMonth() === 0 && nowDate.getHours() === 0;
+        if (isNewYear) {
+            return new MyRecurrenceRule(0, 0, 0, 1, 0, nowDate.getFullYear(), "*");
+        }
+        // Calculer pour le prochain Nouvel An
+        const nextYear = nowDate.getFullYear() + 1;
+        return new MyRecurrenceRule(0, 0, 0, 1, 0, nextYear, "*");
     }
 
     async execute() {
