@@ -52,9 +52,9 @@ const eventHandler = new EventsHandler(client);
 const commandHandler = new CommandHandler(rest);
 const messageHandler = new MessageHandler();
 
-client.on('ready', async () => {
+client.on('ready', () => {
     console.log(`Logged in as ${client.user.tag}!`);
-    await eventHandler.registerEvents();
+    eventHandler.registerEvents();
 });
 
 client.on('interactionCreate', commandHandler.handleInteraction);
