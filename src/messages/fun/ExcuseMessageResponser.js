@@ -94,7 +94,10 @@ class ExcuseMessageResponser extends BasicMessageResponser {
             if (isMazen) {
                 randomResponse = apologyResponses[Math.floor(Math.random() * apologyResponses.length)];
             } else if(isMomo) {
-                randomResponse = blameMomoResponses[Math.floor(Math.random() * blameMomoResponses.length)];
+                const shouldBlameMomo = Math.random() < 0.4; // 20% chance to blame Mazen
+                randomResponse = shouldBlameMomo
+                    ? blameMomoResponses[Math.floor(Math.random() * blameMomoResponses.length)]
+                    : apologyResponses[Math.floor(Math.random() * apologyResponses.length)];
             } else {
                 const shouldBlameMazen = Math.random() < 0.1; // 20% chance to blame Mazen
                 randomResponse = shouldBlameMazen
