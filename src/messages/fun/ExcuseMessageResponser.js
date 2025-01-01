@@ -64,10 +64,15 @@ class ExcuseMessageResponser extends BasicMessageResponser {
             const mazenId = '689184005937168499';
             const isMazen = interaction.author.id === mazenId;
 
-
-            const randomResponse = isMazen
-                ? apologyResponses[Math.floor(Math.random() * apologyResponses.length)]
-                : blameMazenResponses[Math.floor(Math.random() * blameMazenResponses.length)];
+            let randomResponse;
+            if (isMazen) {
+                randomResponse = apologyResponses[Math.floor(Math.random() * apologyResponses.length)];
+            } else {
+                const shouldBlameMazen = Math.random() < 0.1; // 20% chance to blame Mazen
+                randomResponse = shouldBlameMazen
+                    ? blameMazenResponses[Math.floor(Math.random() * blameMazenResponses.length)]
+                    : apologyResponses[Math.floor(Math.random() * apologyResponses.length)];
+            }
 
             await interaction.reply(randomResponse);
         }
