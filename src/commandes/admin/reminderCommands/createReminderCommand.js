@@ -54,7 +54,7 @@ class CreateReminderCommand extends BasicCommand {
                 
                 const [second, minute,
                     hour, day, month, year] = schedule.split(' ');
-                const recurrenceRule = new MyRecurrenceRule(second, minute, hour, day, month, year, "*", "*");
+                const recurrenceRule = new MyRecurrenceRule(second, minute, hour, day, month, year, "*");
                 const finalMessage = role ? `<@&${role.id}> ${message}` : message;
 
                 const event = new RappelMessageEvent(

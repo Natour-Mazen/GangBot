@@ -19,7 +19,7 @@ async function readEventsFromJson(filePath, client) {
 
             // Créer l'objet MyRecurrenceRule
             const {second, minute, hour, day, month, year, dayOfWeek} = recurrenceParts;
-            const recurrence = new MyRecurrenceRule(second, minute, hour, day, month, year, dayOfWeek, "*");
+            const recurrence = new MyRecurrenceRule(second, minute, hour, day, month, year, dayOfWeek);
             const theEvent = new RappelMessageEvent(
                 client,
                 name,
