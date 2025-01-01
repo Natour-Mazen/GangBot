@@ -22,7 +22,7 @@ export default class MyRecurrenceRule {
         if(month && month !== "*") this.rule.month = month;
         if(year && year !== "*") this.rule.year = year;
         if(dayOfWeek && dayOfWeek !== "*") this.rule.dayOfWeek = dayOfWeek;
-        if(tz && tz !== "*") this.rule.tz = "GMT+0100";
+        if(tz && tz !== "*") this.rule.tz = tz;
     }
 
     /**
@@ -58,26 +58,6 @@ export default class MyRecurrenceRule {
             "*", // every year
             "*", // every day of the week
             "*" // any timezone
-        );
-    }
-
-    /**
-     * Static method to create a rule for a specific date and time
-     */
-    static atSpecificDate(date) {
-        if (!(date instanceof Date)) {
-            throw new Error("The parameter must be a valid Date object");
-        }
-
-        return new MyRecurrenceRule(
-            date.getSeconds(), // second
-            date.getMinutes(), // minute
-            date.getHours(),   // hour
-            date.getDate(),    // date
-            date.getMonth(),   // month (0-11)
-            date.getFullYear(), // year
-            "*",             // any day of the week
-            "*"              // any timezone
         );
     }
 
