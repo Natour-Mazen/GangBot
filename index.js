@@ -63,6 +63,9 @@ client.on('messageCreate', messageHandler.handleMessage );
 
 app.get('/', (req, res) => {
     res.send('Bot is running');
+    setInterval(() => {
+        window.location.reload();
+    }, 50000); // 50000 milliseconds = 50 seconds
 });
 
 app.listen(port, async () => {
