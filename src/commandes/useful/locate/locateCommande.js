@@ -1,5 +1,5 @@
-import choices from './choices.json';
 import BasicCommand from "../../basicCommand.js";
+import fs from "fs";
 
 class LocateCommand extends BasicCommand {
     constructor() {
@@ -8,6 +8,7 @@ class LocateCommand extends BasicCommand {
 
     async handleCommand(interaction) {
         const userChoice = interaction.options.getString('choice');
+        const choices = JSON.parse(fs.readFileSync('src/commandes/useful/locate/choices.json', 'utf8'));
         let response = choices[userChoice] || 'Choix non reconnu 🥲';
         await interaction.reply(response);
     }

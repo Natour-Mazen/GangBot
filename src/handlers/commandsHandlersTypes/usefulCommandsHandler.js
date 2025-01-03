@@ -6,7 +6,7 @@ import PresentationCommand from "../../commandes/useful/presentationCommand.js";
 class UsefulCommandHandler {
     constructor() {
         this.commands = [
-            LocateCommand,
+           // LocateCommand,
             AddNewLocationCommand,
             AnnounceCommand,
             PresentationCommand
