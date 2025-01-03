@@ -1,4 +1,4 @@
-import choices from './choices.json' assert { type: 'json' };
+import choices from './choices.json';
 import BasicCommand from "../../basicCommand.js";
 
 class LocateCommand extends BasicCommand {
