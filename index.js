@@ -64,8 +64,11 @@ client.on('messageCreate', messageHandler.handleMessage );
 app.get('/', (req, res) => {
     res.send('Bot is running');
     setInterval(() => {
-        window.location.reload();
-    }, 50000); // 50000 milliseconds = 50 seconds
+        fetch(`https://gangbot.onrender.com`) // Ou l'URL déployée de votre bot
+            .then(res => console.log(`Pinged /: ${res.status}`))
+            .catch(err => console.error(`Failed to ping /:`, err));
+    }, 60000); // Ping toutes les 60 secondes
+
 });
 
 app.listen(port, async () => {
