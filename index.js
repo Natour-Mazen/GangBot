@@ -61,14 +61,30 @@ client.on('interactionCreate', commandHandler.handleInteraction);
 
 client.on('messageCreate', messageHandler.handleMessage );
 
+let isPinging = false; // Indicateur global pour éviter les exécutions multiples
+
 app.get('/', (req, res) => {
     res.send('Bot is running');
-     setInterval(() => {
-        fetch(`https://gangbot.onrender.com`) // Ou l'URL déployée de votre bot
-            .then(res => console.log(`Pinged /: ${res.status}`))
-            .catch(err => console.error(`Failed to ping /:`, err));
-    }, 720000); // Ping toutes les 12 minutes
 
+    if (!isPinging) { // Si aucun ping n'est en cours
+        isPinging = true;
+
+        setInterval(() => {
+            fetch(`https://gangbot.onrender.com`) // URL déployée de votre bot
+                .then(res => {
+                    console.log(`Pinged /: ${res.status}`);
+                    setTimeout(() => {
+                        isPinging = false; // Réinitialise après 2 minutes
+                    }, 120000); // 2 minutes en millisecondes
+                })
+                .catch(err => {
+                    console.error(`Failed to ping /:`, err);
+                    setTimeout(() => {
+                        isPinging = false; // Réinitialise aussi après 2 minutes en cas d'erreur
+                    }, 120000); // 2 minutes en millisecondes
+                });
+        }, 720000); // Ping toutes les 12 minutes
+    }
 });
 
 app.listen(port, async () => {
