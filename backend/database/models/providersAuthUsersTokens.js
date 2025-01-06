@@ -2,14 +2,14 @@ const Sequelize = require('sequelize');
 module.exports = function(sequelize, DataTypes) {
   return sequelize.define('providersauthuserstokens', {
     id: {
-      type: DataTypes.UUID,
+      type: DataTypes.UUIDV4,
       allowNull: false,
       primaryKey: true,
       autoIncrement: true,
       defaultValue: Sequelize.UUIDV4
     },
     providermethod: {
-      type: DataTypes.INTEGER,
+      type: DataTypes.UUIDV4,
       allowNull: false,
       references: {
         model: 'providermethods',

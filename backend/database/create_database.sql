@@ -10,7 +10,7 @@ DROP TABLE IF EXISTS users;
 DROP TABLE IF EXISTS providerMethods;
 
 CREATE TABLE providerMethods(
-    id SERIAL PRIMARY KEY,
+    id UUID PRIMARY KEY,
     providerName VARCHAR(50) NOT NULL,
     CONSTRAINT unique_providerName
         UNIQUE (providerName)
@@ -21,7 +21,7 @@ CREATE TABLE users(
     username VARCHAR(40) NOT NULL,
     password VARCHAR(255) NOT NULL,
     email VARCHAR(100) NOT NULL,
-    creationUserMethod INT NOT NULL,
+    creationUserMethod UUID NOT NULL,
     CONSTRAINT fk_creationUserMethod
         FOREIGN KEY(creationUserMethod)
             REFERENCES providerMethods(id),
@@ -32,7 +32,7 @@ CREATE TABLE users(
 CREATE TABLE authUsersTokens(
     id UUID PRIMARY KEY,
     userId UUID NOT NULL,
-    authenticationMethod INT NOT NULL,
+    authenticationMethod UUID NOT NULL,
     jwtToken VARCHAR(1000) NOT NULL,
     CONSTRAINT fk_user
        FOREIGN KEY(userId)
@@ -44,7 +44,7 @@ CREATE TABLE authUsersTokens(
 
 CREATE TABLE providersAuthUsersTokens(
    id UUID PRIMARY KEY,
-   providerMethod INT NOT NULL,
+   providerMethod UUID NOT NULL,
    jwtToken VARCHAR(1000) NOT NULL,
    CONSTRAINT fk_providerAuthenticationMethod
        FOREIGN KEY(providerMethod)
@@ -56,7 +56,7 @@ CREATE TABLE providersAuthUsersTokens(
 CREATE TABLE projects(
     id UUID PRIMARY KEY,
     userId UUID NOT NULL,
-    importMethodID INT NOT NULL,
+    importMethodID UUID NOT NULL,
     projectName VARCHAR(200),
     name VARCHAR(200) NOT NULL,
     environment VARCHAR(250) NOT NULL,

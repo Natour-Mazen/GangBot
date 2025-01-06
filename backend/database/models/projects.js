@@ -2,7 +2,7 @@ const Sequelize = require('sequelize');
 module.exports = function(sequelize, DataTypes) {
   return sequelize.define('projects', {
     id: {
-      type: DataTypes.UUID,
+      type: DataTypes.UUIDV4,
       allowNull: false,
       primaryKey: true,
       defaultValue: Sequelize.UUIDV4
@@ -16,7 +16,7 @@ module.exports = function(sequelize, DataTypes) {
       }
     },
     importmethodid: {
-      type: DataTypes.INTEGER,
+      type: DataTypes.UUIDV4,
       allowNull: false,
       references: {
         model: 'importmethodid',

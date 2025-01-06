@@ -5,21 +5,21 @@
       "username": "user1",
       "password": "password1",
       "email": "user1@example.com",
-      "creationusermethod": 10
+      "creationusermethod": "de7e6381-717c-4f09-a4ea-b99ce966d764"
     },
     {
       "id": "a94815f9-1c3a-429e-9fa5-7de3e1af5e05",
       "username": "user2",
       "password": "password2",
       "email": "user2@example.com",
-      "creationusermethod": 20
+      "creationusermethod": "7b6e8797-2798-4fc0-8cca-38055e2ac97a"
     }
   ],
   "projects": [
     {
       "id": "66a659d9-7fd0-48ad-b218-ae24a7dd8920",
       "userid": "cd862e12-8d31-4c54-a640-ffb6bc10ebbf",
-      "importmethodid": 20,
+      "importmethodid": "7b6e8797-2798-4fc0-8cca-38055e2ac97a",
       "projectname": "Project One",
       "name": "project_one",
       "environment": "development",
@@ -30,7 +30,7 @@
     {
       "id": "66a659d9-7fd0-48ad-b218-ae24a7dd7420",
       "userid": "cd862e12-8d31-4c54-a640-ffb6bc10ebbf",
-      "importmethodid": 20,
+      "importmethodid": "7b6e8797-2798-4fc0-8cca-38055e2ac97a",
       "projectname": "Project Two",
       "name": "Two",
       "environment": "development",
@@ -41,7 +41,7 @@
     {
       "id": "66a659d9-7fd0-48ad-b218-ae24a7dd8927",
       "userid": "cd862e12-8d31-4c54-a640-ffb6bc10ebbf",
-      "importmethodid": 20,
+      "importmethodid": "7b6e8797-2798-4fc0-8cca-38055e2ac97a",
       "projectname": "Project Three",
       "name": "Three",
       "environment": "development",
@@ -52,7 +52,7 @@
     {
       "id": "66a659d9-7fd0-48ad-b218-ae24a7dd8920",
       "userid": "cd862e12-8d31-4c54-a640-ffb6bc10ebbf",
-      "importmethodid": 20,
+      "importmethodid": "7b6e8797-2798-4fc0-8cca-38055e2ac97a",
       "projectname": "Project Four",
       "name": "Four",
       "environment": "development",
@@ -63,7 +63,7 @@
     {
       "id": "66a659d9-7fd0-48ad-b218-ae24a7dd8920",
       "userid": "cd862e12-8d31-4c54-a640-ffb6bc10ebbf",
-      "importmethodid": 20,
+      "importmethodid": "7b6e8797-2798-4fc0-8cca-38055e2ac97a",
       "projectname": "Project One",
       "name": "project_one",
       "environment": "development",
@@ -74,7 +74,7 @@
     {
       "id": "e54f6330-d87b-4d7b-84a6-5b855ba19498",
       "userid": "a94815f9-1c3a-429e-9fa5-7de3e1af5e05",
-      "importmethodid": 10,
+      "importmethodid": "de7e6381-717c-4f09-a4ea-b99ce966d764",
       "projectname": "Project Two",
       "name": "project_two",
       "environment": "production",
@@ -128,11 +128,11 @@
   ],
   "providermethods": [
     {
-      "id": 10,
+      "id": "de7e6381-717c-4f09-a4ea-b99ce966d764",
       "providername": "Local"
     },
     {
-      "id": 20,
+      "id": "7b6e8797-2798-4fc0-8cca-38055e2ac97a",
       "providername": "Remote"
     }
   ],
