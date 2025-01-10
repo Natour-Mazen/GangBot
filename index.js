@@ -72,7 +72,7 @@ app.get('/', (req, res) => {
         setInterval(() => {
             fetch(`https://gangbot.onrender.com`) // URL déployée de votre bot
                 .then(res => {
-                    console.log(`Pinged /: ${res.status}`);
+                    //console.log(`Pinged /: ${res.status}`);
                     setTimeout(() => {
                         isPinging = false; // Réinitialise après 2 minutes
                     }, 120000); // 2 minutes en millisecondes
