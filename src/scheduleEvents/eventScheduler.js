@@ -1,5 +1,5 @@
 import schedule from 'node-schedule';
-import eventsHandler from "../handlers/eventsHandler.js";
+import eventsHandler from "../../index.js";
 
 export default class EventScheduler {
     constructor() {
