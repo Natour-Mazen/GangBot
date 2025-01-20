@@ -1,4 +1,5 @@
 import schedule from 'node-schedule';
+import eventsHandler from "../handlers/eventsHandler.js";
 
 export default class EventScheduler {
     constructor() {
@@ -29,14 +30,14 @@ export default class EventScheduler {
             console.log(`The rule for event ${event.getName()} has already passed. The event will not be scheduled.`);
             return;
         }
-        const job = schedule.scheduleJob(rule.getRule(), () => {
+        const job = schedule.scheduleJob(rule.getRule(), async () => {
             console.log(`Exécution de l'événement ${event.name} avec ID ${event.getUUID()}`);
             event.execute();
             if (event.isRecalculatedEvent()) {
-                 this.cancelEvent(event.getUUID());
-                 event = new event.constructor(event.getClient());
-                 this.scheduleEvent(event);
-                 //console.log(`Recalcul de l'événement ${event.name}`);
+                this.cancelEvent(event.getUUID());
+                event = new event.constructor(event.getClient());
+                eventsHandler.addEvent(event);
+                await eventsHandler.registerEvents();
             }
         });
         this.scheduledEvents.push({eventName: event.getName(), eventID: event.getUUID(), job: job});

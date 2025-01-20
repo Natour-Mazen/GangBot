@@ -42,6 +42,10 @@ class EventsHandler {
     cancelEvent(eventID) {
         this.scheduler.cancelEvent(eventID);
     }
+
+    addEvent(event) {
+        this.events.push(event);
+    }
 }
 
 export default EventsHandler;
