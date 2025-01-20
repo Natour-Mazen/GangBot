@@ -54,7 +54,7 @@ class ConflitCommand extends BasicCommand {
 
         // Collecter les réponses
         const filter = i => i.customId === 'conflit_poll' && !i.user.bot;
-        const collector = pollMessage.createMessageComponentCollector({ filter, time: 60000 });
+        const collector = pollMessage.createMessageComponentCollector({ filter, time: 60000 }); // 1 minute
 
         const votes = {};
 
@@ -82,7 +82,7 @@ class ConflitCommand extends BasicCommand {
 
             // Calculer le tiers du nombre total de membres
             const totalMembers = interaction.guild.memberCount;
-            const requiredVotes = Math.ceil(totalMembers / 3);
+            const requiredVotes = Math.ceil(totalMembers / 6);
 
             let resultMessage;
 
