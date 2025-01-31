@@ -37,7 +37,7 @@ export default class StagiairesRappelEvent extends RappelMessageEvent {
         return new MyRecurrenceRule(
             0, // Secondes
             0, // Minutes
-            9, // Heures
+            10, // Heures
             nextDate.day, // Jour du mois
             nextDate.month, // Mois (indexé à partir de 0)
             nextDate.year, // Année

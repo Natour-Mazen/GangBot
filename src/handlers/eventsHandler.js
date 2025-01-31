@@ -41,6 +41,11 @@ class EventsHandler {
 
     cancelEvent(eventID) {
         this.scheduler.cancelEvent(eventID);
+        // Remove the event from the events list
+        const eventIndex = this.events.findIndex(e => e.getUUID() === eventID);
+        if (eventIndex >= 0) {
+            this.events.splice(eventIndex, 1);
+        }
     }
 
     addEvent(event) {

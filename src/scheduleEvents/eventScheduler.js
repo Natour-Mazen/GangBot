@@ -18,6 +18,7 @@ export default class EventScheduler {
 
     #scheduleJob(event, rule) {
         const tempJob = schedule.scheduleJob(rule.getRule(), () => {});
+        //console.log(`Planification de l'événement ${event.getName()} avec ID ${event.getUUID()} : ${rule.toString()}`);
         if (!tempJob) {
             console.log(`Invalid rule for event ${event.getName()}. The event will not be scheduled.`);
             return;
@@ -34,10 +35,10 @@ export default class EventScheduler {
             console.log(`Exécution de l'événement ${event.name} avec ID ${event.getUUID()}`);
             event.execute();
             if (event.isRecalculatedEvent()) {
-                this.cancelEvent(event.getUUID());
+                eventsHandler.cancelEvent(event.getUUID());
                 event = new event.constructor(event.getClient());
                 eventsHandler.addEvent(event);
-                await eventsHandler.registerEvents();
+                this.scheduleEvent(event);
             }
         });
         this.scheduledEvents.push({eventName: event.getName(), eventID: event.getUUID(), job: job});
