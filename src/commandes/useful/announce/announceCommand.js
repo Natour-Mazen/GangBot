@@ -120,7 +120,11 @@ class AnnounceCommand extends BasicCommand {
 
         // Message à envoyer dans le canal d'annonce avec lien cliquable
         const announcementMessage = `
-        🎉 @everyone 🎉, un événement **${eventName}**  est prévu pour le **${eventDate}** 📅:\n- Pour plus d'infos et pour vous abonner aux mises à jour, cliquez ici : ${channel.url}`;
+        🎉 @everyone 🎉, un événement **${eventName}**  est prévu pour le  **${eventDate}**  📅:
+        \n- Pour plus d'infos, cliquez ici : ${channel.url}
+        \n- Oubliez pas de suivre le channel pour ne rien rater ! 📢
+        \n- N'hésitez pas à poser vos questions dans le channel si vous en avez ! 🤔
+        \n- Bonne journée à tous 🌞 et on espère vous voir nombreux ! 🥳`
 
         // Envoi du message dans le canal d'annonce
         await submittedInteraction.guild.channels.cache.get(announceChannelID).send(announcementMessage);
