@@ -19,8 +19,10 @@ export default class AlternantsRappelEvent extends RappelMessageEvent {
         const now = new Date();
         let year = now.getFullYear();
         let month = now.getMonth(); // Mois actuel (indexé à partir de 0)
-        let lastDay = AlternantsRappelEvent.getLastDayOfMonth(year, month);
+        let lastDay = AlternantsRappelEvent.getLastDayOfMonth(year, month + 1);
         const startHour = 9;
+        // console.log("lastDay", lastDay);
+        // console.log("month", month);
 
         // si on est passé après 10h00 et qu'on est le dernier jour du mois
         if (now.getHours() >= startHour && now.getDate() === lastDay) {
