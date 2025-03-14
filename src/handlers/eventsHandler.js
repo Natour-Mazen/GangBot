@@ -12,7 +12,7 @@ class EventsHandler {
         this.client = client;
         this.initialEvents = [
             new AlternantsRappelEvent(client),
-            new StagiairesRappelEvent(client),
+            // new StagiairesRappelEvent(client),
             new HappyNewYearEvent(client),
             new LonelyEvent(client),
         ];
