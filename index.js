@@ -83,7 +83,7 @@ app.get('/', (req, res) => {
                         isPinging = false; // Réinitialise aussi après 2 minutes en cas d'erreur
                     }, 120000); // 2 minutes en millisecondes
                 });
-        }, 720000); // Ping toutes les 12 minutes
+        }, 730000); // Ping toutes les 12 minutes
     }
 });
 
