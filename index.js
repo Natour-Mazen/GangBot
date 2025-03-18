@@ -90,8 +90,11 @@ app.get('/', (req, res) => {
 app.listen(port, async () => {
     console.log(`Server is listening on port ${port}`);
 
-    await commandHandler.registerCommands();
-    await client.login(TOKEN);
+    await commandHandler.registerCommands().then( async () => {
+            await client.login(TOKEN);
+        }
+    )
+
 });
 
 export default eventHandler;
