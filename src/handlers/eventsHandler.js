@@ -5,6 +5,7 @@ import LonelyEvent from "../events/fun/lonely/lonelyEvent.js";
 import {readEventsFromJson} from "../commandes/admin/reminderCommands/utils/readEventsFromJson.js";
 import StagiairesRappelEvent from "../events/useful/rappelMessageEventTypes/StagiairesRappelEvent.js";
 import HappyNewYearEvent from "../events/fun/happyNewYear/happyNewYear.js";
+import FicheInfoStageRappelEvent from "../events/useful/rappelMessageEventTypes/FicheStage/FicheInfoStageRappelEvent.js";
 
 
 class EventsHandler {
@@ -12,9 +13,10 @@ class EventsHandler {
         this.client = client;
         this.initialEvents = [
             new AlternantsRappelEvent(client),
-            new StagiairesRappelEvent(client),
+            // new StagiairesRappelEvent(client),
             new HappyNewYearEvent(client),
             new LonelyEvent(client),
+            new FicheInfoStageRappelEvent(client),
         ];
         this.events = [...this.initialEvents];
         this.scheduler = new EventScheduler();
