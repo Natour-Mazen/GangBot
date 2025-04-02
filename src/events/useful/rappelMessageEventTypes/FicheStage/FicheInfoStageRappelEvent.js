@@ -29,7 +29,7 @@ export default class FicheInfoStageRappelEvent extends RappelMessageEvent {
         const filePath = "src/events/useful/rappelMessageEventTypes/FicheStage/StageInformations2025.pdf"; // Chemin du fichier PDF
 
         const recurrenceRule = FicheInfoStageRappelEvent.defineNextRecurrenceRule();
-        super(client, "FicheInfoStageRappelEvent", MyRecurrenceRule.everyXMinutes(15), true, channelId, message, filePath);
+        super(client, "FicheInfoStageRappelEvent", recurrenceRule, true, channelId, message, filePath);
     }
 
     static defineNextRecurrenceRule() {
