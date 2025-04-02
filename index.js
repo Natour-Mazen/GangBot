@@ -83,15 +83,18 @@ app.get('/', (req, res) => {
                         isPinging = false; // Réinitialise aussi après 2 minutes en cas d'erreur
                     }, 120000); // 2 minutes en millisecondes
                 });
-        }, 720000); // Ping toutes les 12 minutes
+        }, 730000); // Ping toutes les 12 minutes
     }
 });
 
 app.listen(port, async () => {
     console.log(`Server is listening on port ${port}`);
 
-    await commandHandler.registerCommands();
-    await client.login(TOKEN);
+    await commandHandler.registerCommands().then( async () => {
+            await client.login(TOKEN);
+        }
+    )
+
 });
 
 export default eventHandler;
