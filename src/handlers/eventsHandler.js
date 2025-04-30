@@ -16,7 +16,7 @@ class EventsHandler {
             // new StagiairesRappelEvent(client),
             new HappyNewYearEvent(client),
             new LonelyEvent(client),
-            new FicheInfoStageRappelEvent(client),
+           // new FicheInfoStageRappelEvent(client),
         ];
         this.events = [...this.initialEvents];
         this.scheduler = new EventScheduler();
